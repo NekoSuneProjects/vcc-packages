@@ -1,0 +1,17 @@
+{
+  "name": "com.nekosune.beat-keyframing",
+  "displayName": "NekoSune Beat Keyframing",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "Audio timeline for keyframing to music: waveform plus frequency-band lanes, detected bass drops and an estimated beat grid, lined up with Unity's Animation window and playing audio in sync. Open via Tools → NekoSuneVR → Beat Keyframing.",
+  "author": {
+    "name": "NekoSuneVR",
+    "email": "contact@nekosunevr.co.uk",
+    "url": "https://github.com/NekoSuneVR"
+  },
+  "keywords": ["animation", "audio", "music", "beat", "bpm", "drops", "waveform", "visualizer", "keyframe", "timeline"],
+  "legacyFolders": {
+    "Assets\\NekoSuneVR\\NekoBeatKeyframing\\Editor": ""
+  },
+  "hideInEditor": false
+}
