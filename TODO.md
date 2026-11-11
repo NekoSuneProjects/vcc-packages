@@ -101,6 +101,36 @@ Each one is a template the user drops in and customises with the same editor, an
 - [ ] Conflict check against VRChat's own desktop keys.
 - [ ] Lesson: Udon input events vs `Input.GetKeyDown`.
 
+### Store / market UI
+- [ ] Catalog builder: grid or list of product cards (image, name, price/tier, short description, badge such as "New"/"Owned").
+- [ ] Product detail page: large image gallery, **video preview** (reuses the video player UI), long description, buy/info button.
+- [ ] **Links attached to products.** Be honest about VRChat limits and pick the right option for each link:
+  - [ ] VRChat Creator Economy items: open the real store with `Store.OpenListing` / `Store.OpenWorldStorePage`, unlock content with `UdonProduct` ownership (reuse the World Economy lifecycle notes: wait for `OnPurchasesLoaded`, etc.).
+  - [ ] External shops (Booth, Gumroad, Jinxxy, Patreon…): Udon can't open a browser, so show the URL as text plus a generated **QR code** texture, and a copy-able text field.
+- [ ] Categories, filters and search (text field), sort by price/new.
+- [ ] Data from a JSON file or remote JSON feed (reuse World Data / Gallery mapping), so the creator updates the shop without re-uploading the world. Images from predeclared `VRCUrl`s.
+- [ ] "Owned" state and unlocking world content for buyers (Creator Economy only).
+- [ ] Supporter / thank-you wall linked to the store.
+- [ ] Lessons: how VRChat purchases work, why external links need QR codes, and keeping a shop updatable with remote data.
+
+### Everything else VRChat UI can do (coverage list)
+Each gets a template **and** a lesson, so the Assistant covers the whole range of VRChat world UI.
+
+- [ ] Menus, tabs and sub-pages (core).
+- [ ] Forms and input: text fields, keypads, password/code doors.
+- [ ] Scoreboards and leaderboards (synced and persistent).
+- [ ] Polls and voting (synced, one vote per player).
+- [ ] Dialogue / NPC conversation boxes.
+- [ ] Maps and "you are here" boards with teleport points.
+- [ ] Inventory, achievements and progress screens (persistence).
+- [ ] Image galleries and slideshows (reuse World Gallery).
+- [ ] Avatar pedestals and avatar search boards (reuse World Avatar Search).
+- [ ] Photo-spot / camera helper panels.
+- [ ] Game HUDs (score, timer, lives) for mini-games.
+- [ ] Admin / moderator panels (owner-only controls, instance-master checks).
+
+Each lesson ends with the user rebuilding a simpler version by hand, so they learn the skill, not just the tool.
+
 ### More ready-made pieces
 - [ ] Settings menu: mirror quality (HQ/LQ/off), music volume, post-processing, pens, chairs, colliders.
 - [ ] Music player with playlist and shuffle.
