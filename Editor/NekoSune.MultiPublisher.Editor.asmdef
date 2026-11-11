@@ -1,0 +1,17 @@
+{
+  "name": "NekoSune.MultiPublisher.Editor",
+  "rootNamespace": "NekoSune.Tools",
+  "references": [
+    "VRC.SDK3A.Editor",
+    "VRC.SDKBase.Editor"
+  ],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

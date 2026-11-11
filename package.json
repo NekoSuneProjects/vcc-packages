@@ -1,0 +1,20 @@
+{
+  "name": "com.nekosune.multi-publisher",
+  "displayName": "NekoSune VRChat Multi-Account Publisher",
+  "version": "2.1.0",
+  "unity": "2022.3",
+  "description": "Upload one avatar to all your VRChat accounts and platforms (PC, Android, iOS) with one click, through the official VRChat SDK builder. Logins are saved encrypted with Windows DPAPI; passwords are never stored. Open via Tools → NekoSune → VRChat Multi-Account Publisher.",
+  "author": {
+    "name": "NekoSuneVR",
+    "email": "contact@nekosunevr.co.uk",
+    "url": "https://github.com/NekoSuneVR"
+  },
+  "keywords": ["vrchat", "avatar", "upload", "publish", "multi-account", "build", "android", "quest", "ios"],
+  "vpmDependencies": {
+    "com.vrchat.avatars": ">=3.10.0"
+  },
+  "legacyFolders": {
+    "Assets\\NekoSuneMultiPublisher": ""
+  },
+  "hideInEditor": false
+}
