@@ -1,0 +1,92 @@
+name: Build VCC Package Listing
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - source.json
+      - Website/**
+      - .github/workflows/build-listing.yml
+  release:
+    types:
+      - published
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+env:
+  listPublishDirectory: Website
+  pathToCi: ci
+
+jobs:
+  build-listing:
+    name: Build and publish VPM listing
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout listing branch
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Checkout VRChat package-list builder
+        uses: actions/checkout@v6
+        with:
+          repository: vrchat-community/package-list-action
+          path: ${{ env.pathToCi }}
+          clean: false
+
+      # package-list-action currently multi-targets net6.0 + net8.0. On newer
+      # hosted runners that can race while generating PackageBuilder.deps.json.
+      # Pin the helper to one supported framework for deterministic listing builds.
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Force package-list builder to net8 only
+        shell: bash
+        run: |
+          set -euo pipefail
+          project="${{ env.pathToCi }}/PackageBuilder/PackageBuilder.csproj"
+          sed -i 's#<TargetFrameworks>net6.0;net8.0</TargetFrameworks>#<TargetFramework>net8.0</TargetFramework>#' "$project"
+          grep -q '<TargetFramework>net8.0</TargetFramework>' "$project"
+          rm -rf "${{ env.pathToCi }}/PackageBuilder/bin" "${{ env.pathToCi }}/PackageBuilder/obj"
+
+      - name: Restore builder cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            ${{ env.pathToCi }}/.nuke/temp
+            ~/.nuget/packages
+          key: ${{ runner.os }}-net8-${{ hashFiles('**/global.json', '**/*.csproj') }}
+
+      - name: Build package version listing
+        run: ${{ env.pathToCi }}/build.cmd BuildMultiPackageListing --root ${{ env.pathToCi }} --list-publish-directory $GITHUB_WORKSPACE/${{ env.listPublishDirectory }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # GitHub Pages must be enabled once under Settings -> Pages -> Source: GitHub Actions.
+      # configure-pages cannot self-enable Pages with the workflow's built-in GITHUB_TOKEN.
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ${{ env.listPublishDirectory }}
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

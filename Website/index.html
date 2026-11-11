@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{~ listingInfo.Name ~}}</title>
+  {{~ if listingInfo.Description ~}}
+  <meta name="description" content="{{ listingInfo.Description }}">
+  {{~ end ~}}
+  <meta name="theme-color" content="#050a08">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2334d399'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='34' font-weight='900' text-anchor='middle' fill='%23041008'%3EN%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#packages">Skip to packages</a>
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="#top" aria-label="{{ listingInfo.Name }} home">
+        <span class="brand__mark" aria-hidden="true">N</span>
+        <span class="brand__text">
+          <strong>NekoSune</strong>
+          <small>VCC Packages</small>
+        </span>
+      </a>
+      <nav class="topbar__nav" aria-label="Primary">
+        <a href="#packages">Packages</a>
+        <a href="#install">Install</a>
+        {{~ if listingInfo.InfoLink.Url ~}}
+        <a href="{{ listingInfo.InfoLink.Url }}" rel="noopener">GitHub</a>
+        {{~ end ~}}
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__copy">
+        <p class="kicker">VRChat Creator Companion repository</p>
+        <h1 id="hero-title">{{~ listingInfo.Name ~}}</h1>
+        {{~ if listingInfo.Description ~}}
+        <p class="hero__lead">{{ listingInfo.Description }}</p>
+        {{~ end ~}}
+
+        <div class="repo-box">
+          <label class="repo-box__label" for="repo-url">Repository URL</label>
+          <div class="repo-box__row">
+            <input id="repo-url" class="input input--mono" type="text" value="{{ listingInfo.Url }}" readonly spellcheck="false">
+            <button id="copy-repo" class="btn btn--secondary" type="button" data-copy-target="repo-url">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+              <span>Copy</span>
+            </button>
+            <button id="add-vcc" class="btn btn--primary" type="button" data-add-vcc>
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+              <span>Add to VCC</span>
+            </button>
+          </div>
+          <p class="help">Opens the Creator Companion. If nothing happens, copy the URL and add it in <em>Settings → Packages → Add Repository</em>.</p>
+        </div>
+      </div>
+
+      <aside class="stats" aria-label="Package summary">
+        <div class="stat">
+          <span class="stat__value" data-stat="total">–</span>
+          <span class="stat__label">Packages</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value" data-stat="avatar">–</span>
+          <span class="stat__label">Avatar</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value" data-stat="world">–</span>
+          <span class="stat__label">World</span>
+        </div>
+        <div class="stat">
+          <span class="stat__value" data-stat="shared">–</span>
+          <span class="stat__label">Shared</span>
+        </div>
+      </aside>
+    </section>
+
+    <section id="packages" class="section" aria-labelledby="packages-title">
+      <div class="section__head">
+        <div>
+          <p class="kicker">Catalog</p>
+          <h2 id="packages-title">Packages</h2>
+        </div>
+        <p id="result-count" class="section__meta" aria-live="polite"></p>
+      </div>
+
+      <div class="toolbar" role="search">
+        <label class="search">
+          <span class="visually-hidden">Search packages</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input id="package-search" class="input" type="search" placeholder="Search by name, ID or keyword…" autocomplete="off">
+        </label>
+
+        <fieldset class="segmented">
+          <legend class="visually-hidden">Filter by category</legend>
+          <label><input type="radio" name="category" value="all" checked><span>All</span></label>
+          <label><input type="radio" name="category" value="avatar"><span>Avatar</span></label>
+          <label><input type="radio" name="category" value="world"><span>World</span></label>
+          <label><input type="radio" name="category" value="shared"><span>Shared</span></label>
+        </fieldset>
+      </div>
+
+      <div id="package-grid" class="packages">
+        {{~ for package in packages ~}}
+        <article class="card" data-package-id="{{ package.Name }}">
+          <header class="card__head">
+            <span class="chip" data-category-chip>Package</span>
+            <span class="pill">v{{ package.Version }}</span>
+          </header>
+
+          <h3 class="card__title">{{ package.DisplayName }}</h3>
+          <code class="card__id">{{ package.Name }}</code>
+          {{~ if package.Description ~}}
+          <p class="card__desc">{{ package.Description }}</p>
+          {{~ end ~}}
+
+          <dl class="card__meta">
+            {{~ if package.Author.Name ~}}
+            <div><dt>Author</dt><dd>{{ package.Author.Name }}</dd></div>
+            {{~ end ~}}
+            {{~ if package.Type ~}}
+            <div><dt>Type</dt><dd>{{ package.Type }}</dd></div>
+            {{~ end ~}}
+          </dl>
+
+          <div class="card__deps" data-deps>
+            <span class="card__label">Requires</span>
+            <ul class="tags">
+              {{~ for dependency in package.Dependencies ~}}
+              <li class="tag tag--dep" title="{{ dependency.Name }} {{ dependency.Version }}">{{ dependency.Name }}</li>
+              {{~ end ~}}
+            </ul>
+          </div>
+
+          <ul class="tags tags--keywords" data-keywords>
+            {{~ for keyword in package.Keywords ~}}
+            <li class="tag">{{ keyword }}</li>
+            {{~ end ~}}
+          </ul>
+
+          <footer class="card__actions">
+            <button class="btn btn--primary btn--sm" type="button" data-add-vcc>Add to VCC</button>
+            <a class="btn btn--secondary btn--sm" href="{{ package.ZipUrl }}">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>
+              <span>ZIP</span>
+            </a>
+            <button class="btn btn--ghost btn--sm" type="button" data-copy-text="{{ package.Name }}" aria-label="Copy package ID {{ package.Name }}">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+              <span>ID</span>
+            </button>
+          </footer>
+        </article>
+        {{~ end ~}}
+      </div>
+
+      <div id="empty-state" class="empty" hidden>
+        <p class="empty__title">No packages match</p>
+        <p class="empty__text">Try a different search or category.</p>
+        <button id="reset-filters" class="btn btn--secondary btn--sm" type="button">Clear filters</button>
+      </div>
+
+      <div id="no-packages" class="empty" hidden>
+        <p class="empty__title">No packages published yet</p>
+        <p class="empty__text">Releases appear here automatically once a package branch publishes its first VPM ZIP.</p>
+      </div>
+    </section>
+
+    <section id="install" class="section" aria-labelledby="install-title">
+      <div class="section__head">
+        <div>
+          <p class="kicker">Getting started</p>
+          <h2 id="install-title">Install in three steps</h2>
+        </div>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <span class="step__num" aria-hidden="true">1</span>
+          <h3>Add the repository</h3>
+          <p>Click <strong>Add to VCC</strong>, or paste the repository URL into the Creator Companion under Settings → Packages.</p>
+        </li>
+        <li class="step">
+          <span class="step__num" aria-hidden="true">2</span>
+          <h3>Pick your packages</h3>
+          <p>Open your project in VCC and add the hub for your project type - Avatar or World — plus any addons you want.</p>
+        </li>
+        <li class="step">
+          <span class="step__num" aria-hidden="true">3</span>
+          <h3>Open the hub</h3>
+          <p>In Unity use the <code>NekoSune</code> menu. Installed addons register in their hub automatically.</p>
+        </li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p>
+        {{~ if listingInfo.Author.Url ~}}
+        <a href="{{ listingInfo.Author.Url }}" rel="noopener">{{ listingInfo.Author.Name }}</a>
+        {{~ else ~}}
+        {{ listingInfo.Author.Name }}
+        {{~ end ~}}
+        · {{ listingInfo.Name }}
+      </p>
+      {{~ if listingInfo.InfoLink.Url ~}}
+      <a href="{{ listingInfo.InfoLink.Url }}" rel="noopener">{{ if listingInfo.InfoLink.Text; listingInfo.InfoLink.Text; else; "View on GitHub"; end; }}</a>
+      {{~ end ~}}
+    </div>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
