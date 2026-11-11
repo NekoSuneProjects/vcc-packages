@@ -83,9 +83,26 @@ Avoid:
 
 ---
 
+## Unity versions and dependencies
+
+- [ ] **Primary target: Unity 2022.3.22f1**, the version VRChat currently requires. Set `"unity": "2022.3"` in `package.json`.
+- [ ] **Future: Unity 6 (6000.x)**, for when VRChat moves to it. Keep the code compiling there behind version checks instead of a separate branch:
+  - [ ] `#if UNITY_6000_0_OR_NEWER` for changed APIs (e.g. `FindObjectsOfType` → `FindObjectsByType`, `Object.FindFirstObjectByType`).
+  - [ ] Avoid editor APIs that are obsolete in Unity 6 (IMGUI is fine; check `EditorGUILayout`/`Handles` deprecations each release).
+- [ ] **ChilloutVR (Phase 5):** CCK 3 targets Unity 2021.3 and CCK 4 targets 2022.3. If CVR support is added, either lower `"unity"` to 2021.3 and guard newer APIs, or support CCK 4 only.
+- [ ] **VPM dependencies:**
+  - [ ] `com.vrchat.worlds` (includes UdonSharp) – needed for the generated helper and `VRCUiShape`. Pick the lowest version that has everything used (check `SendCustomEvent`, `VRCUiShape`, persistence if used).
+  - [ ] Unity `com.unity.ugui` (`"dependencies"` in `package.json`).
+  - [ ] No hard dependency on the NekoSune World Hub or any other NekoSune package.
+- [ ] **Optional packages detected at runtime** (reflection or asmdef `versionDefines`, never a hard reference): ChilloutVR CCK, TextMeshPro vs legacy Text, Modular Avatar/VRCFury not needed for worlds.
+- [ ] Use asmdef `versionDefines` to light up features only when a package is installed, e.g. `NEKO_HAS_UDONSHARP` when `com.vrchat.worlds` is present.
+- [ ] Show the detected Unity version, VRChat SDK version and UdonSharp state in an **Environment** card, with a warning when the Unity version isn't the one VRChat supports.
+
 ## Testing checklist (every phase)
 
 - [ ] Compiles in Unity 2022.3.22f1 with the VRChat Worlds SDK and UdonSharp.
+- [ ] Compiles in the newest installed Unity 6 (6000.x) editor, even if VRChat doesn't use it yet.
+- [ ] Compiles with the lowest supported `com.vrchat.worlds` version and with the latest.
 - [ ] Screenshot of each window at 400 px and 800 px width.
 - [ ] Build & Test in VRChat: buttons work on desktop and in VR, laser hits the panel, text readable at 2 m.
 - [ ] Quest build check for any generated textures/materials.
