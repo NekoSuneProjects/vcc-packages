@@ -1,0 +1,12 @@
+{
+  "name": "NekoSune.WorldGallery.Editor",
+  "rootNamespace": "NekoSune.WorldGallery.Editor",
+  "references": [
+    "UnityEngine.UI"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "autoReferenced": true,
+  "noEngineReferences": false
+}

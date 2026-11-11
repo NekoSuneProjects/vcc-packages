@@ -1,0 +1,458 @@
+using UdonSharp;
+using UnityEngine;
+using UnityEngine.UI;
+using VRC.SDK3.Data;
+using VRC.SDK3.Image;
+using VRC.SDK3.StringLoading;
+using VRC.SDKBase;
+using VRC.Udon.Common.Interfaces;
+
+[UdonBehaviourSyncMode(BehaviourSyncMode.None)]
+public class NekoImageGalleryRuntime : UdonSharpBehaviour
+{
+    [Header("Images")]
+    public Texture[] localTextures;
+    public VRCUrl[] imageUrls;
+    [Tooltip("Optional aliases/relative paths aligned with imageUrls, e.g. /gallery/a.png")]
+    public string[] imageUrlMapKeys;
+    public int sourceMode; // 0 local textures, 1 predeclared VRCUrl array
+
+    [Header("Raw / embedded metadata")]
+    public string[] rawTitles;
+    public string[] rawSubtitles;
+    [TextArea(3, 12)] public string embeddedJson;
+    [TextArea(2, 6)] public string[] rawJsonRows;
+
+    [Header("Optional remote JSON metadata")]
+    public VRCUrl metadataJsonUrl;
+    [Tooltip("Array path. Supports a root array, a single key such as items, or dotted paths such as payload.gallery.images")]
+    public string rootKey = "items";
+    public string titleKey = "title";
+    public string subtitleKey = "subtitle";
+    public string imageIndexKey = "imageIndex";
+    [Tooltip("Field containing a full URL, relative URL path, or alias from imageUrlMapKeys")]
+    public string imageUrlKey = "imageUrl";
+
+    [Header("UI")]
+    public RawImage frontImage;
+    public RawImage backImage;
+    public RawImage shaderImage;
+    public CanvasGroup frontGroup;
+    public CanvasGroup backGroup;
+    public Text titleText;
+    public Text subtitleText;
+    public Text pageText;
+    public Text statusText;
+
+    [Header("Transitions")]
+    public int transitionMode; // 0 fade, 1 slide left, 2 slide right, 3 slide up, 4 zoom, 5 spin zoom, 6 wipe, 7 dissolve, 8 radial
+    public float transitionDuration = 0.65f;
+    public Material transitionMaterial;
+    public bool autoPlay;
+    public float autoPlaySeconds = 7f;
+
+    private VRCImageDownloader _downloader;
+    private IVRCImageDownload[] _downloads;
+    private Texture[] _remoteTextures;
+    private string[] _titles;
+    private string[] _subtitles;
+    private int[] _mappedIndices;
+    private int _metadataCount;
+    private int _index;
+    private int _targetIndex;
+    private int _pendingRemoteIndex = -1;
+    private float _transitionTime;
+    private float _autoTime;
+    private bool _transitioning;
+    private Vector2 _frontBase;
+    private Vector2 _backBase;
+
+    void Start()
+    {
+        RebuildRemoteCaches();
+        _frontBase = frontImage == null ? Vector2.zero : frontImage.rectTransform.anchoredPosition;
+        _backBase = backImage == null ? Vector2.zero : backImage.rectTransform.anchoredPosition;
+        if (shaderImage != null) shaderImage.gameObject.SetActive(false);
+        if (backGroup != null) backGroup.alpha = 0f;
+
+        if (!string.IsNullOrEmpty(embeddedJson)) ParseMetadataJson(embeddedJson, "embedded JSON");
+        else if (rawJsonRows != null && rawJsonRows.Length > 0) ParseRawRows();
+
+        if (!VRCUrl.IsNullOrEmpty(metadataJsonUrl)) VRCStringDownloader.LoadUrl(metadataJsonUrl, this);
+        ShowInitial();
+    }
+
+    void RebuildRemoteCaches()
+    {
+        if (_downloader == null) _downloader = new VRCImageDownloader();
+        int remoteCount = imageUrls == null ? 0 : imageUrls.Length;
+        if (_downloads == null || _downloads.Length != remoteCount) _downloads = new IVRCImageDownload[remoteCount];
+        if (_remoteTextures == null || _remoteTextures.Length != remoteCount) _remoteTextures = new Texture[remoteCount];
+    }
+
+    void Update()
+    {
+        if (_transitioning) UpdateTransition();
+        if (autoPlay && !_transitioning)
+        {
+            _autoTime += Time.deltaTime;
+            if (_autoTime >= Mathf.Max(1f, autoPlaySeconds)) { _autoTime = 0f; Next(); }
+        }
+    }
+
+    public void Next()
+    {
+        int count = ItemCount(); if (count <= 1 || _transitioning) return;
+        ShowIndex((_index + 1) % count);
+    }
+
+    public void Previous()
+    {
+        int count = ItemCount(); if (count <= 1 || _transitioning) return;
+        int n = _index - 1; if (n < 0) n = count - 1; ShowIndex(n);
+    }
+
+    public void ToggleAutoPlay()
+    {
+        autoPlay = !autoPlay; _autoTime = 0f;
+        SetStatus(autoPlay ? "Auto-play enabled" : "Auto-play paused");
+    }
+
+    public void ReloadMetadata()
+    {
+        RebuildRemoteCaches();
+        if (!VRCUrl.IsNullOrEmpty(metadataJsonUrl))
+        {
+            SetStatus("Loading remote gallery JSON...");
+            VRCStringDownloader.LoadUrl(metadataJsonUrl, this);
+            return;
+        }
+        ReloadEmbeddedMetadata();
+    }
+
+    public void ReloadEmbeddedMetadata()
+    {
+        if (!string.IsNullOrEmpty(embeddedJson)) { ParseMetadataJson(embeddedJson, "embedded JSON"); ShowInitial(); return; }
+        if (rawJsonRows != null && rawJsonRows.Length > 0) { ParseRawRows(); ShowInitial(); return; }
+        SetStatus("No embedded JSON, raw JSON rows, or remote metadata URL configured.");
+    }
+
+    public override void OnStringLoadSuccess(IVRCStringDownload result)
+    {
+        ParseMetadataJson(result.Result, "remote JSON");
+        ShowInitial();
+    }
+
+    public override void OnStringLoadError(IVRCStringDownload result)
+    {
+        SetStatus("Metadata download failed: " + result.ErrorCode + " - " + result.Error);
+    }
+
+    void ParseMetadataJson(string json, string sourceLabel)
+    {
+        DataToken root;
+        if (!VRCJson.TryDeserializeFromJson(json, out root)) { SetStatus("JSON parse failed: " + root.ToString()); return; }
+        DataList list = ResolveList(root);
+        if (list == null) { SetStatus("JSON array not found. Check Root Array Path (for example items or payload.gallery.images)."); return; }
+        ParseList(list);
+        SetStatus("Loaded " + _metadataCount + " gallery entries from " + sourceLabel + ".");
+    }
+
+    DataList ResolveList(DataToken root)
+    {
+        if (root.TokenType == TokenType.DataList) return root.DataList;
+        if (root.TokenType != TokenType.DataDictionary) return null;
+
+        if (!string.IsNullOrEmpty(rootKey))
+        {
+            DataList pathList = ResolvePathList(root, rootKey);
+            if (pathList != null) return pathList;
+        }
+
+        DataDictionary d = root.DataDictionary;
+        DataToken token;
+        if (d.TryGetValue("items", TokenType.DataList, out token)) return token.DataList;
+        if (d.TryGetValue("images", TokenType.DataList, out token)) return token.DataList;
+        if (d.TryGetValue("gallery", TokenType.DataList, out token)) return token.DataList;
+        if (d.TryGetValue("data", TokenType.DataList, out token)) return token.DataList;
+        return null;
+    }
+
+    DataList ResolvePathList(DataToken root, string path)
+    {
+        DataToken current = root;
+        string remaining = path;
+        while (!string.IsNullOrEmpty(remaining))
+        {
+            int dot = remaining.IndexOf(".");
+            string part = dot >= 0 ? remaining.Substring(0, dot) : remaining;
+            remaining = dot >= 0 ? remaining.Substring(dot + 1) : "";
+            if (string.IsNullOrEmpty(part) || current.TokenType != TokenType.DataDictionary) return null;
+            DataToken next;
+            if (!current.DataDictionary.TryGetValue(part, out next)) return null;
+            current = next;
+        }
+        return current.TokenType == TokenType.DataList ? current.DataList : null;
+    }
+
+    void ParseList(DataList list)
+    {
+        int count = Mathf.Min(list.Count, 256);
+        _titles = new string[count];
+        _subtitles = new string[count];
+        _mappedIndices = new int[count];
+        int valid = 0;
+        for (int i = 0; i < count; i++)
+        {
+            _mappedIndices[i] = -1;
+            DataToken item;
+            if (!list.TryGetValue(i, out item)) continue;
+
+            if (item.TokenType == TokenType.DataDictionary)
+            {
+                ParseRow(item.DataDictionary, i);
+                valid++;
+            }
+            else if (item.TokenType == TokenType.String)
+            {
+                _mappedIndices[i] = FindPredeclaredUrl(item.String);
+                _titles[i] = "Gallery Image " + (i + 1);
+                _subtitles[i] = item.String;
+                valid++;
+            }
+            else if (item.IsNumber)
+            {
+                _mappedIndices[i] = Mathf.RoundToInt((float)item.Number);
+                valid++;
+            }
+        }
+        _metadataCount = count;
+        _index = 0;
+        if (valid < count) SetStatus("Loaded gallery JSON, but some entries could not be mapped.");
+    }
+
+    void ParseRawRows()
+    {
+        int count = Mathf.Min(rawJsonRows.Length, 256);
+        _titles = new string[count]; _subtitles = new string[count]; _mappedIndices = new int[count];
+        int valid = 0;
+        for (int i = 0; i < count; i++)
+        {
+            _mappedIndices[i] = -1;
+            if (string.IsNullOrEmpty(rawJsonRows[i])) continue;
+            DataToken rowToken;
+            if (!VRCJson.TryDeserializeFromJson(rawJsonRows[i], out rowToken)) continue;
+            if (rowToken.TokenType == TokenType.DataDictionary) { ParseRow(rowToken.DataDictionary, i); valid++; }
+            else if (rowToken.TokenType == TokenType.String) { _mappedIndices[i] = FindPredeclaredUrl(rowToken.String); valid++; }
+        }
+        _metadataCount = count; _index = 0;
+        SetStatus("Loaded " + valid + " raw JSON rows.");
+    }
+
+    void ParseRow(DataDictionary row, int i)
+    {
+        _titles[i] = GetString(row, titleKey, "title", "name", "label");
+        _subtitles[i] = GetString(row, subtitleKey, "subtitle", "description", "caption");
+        DataToken n;
+        if (!string.IsNullOrEmpty(imageIndexKey) && row.TryGetValue(imageIndexKey, out n) && n.IsNumber)
+        {
+            _mappedIndices[i] = Mathf.RoundToInt((float)n.Number);
+            return;
+        }
+
+        string url = GetString(row, imageUrlKey, "imageUrl", "image", "url", "thumbnailImageUrl");
+        _mappedIndices[i] = FindPredeclaredUrl(url);
+    }
+
+    public override void OnImageLoadSuccess(IVRCImageDownload result)
+    {
+        RebuildRemoteCaches();
+        int idx = FindPredeclaredUrl(result.Url.Get());
+        if (idx < 0 || idx >= _remoteTextures.Length) return;
+        _remoteTextures[idx] = result.Result;
+        if (_pendingRemoteIndex == idx)
+        {
+            _pendingRemoteIndex = -1;
+            BeginTransition(result.Result, _targetIndex);
+        }
+    }
+
+    public override void OnImageLoadError(IVRCImageDownload result)
+    {
+        _pendingRemoteIndex = -1;
+        SetStatus("Image failed: " + result.Error + " - " + result.ErrorMessage);
+    }
+
+    void ShowInitial()
+    {
+        int count = ItemCount();
+        if (count <= 0) { SetStatus("Assign localTextures or predeclared imageUrls"); UpdateLabels(0); return; }
+        _index = Mathf.Clamp(_index, 0, count - 1);
+        int sourceIndex = SourceIndexFor(_index);
+        if (sourceIndex < 0) { SetStatus("JSON image path is not mapped to imageUrls. Add a matching URL or alias in imageUrlMapKeys."); UpdateLabels(_index); return; }
+        Texture tex = GetTexture(sourceIndex);
+        if (tex != null)
+        {
+            if (frontImage != null) frontImage.texture = tex;
+            UpdateLabels(_index);
+        }
+        else if (sourceMode == 1) RequestRemote(sourceIndex, _index, false);
+    }
+
+    void ShowIndex(int next)
+    {
+        int count = ItemCount(); if (count <= 0) return;
+        next = (next % count + count) % count;
+        int sourceIndex = SourceIndexFor(next);
+        _targetIndex = next;
+        if (sourceIndex < 0) { _index = next; UpdateLabels(_index); SetStatus("This JSON entry has no matching predeclared image URL/path alias."); return; }
+        Texture tex = GetTexture(sourceIndex);
+        if (tex != null) BeginTransition(tex, next);
+        else if (sourceMode == 1) RequestRemote(sourceIndex, next, true);
+    }
+
+    void RequestRemote(int sourceIndex, int displayIndex, bool transition)
+    {
+        RebuildRemoteCaches();
+        if (imageUrls == null || sourceIndex < 0 || sourceIndex >= imageUrls.Length || VRCUrl.IsNullOrEmpty(imageUrls[sourceIndex])) { SetStatus("Image URL mapping is missing"); return; }
+        if (_remoteTextures[sourceIndex] != null)
+        {
+            if (transition) BeginTransition(_remoteTextures[sourceIndex], displayIndex);
+            else { if (frontImage != null) frontImage.texture = _remoteTextures[sourceIndex]; _index = displayIndex; UpdateLabels(_index); }
+            return;
+        }
+        if (_downloads[sourceIndex] != null) _downloads[sourceIndex].Dispose();
+        _targetIndex = displayIndex; _pendingRemoteIndex = sourceIndex;
+        SetStatus("Loading image " + (displayIndex + 1) + "...");
+        _downloads[sourceIndex] = _downloader.DownloadImage(imageUrls[sourceIndex], null, (IUdonEventReceiver)this, new TextureInfo());
+    }
+
+    void BeginTransition(Texture nextTexture, int nextIndex)
+    {
+        if (frontImage == null || nextTexture == null) return;
+        if (backImage == null || frontGroup == null || backGroup == null)
+        {
+            frontImage.texture = nextTexture; _index = nextIndex; UpdateLabels(_index); return;
+        }
+        backImage.texture = nextTexture; backImage.rectTransform.anchoredPosition = _backBase; backImage.rectTransform.localScale = Vector3.one; backImage.rectTransform.localRotation = Quaternion.identity;
+        frontImage.rectTransform.anchoredPosition = _frontBase; frontImage.rectTransform.localScale = Vector3.one; frontImage.rectTransform.localRotation = Quaternion.identity;
+        frontGroup.alpha = 1f; backGroup.alpha = 0f; _transitionTime = 0f; _targetIndex = nextIndex; _transitioning = true;
+        if (transitionMode >= 6 && shaderImage != null && transitionMaterial != null)
+        {
+            transitionMaterial.SetTexture("_FromTex", frontImage.texture); transitionMaterial.SetTexture("_ToTex", nextTexture); transitionMaterial.SetFloat("_Progress", 0f); transitionMaterial.SetFloat("_Mode", transitionMode - 6); shaderImage.material = transitionMaterial; shaderImage.gameObject.SetActive(true);
+        }
+    }
+
+    void UpdateTransition()
+    {
+        float duration = Mathf.Max(0.05f, transitionDuration);
+        _transitionTime += Time.deltaTime;
+        float t = Mathf.Clamp01(_transitionTime / duration);
+        float e = t * t * (3f - 2f * t);
+        RectTransform fr = frontImage.rectTransform; RectTransform br = backImage.rectTransform;
+
+        if (transitionMode == 0) { frontGroup.alpha = 1f - e; backGroup.alpha = e; }
+        else if (transitionMode == 1) { float w = fr.rect.width; fr.anchoredPosition = _frontBase + Vector2.left * w * e; br.anchoredPosition = _backBase + Vector2.right * w * (1f - e); backGroup.alpha = 1f; }
+        else if (transitionMode == 2) { float w = fr.rect.width; fr.anchoredPosition = _frontBase + Vector2.right * w * e; br.anchoredPosition = _backBase + Vector2.left * w * (1f - e); backGroup.alpha = 1f; }
+        else if (transitionMode == 3) { float h = fr.rect.height; fr.anchoredPosition = _frontBase + Vector2.up * h * e; br.anchoredPosition = _backBase + Vector2.down * h * (1f - e); backGroup.alpha = 1f; }
+        else if (transitionMode == 4) { fr.localScale = Vector3.one * Mathf.Lerp(1f, 1.18f, e); br.localScale = Vector3.one * Mathf.Lerp(0.82f, 1f, e); frontGroup.alpha = 1f - e; backGroup.alpha = e; }
+        else if (transitionMode == 5) { fr.localScale = Vector3.one * Mathf.Lerp(1f, 0.65f, e); fr.localRotation = Quaternion.Euler(0f, 0f, 30f * e); br.localScale = Vector3.one * Mathf.Lerp(1.35f, 1f, e); br.localRotation = Quaternion.Euler(0f, 0f, -30f * (1f - e)); frontGroup.alpha = 1f - e; backGroup.alpha = e; }
+        else if (shaderImage != null && transitionMaterial != null) { transitionMaterial.SetFloat("_Progress", e); shaderImage.color = Color.white; frontGroup.alpha = 0f; backGroup.alpha = 0f; }
+        else { frontGroup.alpha = 1f - e; backGroup.alpha = e; }
+
+        if (t >= 1f) FinishTransition();
+    }
+
+    void FinishTransition()
+    {
+        frontImage.texture = backImage.texture; frontImage.rectTransform.anchoredPosition = _frontBase; frontImage.rectTransform.localScale = Vector3.one; frontImage.rectTransform.localRotation = Quaternion.identity;
+        frontGroup.alpha = 1f; backGroup.alpha = 0f; backImage.rectTransform.anchoredPosition = _backBase; backImage.rectTransform.localScale = Vector3.one; backImage.rectTransform.localRotation = Quaternion.identity;
+        if (shaderImage != null) shaderImage.gameObject.SetActive(false);
+        _index = _targetIndex; _transitioning = false; _autoTime = 0f; UpdateLabels(_index); SetStatus("");
+    }
+
+    int ItemCount()
+    {
+        if (_metadataCount > 0) return _metadataCount;
+        if (sourceMode == 0) return localTextures == null ? 0 : localTextures.Length;
+        return imageUrls == null ? 0 : imageUrls.Length;
+    }
+
+    int SourceIndexFor(int displayIndex)
+    {
+        if (_metadataCount > 0 && _mappedIndices != null && displayIndex >= 0 && displayIndex < _mappedIndices.Length) return _mappedIndices[displayIndex];
+        return displayIndex;
+    }
+
+    Texture GetTexture(int sourceIndex)
+    {
+        if (sourceMode == 0) return localTextures != null && sourceIndex >= 0 && sourceIndex < localTextures.Length ? localTextures[sourceIndex] : null;
+        return _remoteTextures != null && sourceIndex >= 0 && sourceIndex < _remoteTextures.Length ? _remoteTextures[sourceIndex] : null;
+    }
+
+    void UpdateLabels(int displayIndex)
+    {
+        int count = ItemCount();
+        if (pageText != null) pageText.text = count <= 0 ? "0 / 0" : (displayIndex + 1) + " / " + count;
+
+        string title = "";
+        if (_titles != null && displayIndex >= 0 && displayIndex < _titles.Length) title = _titles[displayIndex];
+        if (string.IsNullOrEmpty(title) && rawTitles != null && displayIndex >= 0 && displayIndex < rawTitles.Length) title = rawTitles[displayIndex];
+        if (titleText != null) titleText.text = string.IsNullOrEmpty(title) ? "Gallery Image " + (displayIndex + 1) : title;
+
+        string subtitle = "";
+        if (_subtitles != null && displayIndex >= 0 && displayIndex < _subtitles.Length) subtitle = _subtitles[displayIndex];
+        if (string.IsNullOrEmpty(subtitle) && rawSubtitles != null && displayIndex >= 0 && displayIndex < rawSubtitles.Length) subtitle = rawSubtitles[displayIndex];
+        if (subtitleText != null) subtitleText.text = subtitle;
+    }
+
+    string GetString(DataDictionary d, string preferred, string a, string b, string c)
+    {
+        return GetString(d, preferred, a, b, c, "");
+    }
+
+    string GetString(DataDictionary d, string preferred, string a, string b, string c, string e)
+    {
+        DataToken token;
+        if (!string.IsNullOrEmpty(preferred) && d.TryGetValue(preferred, out token) && token.TokenType == TokenType.String) return token.String;
+        if (!string.IsNullOrEmpty(a) && d.TryGetValue(a, out token) && token.TokenType == TokenType.String) return token.String;
+        if (!string.IsNullOrEmpty(b) && d.TryGetValue(b, out token) && token.TokenType == TokenType.String) return token.String;
+        if (!string.IsNullOrEmpty(c) && d.TryGetValue(c, out token) && token.TokenType == TokenType.String) return token.String;
+        if (!string.IsNullOrEmpty(e) && d.TryGetValue(e, out token) && token.TokenType == TokenType.String) return token.String;
+        return "";
+    }
+
+    int FindPredeclaredUrl(string value)
+    {
+        if (string.IsNullOrEmpty(value) || imageUrls == null) return -1;
+        string wanted = NormalizePath(value);
+        for (int i = 0; i < imageUrls.Length; i++)
+        {
+            if (imageUrlMapKeys != null && i < imageUrlMapKeys.Length && !string.IsNullOrEmpty(imageUrlMapKeys[i]))
+            {
+                string alias = NormalizePath(imageUrlMapKeys[i]);
+                if (alias == wanted) return i;
+            }
+            if (VRCUrl.IsNullOrEmpty(imageUrls[i])) continue;
+            string full = NormalizePath(imageUrls[i].Get());
+            if (full == wanted) return i;
+            if (wanted.StartsWith("/") && full.EndsWith(wanted)) return i;
+            if (!wanted.StartsWith("/") && full.EndsWith("/" + wanted)) return i;
+        }
+        return -1;
+    }
+
+    string NormalizePath(string value)
+    {
+        if (string.IsNullOrEmpty(value)) return "";
+        return value.Trim().Replace("\\", "/");
+    }
+
+    void SetStatus(string value) { if (statusText != null) statusText.text = value; }
+
+    void OnDestroy()
+    {
+        if (_downloads != null) for (int i = 0; i < _downloads.Length; i++) if (_downloads[i] != null) _downloads[i].Dispose();
+        if (_downloader != null) _downloader.Dispose();
+    }
+}
