@@ -43,6 +43,19 @@ jobs:
           echo "zip=${PACKAGE_NAME}-${VERSION}.zip" >> "$GITHUB_OUTPUT"
           echo "tag=lipsync-v${VERSION}" >> "$GITHUB_OUTPUT"
 
+      - name: Check version matches the in-editor update checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.package.outputs.version }}"
+          CHECKER=$(grep -oP 'CurrentVersion = "\K[^"]+' Editor/Update/UpdateChecker.cs)
+          JSON=$(jq -r '.version' version.json)
+          if [ "$CHECKER" != "$VERSION" ] || [ "$JSON" != "$VERSION" ]; then
+            echo "Version mismatch: package.json=$VERSION, UpdateChecker.CurrentVersion=$CHECKER, version.json=$JSON" >&2
+            echo "Bump all three together before releasing." >&2
+            exit 1
+          fi
+
       - name: Stop if this version is already released
         id: existing
         env:

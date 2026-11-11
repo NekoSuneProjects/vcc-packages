@@ -2,13 +2,20 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using S = NekoSune.LipSync.Editor.LipSyncStyles;
+using G = NekoSune.LipSync.Editor.LipSyncGUI;
 
 namespace NekoSune.LipSync.Editor
 {
+    /// <summary>
+    /// Lip Sync Studio window. Layout follows Motion Converter: header (title, version chip, language picker),
+    /// bordered cards for each step, a big accent action button, a result row and the NekoSuneVR footer.
+    /// </summary>
     internal class NekoLipSyncWindow : EditorWindow
     {
         const string PrefsKey = "NekoSune.Avatars.LipSync.Settings";
         const string FolderKey = "NekoSune.Avatars.LipSync.Folder";
+        const string HeaderIcon = "AudioSource Icon";
 
         [SerializeField] GameObject _avatar;
         [SerializeField] AudioClip _audio;
@@ -19,7 +26,7 @@ namespace NekoSune.LipSync.Editor
         NekoAudioBuffer _buffer;
         float[] _peakMin, _peakMax;
 
-        bool _foldPreset, _foldSettings = true, _foldTargets, _foldBinding;
+        bool _foldSettings = true, _foldTargets = true, _foldBinding;
         Vector2 _scroll;
         string _lastClipPath;
         string _error;
@@ -30,8 +37,9 @@ namespace NekoSune.LipSync.Editor
         [MenuItem(NekoPaths.MenuRoot + "Avatar/Lip Sync Studio", false, 20)]
         public static void Open()
         {
-            var w = GetWindow<NekoLipSyncWindow>(false, "Lip Sync", true);
-            w.minSize = new Vector2(470f, 460f);
+            var w = GetWindow<NekoLipSyncWindow>();
+            w.titleContent = new GUIContent(NekoLoc.T("lipsync.header"), EditorGUIUtility.IconContent(HeaderIcon).image);
+            w.minSize = new Vector2(380f, 520f);
             w.Show();
         }
 
@@ -61,7 +69,8 @@ namespace NekoSune.LipSync.Editor
 
         void OnEnable()
         {
-            NekoLoc.LanguageChanged += Repaint;
+            NekoLoc.LanguageChanged += OnLanguageChanged;
+            UpdateChecker.Changed += Repaint;
             LoadSettings();
             RefreshPresets();
             if (_avatar != null) Rebind();
@@ -69,8 +78,15 @@ namespace NekoSune.LipSync.Editor
 
         void OnDisable()
         {
-            NekoLoc.LanguageChanged -= Repaint;
+            NekoLoc.LanguageChanged -= OnLanguageChanged;
+            UpdateChecker.Changed -= Repaint;
             SaveSettings();
+        }
+
+        void OnLanguageChanged()
+        {
+            titleContent.text = NekoLoc.T("lipsync.header");
+            Repaint();
         }
 
         // ------------------------------------------------------------------ state
@@ -147,167 +163,194 @@ namespace NekoSune.LipSync.Editor
 
         void OnGUI()
         {
-            NekoStyles.Ensure();
+            S.Ensure();
+            // Wider label column than Unity's default so longer (and translated) labels aren't cut off.
+            EditorGUIUtility.labelWidth = Mathf.Clamp(position.width * 0.42f, 150f, 260f);
 
-            EditorGUILayout.BeginHorizontal();
-            NekoStyles.HeaderBar(NekoLoc.T("lipsync.header"), "VRC", NekoLoc.T("lipsync.tagline"));
-            DrawLanguagePopup();
-            EditorGUILayout.EndHorizontal();
-
+            DrawHeader();
             _scroll = EditorGUILayout.BeginScrollView(_scroll);
+            EditorGUILayout.Space(4);
 
-            DrawAvatarSlot();
-            DrawAudioSlot();
-            DrawWaveform();
+            DrawUpdateBanner();
+            DrawInputsCard();
+            DrawPresetCard();
+            DrawSettingsCard();
+            DrawTargetsCard();
+            DrawBindingCard();
+            DrawOutputCard();
+            DrawBakeArea();
 
-            GUILayout.Space(4f);
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.FlexibleSpace();
-            using (new EditorGUI.DisabledScope(!CanBake()))
-            {
-                if (GUILayout.Button(NekoLoc.T("lipsync.bake"), NekoStyles.PrimaryButton, GUILayout.Height(30f)))
-                    Bake();
-            }
-            EditorGUILayout.EndHorizontal();
-
-            DrawStatus();
-            DrawPresetSection();
-            DrawSettingsSection();
-            DrawTargetSection();
-            DrawBindingSection();
-
-            GUILayout.Space(10f);
+            EditorGUILayout.Space(4);
             EditorGUILayout.EndScrollView();
+            NekoAboutFooter.DrawWithSeparator();
         }
 
-        void DrawLanguagePopup()
+        void DrawHeader()
         {
+            var rect = GUILayoutUtility.GetRect(1, 58, GUILayout.ExpandWidth(true));
+            EditorGUI.DrawRect(rect, S.HeaderBg);
+            EditorGUI.DrawRect(new Rect(rect.x, rect.yMax - 2, rect.width, 2), S.Accent);
+
+            var icon = EditorGUIUtility.IconContent(HeaderIcon).image;
+            if (icon != null) GUI.DrawTexture(new Rect(rect.x + 14, rect.y + 13, 30, 30), icon, ScaleMode.ScaleToFit);
+
+            GUI.Label(new Rect(rect.x + 54, rect.y + 9, rect.width - 200, 24), NekoLoc.T("lipsync.title"), S.Title);
+            GUI.Label(new Rect(rect.x + 55, rect.y + 32, rect.width - 200, 16), NekoLoc.T("lipsync.tagline"), S.Subtitle);
+
+            DrawVersionChip(new Rect(rect.x, rect.y + 9, rect.width - 12, 18));
+
+            // Language picker under the version chip.
             List<NekoLanguageInfo> langs = NekoLoc.Languages;
-            if (langs == null || langs.Count == 0) return;
-
-            EditorGUILayout.BeginVertical(GUILayout.Width(170f));
-            GUILayout.Space(12f);
-            var names = new string[langs.Count];
-            int current = 0;
-            for (int i = 0; i < langs.Count; i++)
+            if (langs != null && langs.Count > 0)
             {
-                names[i] = langs[i].Display;
-                if (langs[i].Code == NekoLoc.ActiveCode) current = i;
+                var names = new string[langs.Count];
+                int current = 0;
+                for (int i = 0; i < langs.Count; i++)
+                {
+                    names[i] = langs[i].Display;
+                    if (langs[i].Code == NekoLoc.ActiveCode) current = i;
+                }
+                const float langW = 130f;
+                int picked = EditorGUI.Popup(new Rect(rect.xMax - langW - 12, rect.y + 31, langW, 18), current, names);
+                if (picked != current) NekoLoc.SetLanguage(langs[picked].Code);
             }
-            int picked = EditorGUILayout.Popup(current, names);
-            if (picked != current) NekoLoc.SetLanguage(langs[picked].Code);
-            EditorGUILayout.EndVertical();
         }
 
-        void DrawAvatarSlot()
+        /// <summary>
+        /// Version chip, right-aligned in <paramref name="area"/>. Shows "v1.1.0 → v1.2.0" in orange when an update
+        /// is out. Click it to check for updates now.
+        /// </summary>
+        static void DrawVersionChip(Rect area)
         {
-            string title = _avatar != null ? _avatar.name : NekoLoc.T("slot.avatar.empty");
-            string meta = _avatar != null ? NekoLoc.T("slot.avatar.filled") : NekoLoc.T("slot.avatar.hint");
-
-            SlotResult r = DrawSlot("◉", title, meta, _avatar != null);
-            if (r == SlotResult.Clear) SetAvatar(null);
-            if (r == SlotResult.Clicked && _avatar != null) EditorGUIUtility.PingObject(_avatar);
-
-            HandleDrop<GameObject>(GUILayoutUtility.GetLastRect(), go =>
+            string current = "v" + UpdateChecker.CurrentVersion;
+            string text, tip;
+            bool update = UpdateChecker.Status == UpdateChecker.State.UpdateAvailable;
+            switch (UpdateChecker.Status)
             {
-                if (go.GetComponentInChildren<SkinnedMeshRenderer>(true) == null &&
-                    go.GetComponentInChildren<Animator>(true) == null)
-                    return false;
-                SetAvatar(go);
-                return true;
-            });
+                case UpdateChecker.State.Checking:
+                    text = current + "  ···";
+                    tip = NekoLoc.T("update.checking");
+                    break;
+                case UpdateChecker.State.UpdateAvailable:
+                    text = current + "  →  v" + UpdateChecker.LatestVersion;
+                    tip = NekoLoc.T("update.title", UpdateChecker.LatestVersion) + "\n" + NekoLoc.T("update.click");
+                    break;
+                case UpdateChecker.State.UpToDate:
+                    text = current;
+                    tip = NekoLoc.T("update.uptodate") + "\n" + NekoLoc.T("update.click");
+                    break;
+                case UpdateChecker.State.Failed:
+                    text = current;
+                    tip = NekoLoc.T("update.failed");
+                    break;
+                default:
+                    text = current;
+                    tip = NekoLoc.T("update.click");
+                    break;
+            }
+
+            var content = new GUIContent(text, tip);
+            var size = S.Chip.CalcSize(content);
+            var r = new Rect(area.xMax - size.x, area.y, size.x, area.height);
+
+            var style = S.Chip;
+            if (update)
+            {
+                style = new GUIStyle(S.Chip) { fontStyle = FontStyle.Bold };
+                style.normal.textColor = S.Warning;
+            }
+
+            EditorGUIUtility.AddCursorRect(r, MouseCursor.Link);
+            if (GUI.Button(r, content, style)) UpdateChecker.Check();
         }
 
-        void DrawAudioSlot()
+        /// <summary>Card shown at the top when a newer version is out.</summary>
+        static void DrawUpdateBanner()
         {
-            string title = _audio != null ? _audio.name : NekoLoc.T("slot.audio.empty");
-            string meta;
+            if (!UpdateChecker.ShowBanner) return;
+
+            G.BeginCard("console.infoicon", NekoLoc.T("update.title", UpdateChecker.LatestVersion));
+
+            var bar = GUILayoutUtility.GetRect(1, 3, GUILayout.ExpandWidth(true));
+            EditorGUI.DrawRect(bar, S.Warning);
+            EditorGUILayout.Space(4);
+
+            EditorGUILayout.LabelField(NekoLoc.T("update.body", UpdateChecker.CurrentVersion), EditorStyles.wordWrappedLabel);
+            if (!string.IsNullOrEmpty(UpdateChecker.Notes))
+                EditorGUILayout.LabelField(UpdateChecker.Notes, S.PathLabel);
+
+            EditorGUILayout.Space(4);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                var oldColor = GUI.backgroundColor;
+                GUI.backgroundColor = S.Warning;
+                if (GUILayout.Button(NekoLoc.T("update.download"), GUILayout.Height(24))) UpdateChecker.OpenDownload();
+                GUI.backgroundColor = oldColor;
+
+                if (GUILayout.Button(NekoLoc.T("update.later"), GUILayout.Height(24), GUILayout.ExpandWidth(false))) UpdateChecker.RemindLater();
+                if (GUILayout.Button(NekoLoc.T("update.skip"), GUILayout.Height(24), GUILayout.ExpandWidth(false))) UpdateChecker.SkipThisVersion();
+            }
+            G.EndCard();
+        }
+
+        // --- 1. avatar + audio --------------------------------------------------------
+
+        void DrawInputsCard()
+        {
+            G.BeginCard("Avatar Icon", NekoLoc.T("card.inputs"));
+
+            EditorGUI.BeginChangeCheck();
+            var avatar = (GameObject)EditorGUILayout.ObjectField(
+                new GUIContent(NekoLoc.T("field.avatar"), NekoLoc.T("slot.avatar.hint")), _avatar, typeof(GameObject), true);
+            if (EditorGUI.EndChangeCheck())
+            {
+                if (avatar != null && avatar.GetComponentInChildren<SkinnedMeshRenderer>(true) == null &&
+                    avatar.GetComponentInChildren<Animator>(true) == null)
+                    _error = NekoLoc.T("err.notAnAvatar");
+                else
+                    SetAvatar(avatar);
+            }
+
+            if (_binding != null)
+            {
+                G.ChipRow(
+                    SourceLabel(_binding.VisemeSource),
+                    NekoLoc.T("bind.mapped", _binding.MappedVisemeCount, NekoVisemes.Count),
+                    _binding.Jaw != null ? NekoLoc.T("bind.jaw") + ": " + _binding.Jaw.name : null);
+            }
+
+            EditorGUILayout.Space(2);
+            EditorGUI.BeginChangeCheck();
+            var clip = (AudioClip)EditorGUILayout.ObjectField(
+                new GUIContent(NekoLoc.T("field.audio"), NekoLoc.T("slot.audio.hint")), _audio, typeof(AudioClip), false);
+            if (EditorGUI.EndChangeCheck()) SetAudio(clip);
+
             if (_audio != null)
             {
                 TimeSpan ts = TimeSpan.FromSeconds(_audio.length);
-                meta = string.Format("{0}:{1:00}  ·  {2}", (int)ts.TotalMinutes, ts.Seconds,
-                                     NekoLoc.T("slot.audio.filled"));
+                EnsureBuffer();
+                G.ChipRow(
+                    string.Format("{0}:{1:00}", (int)ts.TotalMinutes, ts.Seconds),
+                    _buffer != null ? _buffer.SampleRate + " Hz" : null,
+                    NekoLoc.T(_audio.channels == 1 ? "audio.mono" : "audio.stereo"));
+                DrawWaveform();
             }
-            else meta = NekoLoc.T("slot.audio.hint");
-
-            SlotResult r = DrawSlot("♪", title, meta, _audio != null);
-            if (r == SlotResult.Clear) SetAudio(null);
-            if (r == SlotResult.Clicked && _audio != null) EditorGUIUtility.PingObject(_audio);
-
-            HandleDrop<AudioClip>(GUILayoutUtility.GetLastRect(), clip => { SetAudio(clip); return true; });
-        }
-
-        enum SlotResult { None, Clicked, Clear }
-
-        SlotResult DrawSlot(string glyph, string title, string meta, bool filled)
-        {
-            SlotResult result = SlotResult.None;
-
-            EditorGUILayout.BeginHorizontal(NekoStyles.Card, GUILayout.Height(46f));
-            GUILayout.Label(glyph, NekoStyles.IconBig, GUILayout.Width(30f), GUILayout.Height(38f));
-
-            EditorGUILayout.BeginVertical();
-            GUILayout.Space(3f);
-            GUILayout.Label(title, NekoStyles.SlotName);
-            GUILayout.Label(meta, NekoStyles.SlotMeta);
-            EditorGUILayout.EndVertical();
-
-            GUILayout.FlexibleSpace();
-            if (filled && GUILayout.Button("×", EditorStyles.miniButton, GUILayout.Width(24f), GUILayout.Height(22f)))
-                result = SlotResult.Clear;
-            EditorGUILayout.EndHorizontal();
-
-            Rect rect = GUILayoutUtility.GetLastRect();
-            if (!filled)
-                NekoStyles.Outline(rect, new Color(NekoStyles.Accent.r, NekoStyles.Accent.g, NekoStyles.Accent.b, 0.35f));
-
-            if (result == SlotResult.None &&
-                Event.current.type == EventType.MouseDown && Event.current.button == 0 &&
-                rect.Contains(Event.current.mousePosition))
+            else if (_avatar == null)
             {
-                result = SlotResult.Clicked;
+                EditorGUILayout.Space(2);
+                EditorGUILayout.LabelField(NekoLoc.T("hint.start"), S.PathLabel);
             }
 
-            return result;
-        }
-
-        void HandleDrop<T>(Rect rect, Func<T, bool> accept) where T : UnityEngine.Object
-        {
-            Event e = Event.current;
-            if (e.type != EventType.DragUpdated && e.type != EventType.DragPerform) return;
-            if (!rect.Contains(e.mousePosition)) return;
-
-            T found = null;
-            UnityEngine.Object[] objs = DragAndDrop.objectReferences;
-            for (int i = 0; i < objs.Length; i++)
-            {
-                var t = objs[i] as T;
-                if (t != null) { found = t; break; }
-            }
-
-            if (found == null)
-            {
-                DragAndDrop.visualMode = DragAndDropVisualMode.Rejected;
-                return;
-            }
-
-            DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
-            if (e.type == EventType.DragPerform)
-            {
-                DragAndDrop.AcceptDrag();
-                if (!accept(found)) _error = NekoLoc.T("err.notAnAvatar");
-                e.Use();
-            }
+            G.EndCard();
         }
 
         void DrawWaveform()
         {
-            if (_audio == null) return;
-            EnsureBuffer();
             if (_peakMax == null) return;
 
-            Rect r = GUILayoutUtility.GetRect(10f, 46f, GUILayout.ExpandWidth(true));
-            EditorGUI.DrawRect(r, NekoStyles.IsDark ? new Color(0.12f, 0.13f, 0.15f) : new Color(0.80f, 0.81f, 0.84f));
+            EditorGUILayout.Space(4);
+            Rect r = GUILayoutUtility.GetRect(10f, 52f, GUILayout.ExpandWidth(true));
+            EditorGUI.DrawRect(r, S.TrackBg);
 
             int cols = _peakMax.Length;
             float step = r.width / cols;
@@ -315,14 +358,12 @@ namespace NekoSune.LipSync.Editor
             float half = r.height * 0.45f;
             for (int c = 0; c < cols; c++)
             {
-                float lo = _peakMin[c], hi = _peakMax[c];
-                float y0 = mid - hi * half;
-                float y1 = mid - lo * half;
-                float h = Mathf.Max(1f, y1 - y0);
-                EditorGUI.DrawRect(new Rect(r.x + c * step, y0, Mathf.Max(1f, step), h), NekoStyles.WaveColor);
+                float y0 = mid - _peakMax[c] * half;
+                float y1 = mid - _peakMin[c] * half;
+                EditorGUI.DrawRect(new Rect(r.x + c * step, y0, Mathf.Max(1f, step), Mathf.Max(1f, y1 - y0)), S.Wave);
             }
 
-            // Trim markers
+            // Shade the parts outside the Start / End range.
             if (_buffer != null && _buffer.Length > 0f)
             {
                 float len = _buffer.Length;
@@ -333,77 +374,40 @@ namespace NekoSune.LipSync.Editor
                 if (b < 1f) EditorGUI.DrawRect(new Rect(r.x + r.width * b, r.y, r.width * (1f - b), r.height), shade);
             }
 
-            EditorGUILayout.BeginHorizontal();
             if (NekoAudioPreview.Supported)
             {
-                if (GUILayout.Button(NekoLoc.T("audio.play"), EditorStyles.miniButtonLeft, GUILayout.Width(60f)))
-                    NekoAudioPreview.Play(_audio);
-                if (GUILayout.Button(NekoLoc.T("audio.stop"), EditorStyles.miniButtonRight, GUILayout.Width(60f)))
-                    NekoAudioPreview.Stop();
+                EditorGUILayout.Space(2);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    if (GUILayout.Button(S.Icon("PlayButton", " " + NekoLoc.T("audio.play")), EditorStyles.miniButtonLeft, GUILayout.Width(80)))
+                        NekoAudioPreview.Play(_audio);
+                    if (GUILayout.Button(S.Icon("PauseButton", " " + NekoLoc.T("audio.stop")), EditorStyles.miniButtonRight, GUILayout.Width(80)))
+                        NekoAudioPreview.Stop();
+                    GUILayout.FlexibleSpace();
+                }
             }
-            GUILayout.FlexibleSpace();
-            if (_buffer != null)
-                GUILayout.Label(string.Format("{0} Hz · {1}", _buffer.SampleRate,
-                                _audio.channels == 1 ? NekoLoc.T("audio.mono") : NekoLoc.T("audio.stereo")),
-                                NekoStyles.SlotMeta);
-            EditorGUILayout.EndHorizontal();
         }
 
-        void DrawStatus()
+        // --- 2. preset ----------------------------------------------------------------
+
+        void DrawPresetCard()
         {
-            if (!string.IsNullOrEmpty(_error))
-            {
-                EditorGUILayout.HelpBox(_error, MessageType.Error);
-                return;
-            }
-
-            if (string.IsNullOrEmpty(_lastClipPath)) return;
-
-            EditorGUILayout.BeginVertical(NekoStyles.Banner);
-            EditorGUILayout.BeginHorizontal();
-            var done = new GUIStyle(NekoStyles.SlotName);
-            done.normal.textColor = NekoStyles.Good;
-            GUILayout.Label(NekoLoc.T("status.done") + "  ✓   " + System.IO.Path.GetFileName(_lastClipPath), done);
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.EndHorizontal();
-
-            if (!string.IsNullOrEmpty(_statusDetail))
-                GUILayout.Label(_statusDetail, NekoStyles.SlotMeta);
-
-            EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button(NekoLoc.T("status.reveal"), NekoStyles.Link, GUILayout.Width(150f)))
-            {
-                var obj = AssetDatabase.LoadAssetAtPath<AnimationClip>(_lastClipPath);
-                if (obj != null) { Selection.activeObject = obj; EditorGUIUtility.PingObject(obj); }
-            }
-            EditorGUIUtility.AddCursorRect(GUILayoutUtility.GetLastRect(), MouseCursor.Link);
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.EndVertical();
-        }
-
-        void DrawPresetSection()
-        {
+            G.BeginCard("Favorite Icon", NekoLoc.T("preset.label"));
             string[] names = BuildPresetNames();
-            _foldPreset = EditorGUILayout.Foldout(_foldPreset,
-                NekoLoc.T("preset.label") + ": " + (_presetIndex >= 0 && _presetIndex < names.Length ? names[_presetIndex] : NekoLoc.T("preset.none")),
-                true, NekoStyles.SectionHeader);
-            if (!_foldPreset) return;
-
-            EditorGUI.indentLevel++;
-            EditorGUILayout.BeginHorizontal();
-            int picked = EditorGUILayout.Popup(_presetIndex, names);
-            if (picked != _presetIndex)
+            using (new EditorGUILayout.HorizontalScope())
             {
-                _presetIndex = picked;
-                ApplyPreset(picked);
+                int picked = EditorGUILayout.Popup(_presetIndex, names);
+                if (picked != _presetIndex)
+                {
+                    _presetIndex = picked;
+                    ApplyPreset(picked);
+                }
+                if (GUILayout.Button(NekoLoc.T("preset.save"), EditorStyles.miniButtonLeft, GUILayout.ExpandWidth(false)))
+                    SaveUserPreset();
+                if (GUILayout.Button(NekoLoc.T("preset.refresh"), EditorStyles.miniButtonRight, GUILayout.ExpandWidth(false)))
+                    RefreshPresets();
             }
-            if (GUILayout.Button(NekoLoc.T("preset.save"), EditorStyles.miniButton, GUILayout.Width(90f)))
-                SaveUserPreset();
-            if (GUILayout.Button(NekoLoc.T("preset.refresh"), EditorStyles.miniButton, GUILayout.Width(70f)))
-                RefreshPresets();
-            EditorGUILayout.EndHorizontal();
-            EditorGUI.indentLevel--;
+            G.EndCard();
         }
 
         string[] BuildPresetNames()
@@ -444,142 +448,121 @@ namespace NekoSune.LipSync.Editor
             RefreshPresets();
         }
 
-        void DrawSettingsSection()
+        // --- 3. settings --------------------------------------------------------------
+
+        void DrawSettingsCard()
         {
-            _foldSettings = EditorGUILayout.Foldout(_foldSettings, NekoLoc.T("section.settings"), true, NekoStyles.SectionHeader);
-            if (!_foldSettings) return;
-
-            EditorGUILayout.BeginVertical(NekoStyles.Card);
-
-            _settings.volumeToMouth = NekoStyles.SliderRow(NekoLoc.C("set.volumeToMouth"), _settings.volumeToMouth, 0f, 1f);
-            _settings.clarity = NekoStyles.SliderRow(NekoLoc.C("set.clarity"), _settings.clarity, 0.5f, 6f);
-            _settings.consonantClose = NekoStyles.SliderRow(NekoLoc.C("set.consonantClose"), _settings.consonantClose, 0f, 1f);
-            _settings.strength = NekoStyles.SliderRow(NekoLoc.C("set.strength"), _settings.strength, 0f, 2f);
-            _settings.offsetMs = NekoStyles.SliderRow(NekoLoc.C("set.offsetMs"), _settings.offsetMs, -250f, 250f, "0");
-            _settings.attackMs = NekoStyles.SliderRow(NekoLoc.C("set.attackMs"), _settings.attackMs, 0f, 200f, "0");
-            _settings.releaseMs = NekoStyles.SliderRow(NekoLoc.C("set.releaseMs"), _settings.releaseMs, 0f, 400f, "0");
-            _settings.silenceThreshold = NekoStyles.SliderRow(NekoLoc.C("set.silence"), _settings.silenceThreshold, 0f, 0.5f);
-            _settings.liveliness = NekoStyles.SliderRow(NekoLoc.C("set.liveliness"), _settings.liveliness, 0f, 1f);
-
-            // FPS as a dropdown of sane animation rates.
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(NekoLoc.C("set.fps"), GUILayout.Width(190f));
-            int fpsIndex = Array.IndexOf(NekoLipSyncSettings.FpsOptions, _settings.fps);
-            if (fpsIndex < 0) fpsIndex = Array.IndexOf(NekoLipSyncSettings.FpsOptions, 30);
-            var fpsNames = new string[NekoLipSyncSettings.FpsOptions.Length];
-            for (int i = 0; i < fpsNames.Length; i++) fpsNames[i] = NekoLipSyncSettings.FpsOptions[i].ToString();
-            int newFps = EditorGUILayout.Popup(fpsIndex, fpsNames);
-            _settings.fps = NekoLipSyncSettings.FpsOptions[Mathf.Clamp(newFps, 0, fpsNames.Length - 1)];
-            EditorGUILayout.EndHorizontal();
-
-            _settings.quality = NekoStyles.IntSliderRow(NekoLoc.C("set.quality"), _settings.quality, 1, 10);
-            _settings.cleanVocal = NekoStyles.ToggleRow(NekoLoc.C("set.cleanVocal"), _settings.cleanVocal);
-            _settings.loopTime = NekoStyles.ToggleRow(NekoLoc.C("set.loop"), _settings.loopTime);
-            _settings.keyReduction = NekoStyles.ToggleRow(NekoLoc.C("set.keyReduction"), _settings.keyReduction);
-            if (_settings.keyReduction)
-                _settings.keyTolerance = NekoStyles.SliderRow(NekoLoc.C("set.keyTolerance"), _settings.keyTolerance, 0.05f, 5f);
-            _settings.writeSil = NekoStyles.ToggleRow(NekoLoc.C("set.writeSil"), _settings.writeSil);
-            _settings.normalize = NekoStyles.ToggleRow(NekoLoc.C("set.normalize"), _settings.normalize);
-
-            NekoStyles.Rule(4f);
-            float len = _buffer != null ? _buffer.Length : (_audio != null ? _audio.length : 0f);
-            if (len > 0f)
+            _foldSettings = G.BeginFoldoutCard("SettingsIcon", NekoLoc.T("section.settings"), _foldSettings);
+            if (_foldSettings)
             {
-                _settings.startSec = NekoStyles.SliderRow(NekoLoc.C("set.startSec"), _settings.startSec, 0f, len, "0.00");
-                float endShown = _settings.endSec > 0f ? _settings.endSec : len;
-                endShown = NekoStyles.SliderRow(NekoLoc.C("set.endSec"), endShown, 0f, len, "0.00");
-                _settings.endSec = Mathf.Approximately(endShown, len) ? 0f : endShown;
-                if (_settings.endSec > 0f && _settings.endSec <= _settings.startSec)
-                    _settings.endSec = Mathf.Min(len, _settings.startSec + 0.1f);
-            }
+                G.Group(NekoLoc.T("group.feel"), true);
+                _settings.volumeToMouth = EditorGUILayout.Slider(NekoLoc.C("set.volumeToMouth"), _settings.volumeToMouth, 0f, 1f);
+                _settings.clarity = EditorGUILayout.Slider(NekoLoc.C("set.clarity"), _settings.clarity, 0.5f, 6f);
+                _settings.consonantClose = EditorGUILayout.Slider(NekoLoc.C("set.consonantClose"), _settings.consonantClose, 0f, 1f);
+                _settings.strength = EditorGUILayout.Slider(NekoLoc.C("set.strength"), _settings.strength, 0f, 2f);
+                _settings.liveliness = EditorGUILayout.Slider(NekoLoc.C("set.liveliness"), _settings.liveliness, 0f, 1f);
 
-            EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button(NekoLoc.T("common.reset"), GUILayout.Width(90f)))
-            {
-                _settings.ResetToDefaults();
-                _presetIndex = 0;
-            }
-            GUILayout.FlexibleSpace();
-            EditorGUILayout.EndHorizontal();
+                G.Group(NekoLoc.T("group.timing"));
+                _settings.offsetMs = Mathf.Round(EditorGUILayout.Slider(NekoLoc.C("set.offsetMs"), _settings.offsetMs, -250f, 250f));
+                _settings.attackMs = Mathf.Round(EditorGUILayout.Slider(NekoLoc.C("set.attackMs"), _settings.attackMs, 0f, 200f));
+                _settings.releaseMs = Mathf.Round(EditorGUILayout.Slider(NekoLoc.C("set.releaseMs"), _settings.releaseMs, 0f, 400f));
+                _settings.silenceThreshold = EditorGUILayout.Slider(NekoLoc.C("set.silence"), _settings.silenceThreshold, 0f, 0.5f);
 
-            EditorGUILayout.EndVertical();
+                G.Group(NekoLoc.T("group.bake"));
+                var fpsNames = new GUIContent[NekoLipSyncSettings.FpsOptions.Length];
+                for (int i = 0; i < fpsNames.Length; i++) fpsNames[i] = new GUIContent(NekoLipSyncSettings.FpsOptions[i].ToString());
+                int fps = Array.IndexOf(NekoLipSyncSettings.FpsOptions, _settings.fps) >= 0 ? _settings.fps : 30;
+                _settings.fps = EditorGUILayout.IntPopup(NekoLoc.C("set.fps"), fps, fpsNames, NekoLipSyncSettings.FpsOptions);
+                _settings.quality = EditorGUILayout.IntSlider(NekoLoc.C("set.quality"), _settings.quality, 1, 10);
+                _settings.cleanVocal = EditorGUILayout.Toggle(NekoLoc.C("set.cleanVocal"), _settings.cleanVocal);
+                _settings.loopTime = EditorGUILayout.Toggle(NekoLoc.C("set.loop"), _settings.loopTime);
+                _settings.keyReduction = EditorGUILayout.Toggle(NekoLoc.C("set.keyReduction"), _settings.keyReduction);
+                if (_settings.keyReduction)
+                {
+                    EditorGUI.indentLevel++;
+                    _settings.keyTolerance = EditorGUILayout.Slider(NekoLoc.C("set.keyTolerance"), _settings.keyTolerance, 0.05f, 5f);
+                    EditorGUI.indentLevel--;
+                }
+                _settings.writeSil = EditorGUILayout.Toggle(NekoLoc.C("set.writeSil"), _settings.writeSil);
+                _settings.normalize = EditorGUILayout.Toggle(NekoLoc.C("set.normalize"), _settings.normalize);
+
+                float len = _buffer != null ? _buffer.Length : (_audio != null ? _audio.length : 0f);
+                if (len > 0f)
+                {
+                    G.Group(NekoLoc.T("group.range"));
+                    _settings.startSec = EditorGUILayout.Slider(NekoLoc.C("set.startSec"), _settings.startSec, 0f, len);
+                    float endShown = _settings.endSec > 0f ? _settings.endSec : len;
+                    endShown = EditorGUILayout.Slider(NekoLoc.C("set.endSec"), endShown, 0f, len);
+                    _settings.endSec = Mathf.Approximately(endShown, len) ? 0f : endShown;
+                    if (_settings.endSec > 0f && _settings.endSec <= _settings.startSec)
+                        _settings.endSec = Mathf.Min(len, _settings.startSec + 0.1f);
+                }
+
+                EditorGUILayout.Space(6);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.FlexibleSpace();
+                    if (GUILayout.Button(S.Icon("Refresh", " " + NekoLoc.T("common.reset")), GUILayout.ExpandWidth(false)))
+                    {
+                        _settings.ResetToDefaults();
+                        _presetIndex = 0;
+                    }
+                }
+            }
+            G.EndCard();
         }
 
-        void DrawTargetSection()
+        // --- 4. targets ---------------------------------------------------------------
+
+        void DrawTargetsCard()
         {
-            _foldTargets = EditorGUILayout.Foldout(_foldTargets, NekoLoc.T("section.targets"), true, NekoStyles.SectionHeader);
-            if (!_foldTargets) return;
-
-            EditorGUILayout.BeginVertical(NekoStyles.Card);
-
-            var targetNames = new[]
+            _foldTargets = G.BeginFoldoutCard("SkinnedMeshRenderer Icon", NekoLoc.T("card.targets"), _foldTargets);
+            if (_foldTargets)
             {
-                NekoLoc.T("target.auto"), NekoLoc.T("target.visemes"),
-                NekoLoc.T("target.jaw"), NekoLoc.T("target.single")
-            };
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(NekoLoc.C("target.label"), GUILayout.Width(190f));
-            _settings.target = (NekoLipSyncTarget)EditorGUILayout.Popup((int)_settings.target, targetNames);
-            EditorGUILayout.EndHorizontal();
-
-            if (_settings.target != NekoLipSyncTarget.SingleMouthOpen)
-            {
-                _settings.driveJaw = NekoStyles.ToggleRow(NekoLoc.C("target.alsoJaw"), _settings.driveJaw);
-                if (_settings.driveJaw || _settings.target == NekoLipSyncTarget.JawBone)
+                var targetNames = new[]
                 {
-                    EditorGUI.indentLevel++;
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField(NekoLoc.C("target.jawBone"), GUILayout.Width(180f));
-                    Transform newJaw = (Transform)EditorGUILayout.ObjectField(
-                        _binding != null ? _binding.Jaw : null, typeof(Transform), true);
-                    if (_binding != null && newJaw != _binding.Jaw)
+                    new GUIContent(NekoLoc.T("target.auto")), new GUIContent(NekoLoc.T("target.visemes")),
+                    new GUIContent(NekoLoc.T("target.jaw")), new GUIContent(NekoLoc.T("target.single"))
+                };
+                _settings.target = (NekoLipSyncTarget)EditorGUILayout.Popup(NekoLoc.C("target.label"), (int)_settings.target, targetNames);
+
+                if (_settings.target != NekoLipSyncTarget.SingleMouthOpen)
+                {
+                    _settings.driveJaw = EditorGUILayout.Toggle(NekoLoc.C("target.alsoJaw"), _settings.driveJaw);
+                    if (_settings.driveJaw || _settings.target == NekoLipSyncTarget.JawBone)
                     {
-                        _binding.Jaw = newJaw;
-                        _binding.JawPath = newJaw != null && _avatar != null
-                            ? AnimationUtility.CalculateTransformPath(newJaw, _avatar.transform)
-                            : null;
+                        EditorGUI.indentLevel++;
+                        using (new EditorGUI.DisabledScope(_binding == null))
+                        {
+                            Transform newJaw = (Transform)EditorGUILayout.ObjectField(NekoLoc.C("target.jawBone"),
+                                _binding != null ? _binding.Jaw : null, typeof(Transform), true);
+                            if (_binding != null && newJaw != _binding.Jaw)
+                            {
+                                _binding.Jaw = newJaw;
+                                _binding.JawPath = newJaw != null && _avatar != null
+                                    ? AnimationUtility.CalculateTransformPath(newJaw, _avatar.transform)
+                                    : null;
+                            }
+                        }
+                        _settings.jawAxis = (NekoJawAxis)EditorGUILayout.EnumPopup(NekoLoc.C("target.jawAxis"), _settings.jawAxis);
+                        _settings.jawMaxAngle = EditorGUILayout.Slider(NekoLoc.C("target.jawAngle"), _settings.jawMaxAngle, 0f, 60f);
+                        _settings.jawInvert = EditorGUILayout.Toggle(NekoLoc.C("target.jawInvert"), _settings.jawInvert);
+                        EditorGUI.indentLevel--;
                     }
-                    EditorGUILayout.EndHorizontal();
-
-                    EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField(NekoLoc.C("target.jawAxis"), GUILayout.Width(180f));
-                    _settings.jawAxis = (NekoJawAxis)EditorGUILayout.EnumPopup(_settings.jawAxis);
-                    EditorGUILayout.EndHorizontal();
-
-                    _settings.jawMaxAngle = NekoStyles.SliderRow(NekoLoc.C("target.jawAngle"), _settings.jawMaxAngle, 0f, 60f, "0.#", 180f);
-                    _settings.jawInvert = NekoStyles.ToggleRow(NekoLoc.C("target.jawInvert"), _settings.jawInvert, 180f);
-                    EditorGUI.indentLevel--;
                 }
-            }
 
-            if (_settings.target != NekoLipSyncTarget.JawBone)
-            {
-                _settings.driveSingleShape = NekoStyles.ToggleRow(NekoLoc.C("target.alsoSingle"), _settings.driveSingleShape);
-                if ((_settings.driveSingleShape || _settings.target == NekoLipSyncTarget.SingleMouthOpen) && _binding != null)
+                if (_settings.target != NekoLipSyncTarget.JawBone)
                 {
-                    EditorGUI.indentLevel++;
-                    DrawShapePicker();
-                    EditorGUI.indentLevel--;
+                    _settings.driveSingleShape = EditorGUILayout.Toggle(NekoLoc.C("target.alsoSingle"), _settings.driveSingleShape);
+                    if ((_settings.driveSingleShape || _settings.target == NekoLipSyncTarget.SingleMouthOpen) && _binding != null)
+                    {
+                        EditorGUI.indentLevel++;
+                        DrawShapePicker();
+                        EditorGUI.indentLevel--;
+                    }
                 }
             }
-
-            NekoStyles.Rule(4f);
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(NekoLoc.C("out.folder"), GUILayout.Width(190f));
-            EditorGUILayout.SelectableLabel(_outputFolder, EditorStyles.textField, GUILayout.Height(18f));
-            if (GUILayout.Button("...", EditorStyles.miniButton, GUILayout.Width(28f)))
-            {
-                string abs = EditorUtility.SaveFolderPanel(NekoLoc.T("out.folder"), "Assets", "");
-                if (!string.IsNullOrEmpty(abs))
-                {
-                    string rel = ToAssetPath(abs);
-                    if (rel != null) _outputFolder = rel;
-                    else _error = NekoLoc.T("err.folderOutsideProject");
-                }
-            }
-            EditorGUILayout.EndHorizontal();
-
-            EditorGUILayout.EndVertical();
+            G.EndCard();
         }
 
         void DrawShapePicker()
@@ -591,20 +574,16 @@ namespace NekoSune.LipSync.Editor
                 return;
             }
 
-            var labels = new string[shapes.Count];
+            var labels = new GUIContent[shapes.Count];
             int current = -1;
             for (int i = 0; i < shapes.Count; i++)
             {
-                labels[i] = shapes[i].Key.name + " / " + shapes[i].Value;
+                labels[i] = new GUIContent(shapes[i].Key.name + " / " + shapes[i].Value);
                 if (_binding.SingleRenderer == shapes[i].Key && _binding.SingleShapeName == shapes[i].Value)
                     current = i;
             }
 
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(NekoLoc.C("target.mouthShape"), GUILayout.Width(180f));
-            int picked = EditorGUILayout.Popup(current, labels);
-            EditorGUILayout.EndHorizontal();
-
+            int picked = EditorGUILayout.Popup(NekoLoc.C("target.mouthShape"), current, labels);
             if (picked >= 0 && picked != current)
             {
                 _binding.SingleRenderer = shapes[picked].Key;
@@ -614,50 +593,58 @@ namespace NekoSune.LipSync.Editor
             }
         }
 
-        void DrawBindingSection()
+        // --- 5. binding ---------------------------------------------------------------
+
+        void DrawBindingCard()
         {
-            _foldBinding = EditorGUILayout.Foldout(_foldBinding, NekoLoc.T("section.binding"), true, NekoStyles.SectionHeader);
-            if (!_foldBinding) return;
-
-            EditorGUILayout.BeginVertical(NekoStyles.Card);
-            if (_binding == null)
+            _foldBinding = G.BeginFoldoutCard("Avatar Icon", NekoLoc.T("section.binding"), _foldBinding);
+            if (_foldBinding)
             {
-                GUILayout.Label(NekoLoc.T("bind.noAvatar"), NekoStyles.WrapLabel);
-                EditorGUILayout.EndVertical();
-                return;
+                if (_binding == null)
+                {
+                    EditorGUILayout.LabelField(NekoLoc.T("bind.noAvatar"), S.PathLabel);
+                }
+                else
+                {
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        G.Chip(NekoLoc.T("bind.source") + ": " + SourceLabel(_binding.VisemeSource));
+                        G.Chip(NekoLoc.T("bind.mapped", _binding.MappedVisemeCount, NekoVisemes.Count));
+                        GUILayout.FlexibleSpace();
+                    }
+                    if (_binding.VisemeRenderer != null)
+                        EditorGUILayout.LabelField(NekoLoc.T("bind.mesh"), _binding.VisemeRenderer.name);
+                    if (_binding.Jaw != null)
+                        EditorGUILayout.LabelField(NekoLoc.T("bind.jaw"), _binding.Jaw.name);
+                    if (_binding.HasSingleShape)
+                        EditorGUILayout.LabelField(NekoLoc.T("bind.single"), _binding.SingleShapeName);
+
+                    EditorGUILayout.Space(4);
+                    for (int v = 0; v < NekoVisemes.Count; v++)
+                    {
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            bool mapped = !string.IsNullOrEmpty(_binding.ShapeNames[v]);
+                            var chip = new GUIStyle(S.Chip) { fixedWidth = 44 };
+                            chip.normal.textColor = mapped ? S.Success : S.Error;
+                            GUILayout.Label(NekoVisemes.Names[v], chip);
+                            GUILayout.Label(mapped ? _binding.ShapeNames[v] : NekoLoc.T("bind.unmapped"), S.PathLabel);
+                        }
+                    }
+
+                    for (int i = 0; i < _binding.Notes.Count; i++)
+                        EditorGUILayout.HelpBox(_binding.Notes[i], MessageType.None);
+
+                    EditorGUILayout.Space(4);
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        GUILayout.FlexibleSpace();
+                        if (GUILayout.Button(S.Icon("Refresh", " " + NekoLoc.T("bind.rescan")), GUILayout.ExpandWidth(false)))
+                            Rebind();
+                    }
+                }
             }
-
-            GUILayout.Label(NekoLoc.T("bind.source") + ": " + SourceLabel(_binding.VisemeSource), NekoStyles.SlotMeta);
-            GUILayout.Label(NekoLoc.T("bind.mapped", _binding.MappedVisemeCount, NekoVisemes.Count), NekoStyles.SlotMeta);
-            if (_binding.VisemeRenderer != null)
-                GUILayout.Label(NekoLoc.T("bind.mesh") + ": " + _binding.VisemeRenderer.name, NekoStyles.SlotMeta);
-            if (_binding.Jaw != null)
-                GUILayout.Label(NekoLoc.T("bind.jaw") + ": " + _binding.Jaw.name, NekoStyles.SlotMeta);
-            if (_binding.HasSingleShape)
-                GUILayout.Label(NekoLoc.T("bind.single") + ": " + _binding.SingleShapeName, NekoStyles.SlotMeta);
-
-            NekoStyles.Rule(3f);
-
-            for (int v = 0; v < NekoVisemes.Count; v++)
-            {
-                EditorGUILayout.BeginHorizontal();
-                bool mapped = !string.IsNullOrEmpty(_binding.ShapeNames[v]);
-                var chip = new GUIStyle(NekoStyles.Chip);
-                chip.normal.textColor = mapped ? NekoStyles.Good : NekoStyles.Bad;
-                GUILayout.Label(NekoVisemes.Names[v], chip, GUILayout.Width(40f));
-                string shown = mapped ? _binding.ShapeNames[v] : NekoLoc.T("bind.unmapped");
-                GUILayout.Label(shown, NekoStyles.SlotMeta);
-                GUILayout.FlexibleSpace();
-                EditorGUILayout.EndHorizontal();
-            }
-
-            for (int i = 0; i < _binding.Notes.Count; i++)
-                EditorGUILayout.HelpBox(_binding.Notes[i], MessageType.None);
-
-            if (GUILayout.Button(NekoLoc.T("bind.rescan"), EditorStyles.miniButton, GUILayout.Width(120f)))
-                Rebind();
-
-            EditorGUILayout.EndVertical();
+            G.EndCard();
         }
 
         string SourceLabel(NekoBindSource s)
@@ -671,7 +658,75 @@ namespace NekoSune.LipSync.Editor
             }
         }
 
-        // ------------------------------------------------------------------ bake
+        // --- 6. output ----------------------------------------------------------------
+
+        void DrawOutputCard()
+        {
+            G.BeginCard("Folder Icon", NekoLoc.T("card.output"));
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                EditorGUILayout.PrefixLabel(NekoLoc.C("out.folder"));
+                EditorGUILayout.SelectableLabel(_outputFolder, EditorStyles.textField, GUILayout.Height(18f));
+                if (GUILayout.Button("…", EditorStyles.miniButton, GUILayout.Width(26f)))
+                {
+                    string abs = EditorUtility.SaveFolderPanel(NekoLoc.T("out.folder"), "Assets", "");
+                    if (!string.IsNullOrEmpty(abs))
+                    {
+                        string rel = ToAssetPath(abs);
+                        if (rel != null) _outputFolder = rel;
+                        else _error = NekoLoc.T("err.folderOutsideProject");
+                    }
+                }
+            }
+
+            if (_audio != null)
+            {
+                EditorGUILayout.Space(2);
+                EditorGUILayout.LabelField(NekoLoc.T("out.saveAs"), S.PathLabel);
+                G.OutputPath(_outputFolder.TrimEnd('/') + "/" + NekoAnimClipBuilder.Sanitize(_audio.name + "_lipsync") + ".anim");
+            }
+            G.EndCard();
+        }
+
+        // --- 7. bake + result ---------------------------------------------------------
+
+        void DrawBakeArea()
+        {
+            EditorGUILayout.Space(2);
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                GUILayout.Space(8);
+                if (G.BigButton(NekoLoc.T("lipsync.bake"), CanBake())) Bake();
+                GUILayout.Space(8);
+            }
+
+            if (!CanBake() && _avatar != null && _audio != null && _binding != null && !_binding.CanBake)
+            {
+                EditorGUILayout.Space(2);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.Space(8);
+                    EditorGUILayout.HelpBox(NekoLoc.T("bind.noneFound"), MessageType.Warning);
+                    GUILayout.Space(8);
+                }
+            }
+
+            bool hasResult = !string.IsNullOrEmpty(_lastClipPath);
+            if (!hasResult && string.IsNullOrEmpty(_error)) return;
+
+            EditorGUILayout.Space(4);
+            G.BeginCard(null, null);
+            if (!string.IsNullOrEmpty(_error))
+            {
+                G.ErrorRow(_error);
+            }
+            else
+            {
+                var clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(_lastClipPath);
+                G.ResultRow(clip, _statusDetail);
+            }
+            G.EndCard();
+        }
 
         bool CanBake()
         {

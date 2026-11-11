@@ -16,7 +16,16 @@ https://nekosuneprojects.github.io/vcc-packages/index.json
 - Right-click an AudioClip → **NekoSune → Lip Sync from this audio**
 - Right-click an avatar in the Hierarchy → **NekoSune → Lip Sync Studio**
 
-Drop in an avatar and an audio clip, pick a preset and press **Make lip sync**. The clip is saved to `Assets/NekoSune/LipSync` (changeable under *Targets and output*).
+The window works top to bottom, one card per step:
+
+1. **Avatar & audio** – drop in the avatar and the audio clip. Chips show the binding and clip info; the waveform has Play / Stop and shades the parts outside Start / End.
+2. **Preset** – a built-in or saved preset.
+3. **Settings** – grouped into Feel, Timing, Bake and Range.
+4. **Targets** – visemes, jaw bone and/or a single mouth-open shape.
+5. **Avatar binding** – which blendshape each viseme uses (green = mapped, red = missing).
+6. **Output** – folder and the exact file the clip will be saved as (default `Assets/NekoSune/LipSync`).
+
+Then press **Make lip sync**. The result row has **Ping** / **Select** buttons for the new clip.
 
 ## Targets
 
@@ -45,6 +54,22 @@ Every setting has a tooltip. The main ones:
 
 English, Deutsch, Español, Français, Italiano, 日本語, 한국어, Polski, Português (Brasil), Русский, Українська, 简体中文. Pick one from the dropdown in the window; missing translations fall back to English. Languages are JSON files in `Editor/Localization/Languages`, so adding one is adding a file.
 
+## Updates
+
+Like Motion Converter, the tool checks for a newer version: when Unity loads (at most every 6 hours) it downloads `version.json` from the `lipsync` branch and compares it with the installed version. If a newer one is out:
+
+- the version chip in the header turns orange (`v1.1.0 → v1.2.0`),
+- a banner at the top offers **Download update**, **Later** (hide until Unity restarts) and **Skip this version**,
+- one warning is written to the Console.
+
+Click the version chip to check right away. Offline or unreachable: nothing is shown, the tool works as normal.
+
 ## Releasing an update
 
-Bump `version` in `package.json`, add a `CHANGELOG.md` entry and push to the `lipsync` branch. The release workflow builds the VPM ZIP, creates the GitHub release and rebuilds the VCC listing.
+Bump the same version in all three places, add a `CHANGELOG.md` entry and push to the `lipsync` branch:
+
+- `version` in `package.json`
+- `CurrentVersion` in `Editor/Update/UpdateChecker.cs`
+- `version` in `version.json` (optional `url` / `notes`)
+
+The release workflow refuses to publish if the three don't match. It then builds the VPM ZIP, creates the GitHub release and rebuilds the VCC listing.

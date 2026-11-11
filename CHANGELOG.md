@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0
+
+- Redesigned window in the Motion Converter style: header with title, version chip and language picker; bordered cards for Avatar & audio, Preset, Settings, Targets, Avatar binding and Output; big accent "Make lip sync" button and a result row with Ping / Select.
+- In-editor update checker (same as Motion Converter): checks version.json at most every 6 hours, clickable version chip, update banner with Download / Later / Skip this version, one Console notice per new version.
+- Added the NekoSuneVR footer from Motion Converter (badge, tagline and social links).
+- All new text translated into all 12 languages.
+
 ## 1.0.0
 
 - First standalone release as a VCC/VPM package (`com.nekosune.lipsync`). No NekoSune Avatar Hub required.
