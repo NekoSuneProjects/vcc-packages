@@ -1,0 +1,17 @@
+{
+  "name": "com.nekosune.motion-converter",
+  "displayName": "NekoSune Motion Converter",
+  "version": "2.0.0",
+  "unity": "2022.3",
+  "description": "Convert Generic FBX/.anim, Fortnite .ueanim and MMD .vmd motions (plus MMD cameras) into Humanoid animations for VRChat avatars. Open via Tools → Motion Converter.",
+  "author": {
+    "name": "NekoSuneVR",
+    "email": "contact@nekosunevr.co.uk",
+    "url": "https://github.com/NekoSuneVR"
+  },
+  "keywords": ["vrchat", "avatar", "animation", "humanoid", "retarget", "mmd", "vmd", "fortnite", "ueanim", "fbx", "converter"],
+  "legacyFolders": {
+    "Assets\\MotionConverter": "bf273afb40ceb614aac6be67c9173313"
+  },
+  "hideInEditor": false
+}
