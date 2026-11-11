@@ -1,0 +1,11 @@
+[
+  {
+    "id": "avtr_example-0000-0000-0000-000000000001",
+    "name": "Example Rindo",
+    "authorId": "usr_example-0000-0000-0000-000000000001",
+    "authorName": "Example Creator",
+    "description": "Example row matching the VRCX-style adapter.",
+    "thumbnailImageUrl": "https://api.vrchat.cloud/example-thumbnail.png",
+    "releaseStatus": "public"
+  }
+]

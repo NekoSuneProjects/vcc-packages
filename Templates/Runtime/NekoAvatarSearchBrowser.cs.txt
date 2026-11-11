@@ -1,0 +1,324 @@
+using UdonSharp;
+using UnityEngine;
+using UnityEngine.UI;
+using VRC.SDK3.Components;
+using VRC.SDK3.Data;
+using VRC.SDK3.StringLoading;
+using VRC.SDKBase;
+
+[UdonBehaviourSyncMode(BehaviourSyncMode.None)]
+public class NekoAvatarSearchBrowser : UdonSharpBehaviour
+{
+    [Header("Search")]
+    public VRCUrlInputField searchUrlInput;
+    public VRCUrl demoSearchUrl;
+    [Range(8, 256)] public int maxResults = 128;
+
+    [Header("Paging")]
+    [Tooltip("Supported beginner layouts are 5 or 10 results per page.")]
+    public int resultsPerPage = 10;
+
+    [Header("Flexible JSON mapper")]
+    public string rootKey = "";
+    public string idKey = "id";
+    public string nameKey = "name";
+    public string authorKey = "authorName";
+    public string descriptionKey = "description";
+    public string releaseStatusKey = "releaseStatus";
+    public string thumbnailKey = "thumbnailImageUrl";
+
+    [Header("Result UI - assign up to 10 reusable slots")]
+    public GameObject[] resultCards;
+    public Text[] resultNames;
+    public Text[] resultAuthors;
+    public Text[] resultDescriptions;
+    public Text[] resultStatus;
+    public Text resultsPageText;
+    public Text pageSizeText;
+
+    [Header("Selected avatar")]
+    public Text selectedName;
+    public Text selectedAuthor;
+    public Text selectedDescription;
+    public Text selectedId;
+    public Text statusText;
+
+    [Header("Avatar switching")]
+    public VRCAvatarPedestal previewPedestal;
+
+    private string[] _ids;
+    private string[] _names;
+    private string[] _authors;
+    private string[] _descriptions;
+    private string[] _statuses;
+    private string[] _thumbnails;
+    private int _count;
+    private int _selected = -1;
+    private int _page;
+
+    void Start()
+    {
+        int capacity = Mathf.Clamp(maxResults, 10, 256);
+        _ids = new string[capacity];
+        _names = new string[capacity];
+        _authors = new string[capacity];
+        _descriptions = new string[capacity];
+        _statuses = new string[capacity];
+        _thumbnails = new string[capacity];
+        resultsPerPage = NormalizePageSize(resultsPerPage);
+        ClearResults();
+        SetStatus("Edit the search term in the URL field, or press DEMO RINDO.");
+    }
+
+    int NormalizePageSize(int value) { return value <= 5 ? 5 : 10; }
+
+    public void SetPageSize5()
+    {
+        SetPageSize(5);
+    }
+
+    public void SetPageSize10()
+    {
+        SetPageSize(10);
+    }
+
+    void SetPageSize(int size)
+    {
+        resultsPerPage = NormalizePageSize(size);
+        _page = 0;
+        RenderPage();
+        SelectFirstOnPage();
+        SetStatus("Showing " + resultsPerPage + " avatars per page.");
+    }
+
+    public void SearchDemo()
+    {
+        if (VRCUrl.IsNullOrEmpty(demoSearchUrl)) { SetStatus("Demo URL is not configured."); return; }
+        BeginSearch(demoSearchUrl);
+    }
+
+    public void SearchFromUrlField()
+    {
+        if (searchUrlInput == null) { SetStatus("Search URL field is not assigned."); return; }
+        VRCUrl url = searchUrlInput.GetUrl();
+        if (VRCUrl.IsNullOrEmpty(url)) { SetStatus("Enter the complete API search URL first."); return; }
+        BeginSearch(url);
+    }
+
+    void BeginSearch(VRCUrl url)
+    {
+        SetStatus("Searching...");
+        VRCStringDownloader.LoadUrl(url, this);
+    }
+
+    public override void OnStringLoadSuccess(IVRCStringDownload result)
+    {
+        DataToken root;
+        if (!VRCJson.TryDeserializeFromJson(result.Result, out root)) { SetStatus("JSON parse failed: " + root.ToString()); return; }
+        DataList list = ResolveList(root);
+        if (list == null) { SetStatus("No avatar array found. Set Root Key if this API wraps results differently."); return; }
+
+        ClearResults();
+        int limit = Mathf.Min(list.Count, _ids.Length);
+        for (int i = 0; i < limit; i++)
+        {
+            DataToken rowToken;
+            if (!list.TryGetValue(i, TokenType.DataDictionary, out rowToken)) continue;
+            DataDictionary row = rowToken.DataDictionary;
+            string id = GetString(row, idKey, "id", "avatarId", "avatar_id");
+            if (string.IsNullOrEmpty(id)) continue;
+
+            _ids[_count] = id;
+            _names[_count] = GetString(row, nameKey, "name", "avatarName", "title");
+            _authors[_count] = GetString(row, authorKey, "authorName", "author", "creatorName");
+            _descriptions[_count] = GetString(row, descriptionKey, "description", "desc", "summary");
+            _statuses[_count] = GetString(row, releaseStatusKey, "releaseStatus", "status", "visibility");
+            _thumbnails[_count] = GetString(row, thumbnailKey, "thumbnailImageUrl", "thumbnailUrl", "imageUrl");
+            _count++;
+        }
+
+        _page = 0;
+        RenderPage();
+        if (_count == 0) { SetStatus("Search returned no usable avatar IDs."); return; }
+        SelectFirstOnPage();
+        SetStatus("Loaded " + _count + " avatars. Select one, then PREVIEW or USE AVATAR.");
+    }
+
+    public override void OnStringLoadError(IVRCStringDownload result)
+    {
+        SetStatus("Search failed: " + result.ErrorCode + " - " + result.Error + ". This host may require Allow Untrusted URLs.");
+    }
+
+    DataList ResolveList(DataToken root)
+    {
+        if (root.TokenType == TokenType.DataList) return root.DataList;
+        if (root.TokenType != TokenType.DataDictionary) return null;
+
+        DataDictionary d = root.DataDictionary;
+        DataToken token;
+        if (!string.IsNullOrEmpty(rootKey) && d.TryGetValue(rootKey, TokenType.DataList, out token)) return token.DataList;
+        if (d.TryGetValue("avatars", TokenType.DataList, out token)) return token.DataList;
+        if (d.TryGetValue("results", TokenType.DataList, out token)) return token.DataList;
+        if (d.TryGetValue("items", TokenType.DataList, out token)) return token.DataList;
+        if (d.TryGetValue("data", TokenType.DataList, out token)) return token.DataList;
+        return null;
+    }
+
+    string GetString(DataDictionary d, string preferred, string a, string b, string c)
+    {
+        DataToken token;
+        if (!string.IsNullOrEmpty(preferred) && d.TryGetValue(preferred, out token) && token.TokenType == TokenType.String) return token.String;
+        if (d.TryGetValue(a, out token) && token.TokenType == TokenType.String) return token.String;
+        if (d.TryGetValue(b, out token) && token.TokenType == TokenType.String) return token.String;
+        if (d.TryGetValue(c, out token) && token.TokenType == TokenType.String) return token.String;
+        return "";
+    }
+
+    void ClearResults()
+    {
+        _count = 0;
+        _selected = -1;
+        _page = 0;
+        if (resultCards != null)
+            for (int i = 0; i < resultCards.Length; i++)
+                if (resultCards[i] != null) resultCards[i].SetActive(false);
+        UpdatePageText();
+        if (selectedName != null) selectedName.text = "NO AVATAR SELECTED";
+        if (selectedAuthor != null) selectedAuthor.text = "";
+        if (selectedDescription != null) selectedDescription.text = "Search for an avatar to begin.";
+        if (selectedId != null) selectedId.text = "";
+    }
+
+    int PageSize()
+    {
+        int wanted = NormalizePageSize(resultsPerPage);
+        int slots = resultCards == null ? 0 : resultCards.Length;
+        return Mathf.Min(wanted, slots);
+    }
+
+    int PageCount()
+    {
+        int size = PageSize();
+        if (size <= 0 || _count <= 0) return 0;
+        return (_count + size - 1) / size;
+    }
+
+    void RenderPage()
+    {
+        int size = PageSize();
+        int pages = PageCount();
+
+        if (resultCards != null)
+        {
+            for (int i = 0; i < resultCards.Length; i++)
+            {
+                if (resultCards[i] != null) resultCards[i].SetActive(false);
+            }
+        }
+
+        if (pages <= 0) { UpdatePageText(); return; }
+
+        _page = Mathf.Clamp(_page, 0, pages - 1);
+        int start = _page * size;
+        for (int slot = 0; slot < size; slot++)
+        {
+            int dataIndex = start + slot;
+            bool valid = dataIndex < _count;
+            if (resultCards[slot] != null) resultCards[slot].SetActive(valid);
+            if (valid) RenderCard(slot, dataIndex);
+        }
+        UpdatePageText();
+    }
+
+    void UpdatePageText()
+    {
+        int pages = PageCount();
+        if (resultsPageText != null)
+            resultsPageText.text = pages <= 0 ? "Page 0 / 0" : "Page " + (_page + 1) + " / " + pages + "  •  " + _count + " results";
+        if (pageSizeText != null)
+            pageSizeText.text = NormalizePageSize(resultsPerPage) + " / PAGE";
+    }
+
+    void RenderCard(int slot, int dataIndex)
+    {
+        if (resultNames != null && slot < resultNames.Length && resultNames[slot] != null)
+            resultNames[slot].text = string.IsNullOrEmpty(_names[dataIndex]) ? "Unnamed Avatar" : _names[dataIndex];
+        if (resultAuthors != null && slot < resultAuthors.Length && resultAuthors[slot] != null)
+            resultAuthors[slot].text = string.IsNullOrEmpty(_authors[dataIndex]) ? "Unknown creator" : "by " + _authors[dataIndex];
+        if (resultDescriptions != null && slot < resultDescriptions.Length && resultDescriptions[slot] != null)
+            resultDescriptions[slot].text = _descriptions[dataIndex];
+        if (resultStatus != null && slot < resultStatus.Length && resultStatus[slot] != null)
+            resultStatus[slot].text = string.IsNullOrEmpty(_statuses[dataIndex]) ? "" : _statuses[dataIndex].ToUpper();
+    }
+
+    public void NextPage()
+    {
+        int pages = PageCount();
+        if (pages <= 1) return;
+        _page = (_page + 1) % pages;
+        RenderPage();
+        SelectFirstOnPage();
+    }
+
+    public void PreviousPage()
+    {
+        int pages = PageCount();
+        if (pages <= 1) return;
+        _page--;
+        if (_page < 0) _page = pages - 1;
+        RenderPage();
+        SelectFirstOnPage();
+    }
+
+    void SelectFirstOnPage()
+    {
+        int size = PageSize();
+        int index = _page * size;
+        if (index >= 0 && index < _count) SelectResult(index);
+    }
+
+    void SelectSlot(int slot)
+    {
+        int size = PageSize();
+        if (slot < 0 || slot >= size) return;
+        int dataIndex = _page * size + slot;
+        if (dataIndex >= 0 && dataIndex < _count) SelectResult(dataIndex);
+    }
+
+    void SelectResult(int i)
+    {
+        if (i < 0 || i >= _count || string.IsNullOrEmpty(_ids[i])) return;
+        _selected = i;
+        if (selectedName != null) selectedName.text = string.IsNullOrEmpty(_names[i]) ? "Unnamed Avatar" : _names[i];
+        if (selectedAuthor != null) selectedAuthor.text = string.IsNullOrEmpty(_authors[i]) ? "Unknown creator" : "Created by " + _authors[i];
+        if (selectedDescription != null) selectedDescription.text = _descriptions[i];
+        if (selectedId != null) selectedId.text = _ids[i];
+    }
+
+    public void PreviewSelected()
+    {
+        if (_selected < 0 || previewPedestal == null) { SetStatus("Select an avatar and assign the preview pedestal."); return; }
+        previewPedestal.SwitchAvatar(_ids[_selected]);
+        SetStatus("Preview pedestal switched to " + _names[_selected] + ".");
+    }
+
+    public void UseSelectedAvatar()
+    {
+        if (_selected < 0 || previewPedestal == null || Networking.LocalPlayer == null) { SetStatus("Select an avatar first."); return; }
+        previewPedestal.SwitchAvatar(_ids[_selected]);
+        previewPedestal.SetAvatarUse(Networking.LocalPlayer);
+    }
+
+    public void Select0() { SelectSlot(0); }
+    public void Select1() { SelectSlot(1); }
+    public void Select2() { SelectSlot(2); }
+    public void Select3() { SelectSlot(3); }
+    public void Select4() { SelectSlot(4); }
+    public void Select5() { SelectSlot(5); }
+    public void Select6() { SelectSlot(6); }
+    public void Select7() { SelectSlot(7); }
+    public void Select8() { SelectSlot(8); }
+    public void Select9() { SelectSlot(9); }
+
+    void SetStatus(string value) { if (statusText != null) statusText.text = value; }
+}
