@@ -40,7 +40,37 @@ jobs:
         with:
           ref: main
 
+      # package-list-action crashes (ArgumentNullException in BuildRepoListing) when a repo
+      # in source.json has no releases yet, because it returns null instead of an empty list.
+      # Check first and skip cleanly until at least one package release ZIP exists.
+      - name: Check for package release ZIPs
+        id: releases
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          missing=0
+          total=0
+          for repo in $(jq -r '.githubRepos[]' source.json); do
+            count=$(gh api --paginate "repos/$repo/releases" --jq '.[].assets[].name' | grep -c '\.zip$' || true)
+            echo "$repo: $count release ZIP(s)"
+            total=$((total + count))
+            if [ "$count" -eq 0 ]; then missing=1; fi
+          done
+          if [ "$missing" -eq 1 ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Empty listing published::A repository in source.json has no release ZIPs yet, so an empty index.json is published. Push a package branch to create its first release; the full listing builds automatically afterwards."
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build empty listing (no releases yet)
+        if: steps.releases.outputs.ready != 'true'
+        run: node .github/scripts/build-empty-listing.mjs source.json ${{ env.listPublishDirectory }}
+
       - name: Checkout VRChat package-list builder
+        if: steps.releases.outputs.ready == 'true'
         uses: actions/checkout@v6
         with:
           repository: vrchat-community/package-list-action
@@ -51,11 +81,13 @@ jobs:
       # hosted runners that can race while generating PackageBuilder.deps.json.
       # Pin the helper to one supported framework for deterministic listing builds.
       - name: Setup .NET 8
+        if: steps.releases.outputs.ready == 'true'
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '8.0.x'
 
       - name: Force package-list builder to net8 only
+        if: steps.releases.outputs.ready == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -65,6 +97,7 @@ jobs:
           rm -rf "${{ env.pathToCi }}/PackageBuilder/bin" "${{ env.pathToCi }}/PackageBuilder/obj"
 
       - name: Restore builder cache
+        if: steps.releases.outputs.ready == 'true'
         uses: actions/cache@v5
         with:
           path: |
@@ -73,6 +106,7 @@ jobs:
           key: ${{ runner.os }}-net8-${{ hashFiles('**/global.json', '**/*.csproj') }}
 
       - name: Build package version listing
+        if: steps.releases.outputs.ready == 'true'
         run: ${{ env.pathToCi }}/build.cmd BuildMultiPackageListing --root ${{ env.pathToCi }} --list-publish-directory $GITHUB_WORKSPACE/${{ env.listPublishDirectory }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
