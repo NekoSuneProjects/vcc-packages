@@ -74,6 +74,42 @@ Avoid:
 - [ ] JSON blueprint export/import and share.
 - [ ] Undo coverage for every action; no lost work on script reload.
 
+## Phase 4b – Ready-made UI systems
+
+Each one is a template the user drops in and customises with the same editor, and each has its own lesson.
+
+### Video player UI
+- [ ] Control panel for a video player: Play/Pause, Stop, seek bar, time, volume, URL field, Sync button, Loop toggle.
+- [ ] Works with the stock VRChat players (AVPro / Unity Video) through the generated helper.
+- [ ] Detects popular community players (ProTV, USharpVideo, VideoTXL, YamaPlayer, VizVid…) by reflection and links to their existing controls instead of replacing their sync logic (reuse the detection from World YouTube Proxy).
+- [ ] Playlist page (predeclared `VRCUrl[]`) with titles and thumbnails.
+- [ ] Owner/master-only lock option, explained in plain English.
+- [ ] Lesson: how VRChat video players sync, and why URLs must be `VRCUrl`.
+
+### Portable UI (follows the player)
+- [ ] Menu that opens near the player instead of being fixed in the world: in front of the face, on the wrist, or from the hand.
+- [ ] Open/close by button, gesture (VR) or hotkey (desktop); remembers the last page.
+- [ ] Follow modes: stays where opened, smoothly follows the head, or attaches to a hand.
+- [ ] Distance, scale and auto-hide timer settings; local-only by default (each player sees only their own).
+- [ ] VR and desktop tested separately (laser reach, readable size, doesn't block the view).
+- [ ] Lesson: tracking data (`GetTrackingData`) and why portable UI is local-only.
+
+### Hotkey toggles
+- [ ] Bind desktop keys (e.g. `M` mirror, `P` portable menu, `F1` help) to any UI action.
+- [ ] VR equivalents via VRChat input events (`InputUse`, `InputJump`, `InputLookVertical`…), with a note on what VRChat doesn't allow.
+- [ ] On-screen hint list of the world's hotkeys, toggleable by the player.
+- [ ] Conflict check against VRChat's own desktop keys.
+- [ ] Lesson: Udon input events vs `Input.GetKeyDown`.
+
+### More ready-made pieces
+- [ ] Settings menu: mirror quality (HQ/LQ/off), music volume, post-processing, pens, chairs, colliders.
+- [ ] Music player with playlist and shuffle.
+- [ ] Player list with join time, and a world/instance info card.
+- [ ] Clock / event countdown.
+- [ ] Notifications/toasts ("Mirror on", "Welcome!").
+- [ ] Rules/welcome board with a "don't show again" option (persistence).
+- [ ] Teleport menu (reuse the World Player Tools consent model).
+
 ## Phase 5 – Later
 
 - [ ] Localization: language picker and all 12 languages (same system as Lip Sync).
