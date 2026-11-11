@@ -1,0 +1,18 @@
+{
+  "name": "com.nekosune.eye-installer",
+  "displayName": "NekoSune Eye Installer",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "Replace an avatar's eyes with clean sphere or flat eye meshes, built in Blender from the avatar's own rig. Auto-detects the face mesh and eye bones; the source FBX is never modified. Open via Tools → NekoSuneVR → Eye Installer.",
+  "author": {
+    "name": "NekoSuneVR",
+    "email": "contact@nekosunevr.co.uk",
+    "url": "https://github.com/NekoSuneVR"
+  },
+  "keywords": ["vrchat", "avatar", "eyes", "eye", "blender", "mesh", "shader", "installer"],
+  "legacyFolders": {
+    "Assets\\NekoSuneVR\\NekoEyeInstaller\\Editor": "",
+    "Assets\\NekoSuneVR\\NekoEyeInstaller\\Shaders": ""
+  },
+  "hideInEditor": false
+}
