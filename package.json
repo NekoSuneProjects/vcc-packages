@@ -1,0 +1,14 @@
+{
+  "name": "com.nekosune.lipsync",
+  "displayName": "NekoSune Lip Sync Studio",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "Bake a VRChat viseme, jaw-bone or mouth-open lip sync .anim from any AudioClip. Auto-detects the avatar's visemes. Open via NekoSune → Avatar → Lip Sync Studio.",
+  "author": {
+    "name": "NekoSuneVR",
+    "email": "contact@nekosunevr.co.uk",
+    "url": "https://github.com/NekoSuneVR"
+  },
+  "keywords": ["vrchat", "avatar", "lipsync", "lip sync", "visemes", "audio", "animation", "jaw", "blendshape"],
+  "hideInEditor": false
+}
