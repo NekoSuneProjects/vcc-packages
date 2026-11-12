@@ -168,6 +168,7 @@ namespace NekoSune.WorldUiAssistant
                         DrawPalette();
                         DrawOutline();
                         DrawItemCard();
+                        DrawSystemCard();
                         DrawMadeCard();
                     }
                     break;

@@ -300,6 +300,7 @@ namespace NekoSune.WorldUiAssistant
                 case WidgetKind.ScrollList:
                     t = UiFactory.Create(kind, b.parent, -1, theme).transform;
                     t.name = item.name;
+                    if (kind == WidgetKind.Column && !t.GetComponent<LayoutElement>()) t.gameObject.AddComponent<LayoutElement>();
                     break;
                 default:
                     return null;

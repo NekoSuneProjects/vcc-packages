@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0 – ready-made systems (Phase 4b of TODO.md)
+
+21 new templates, each built from normal UI plus one small, commented UdonSharp script, each with a lesson that ends in a hand-built version:
+
+- **Media:** Video player controls (stock AVPro/Unity players, synced with server time, URL field, playlist, loop, resync, volume; adds the SDK player if your scene has none; detects ProTV, USharpVideo, VideoTXL, YamaPlayer and VizVid and leaves their sync alone), Music player (playlist, shuffle, volume, local or synced), Gallery/slideshow.
+- **Menus:** Tabbed menu, Portable menu (in front of you, follows your head or sits on a hand; desktop key or VR double-tap; auto-hide), Hotkeys (desktop keys for any action, on-screen list on F1, VR double-jump, VRChat key-conflict warnings), Admin panel (instance master / owner / name list).
+- **Shop:** Store/market – product cards, search, categories, sort by price/new/name, detail page with picture and video preview, VRChat Creator Economy listings (Store.OpenListing, Owned badges, unlocks for buyers via OnPurchasesLoaded/OnPurchaseConfirmed), external shops with QR codes and copyable links, optional remote JSON data, supporter wall.
+- **Games & social:** Keypad/code door, Scoreboard (synced, plus personal best saved with PlayerData), Game HUD (score, lives, timer, game over), Achievements/progress (PlayerData), Poll (one vote per player), Dialogue box, Player list & instance info, Avatar board (hidden pedestals + search).
+- **Pieces:** Map "you are here", Photo spot helper (3-2-1 + ring light), Clock & event countdown (UTC), Message popup, Welcome with "Don't show again" (PlayerData).
+- **System settings** card in the Build tab for the scripts behind a template.
+- Tested in Play mode with ClientSim: keypad + door, poll, scoreboard, store search/detail/sort, tabs, admin gate, HUD, dialogue, popup.
+- Fixed: plain columns directly under a panel were treated as pages; templates sized texts without a Layout Element.
+
 ## 0.3.0 – teaching mode, Doctor and templates (Phases 3 and 4 of TODO.md)
 
 - **Tabs:** Build, Learn, Doctor, Templates and Glossary.

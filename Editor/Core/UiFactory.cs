@@ -155,8 +155,8 @@ namespace NekoSune.WorldUiAssistant
             var others = Resources.FindObjectsOfTypeAll<Canvas>()
                 .Where(c => c && c.transform != rt && !EditorUtility.IsPersistent(c) && c.gameObject.scene.IsValid() && c.isRootCanvas && c.renderMode == RenderMode.WorldSpace)
                 .Select(c => WorldBounds((RectTransform)c.transform)).ToList();
-            float step = rt.sizeDelta.x * rt.localScale.x + 0.3f;
-            for (int i = 0; i < 30 && others.Any(o => o.Intersects(WorldBounds(rt))); i++)
+            float step = Mathf.Max(rt.sizeDelta.x * rt.localScale.x, 0.5f) + 0.3f;
+            for (int i = 0; i < 200 && others.Any(o => o.Intersects(WorldBounds(rt))); i++)
                 rt.position += rt.right * step;
         }
 

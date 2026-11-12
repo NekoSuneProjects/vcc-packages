@@ -24,7 +24,7 @@ namespace NekoSune.WorldUiAssistant
             if (t.GetComponent<ScrollRect>()) return WidgetKind.ScrollList;
             if (t.GetComponent<GridLayoutGroup>()) return WidgetKind.Grid;
             if (t.GetComponent<HorizontalLayoutGroup>()) return WidgetKind.Row;
-            if (t.GetComponent<VerticalLayoutGroup>()) return IsPanelRoot(t.parent) ? WidgetKind.Page : WidgetKind.Column;
+            if (t.GetComponent<VerticalLayoutGroup>()) return IsPanelRoot(t.parent) && !t.GetComponent<LayoutElement>() ? WidgetKind.Page : WidgetKind.Column;
             if (t.GetComponent<TMP_Text>() || t.GetComponent<Text>()) return WidgetKind.Text;
             var image = t.GetComponent<Image>();
             var le = t.GetComponent<LayoutElement>();
@@ -109,7 +109,7 @@ namespace NekoSune.WorldUiAssistant
             switch (kind)
             {
                 case WidgetKind.Panel: return "A Canvas set to World Space (it exists in the 3D world), a GraphicRaycaster so the laser can click it, VRChat's VRCUiShape, a background Image and a VerticalLayoutGroup that stacks everything top to bottom.";
-                case WidgetKind.Page: return "A VerticalLayoutGroup directly under the panel. Only one page is active (GameObject.SetActive) at a time; inactive objects take no space, so the panel shows just that page. \"Open a page\" buttons switch them.";
+                case WidgetKind.Page: return "A VerticalLayoutGroup directly under the panel (without a Layout Element – that would make it a plain column). Only one page is active (GameObject.SetActive) at a time; inactive objects take no space, so the panel shows just that page. \"Open a page\" buttons switch them.";
                 case WidgetKind.Text: return "A TextMeshPro - Text (UI) component. Its height comes from the text, because the layout group asks it for its preferred size.";
                 case WidgetKind.Button: return "An Image (the button background) plus a Button component that changes colour when pointed at, and a TextMeshPro child for the label. An action adds a NekoUiAction Udon script; the Button's On Click () calls UdonBehaviour.SendCustomEvent(\"Run\") on it, because VRChat UI can only call Udon through SendCustomEvent.";
                 case WidgetKind.Toggle: return "A Toggle component. Its Graphic (the check) is shown when it is on; the Box is its Target Graphic that reacts to the pointer.";

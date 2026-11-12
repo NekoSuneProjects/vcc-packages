@@ -1,9 +1,9 @@
 {
   "name": "com.nekosune.world-ui-assistant",
   "displayName": "NekoSune World UI Assistant",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "unity": "2022.3",
-  "description": "Build VRChat world UI without knowing Unity UI – and learn how it works. Panels, themes, pages and no-code actions (local or synced) through small readable UdonSharp scripts; lessons with progress and badges, explain mode, glossary; a UI Doctor with one-click fixes; templates (welcome, rules, settings, teleport, credits, schedule, links with QR codes) and JSON blueprints. Open via NekoSune → World → UI Assistant.",
+  "description": "Build VRChat world UI without knowing Unity UI – and learn how it works. Panels, pages and no-code actions; lessons, explain mode and glossary; UI Doctor; 28 templates incl. video player controls, portable menu, hotkeys, store/market with Creator Economy and QR links, keypad, scoreboard, poll, dialogue, map, achievements, avatar board, music player, player list, clock, popups; JSON blueprints. Open via NekoSune → World → UI Assistant.",
   "author": {
     "name": "NekoSuneVR",
     "email": "contact@nekosunevr.co.uk",
@@ -27,7 +27,13 @@
     "lessons",
     "templates",
     "doctor",
-    "qr"
+    "qr",
+    "video",
+    "store",
+    "economy",
+    "persistence",
+    "scoreboard",
+    "poll"
   ],
   "dependencies": {
     "com.unity.ugui": "1.0.0",

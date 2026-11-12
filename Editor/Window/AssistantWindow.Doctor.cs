@@ -99,6 +99,8 @@ namespace NekoSune.WorldUiAssistant
             templateCategory = categories[cat];
             G.EndCard();
 
+            if (templateCategory == "Media") DrawCommunityPlayers();
+
             foreach (var t in TemplateLibrary.All.Where(x => x.category == templateCategory))
             {
                 G.BeginCard(t.icon, t.title);

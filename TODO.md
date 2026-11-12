@@ -4,7 +4,7 @@ A from-scratch Unity editor tool that helps beginners **build** VRChat world UI 
 
 Package: `com.nekosune.world-ui-assistant` · Branch: `world-ui-assistant` · Menu: `NekoSune → World → UI Assistant`
 
-Status: **Phases 1–4 done – 0.3.0 preview.** Phase 4b (ready-made systems) is next.
+Status: **Phases 1–4b done – 0.4.0 preview.** Phase 5 is next.
 
 ---
 
@@ -91,66 +91,66 @@ Avoid:
 Each one is a template the user drops in and customises with the same editor, and each has its own lesson.
 
 ### Video player UI
-- [ ] Control panel for a video player: Play/Pause, Stop, seek bar, time, volume, URL field, Sync button, Loop toggle.
-- [ ] Works with the stock VRChat players (AVPro / Unity Video) through the generated helper.
-- [ ] Detects popular community players (ProTV, USharpVideo, VideoTXL, YamaPlayer, VizVid…) by reflection and links to their existing controls instead of replacing their sync logic (reuse the detection from World YouTube Proxy).
-- [ ] Playlist page (predeclared `VRCUrl[]`) with titles and thumbnails.
-- [ ] Owner/master-only lock option, explained in plain English.
-- [ ] Lesson: how VRChat video players sync, and why URLs must be `VRCUrl`.
+- [x] Control panel for a video player: Play/Pause, Stop, seek bar, time, volume, URL field, Sync button, Loop toggle.
+- [x] Works with the stock VRChat players (AVPro / Unity Video) through the generated helper.
+- [x] Detects popular community players (ProTV, USharpVideo, VideoTXL, YamaPlayer, VizVid…) by type name and points to their existing controls instead of replacing their sync logic.
+- [x] Playlist (predeclared `VRCUrl[]`) with titles and Next/Previous. (Thumbnails: not yet – use the Gallery template next to it.)
+- [x] Owner/master-only lock option, explained in plain English.
+- [x] Lesson: how VRChat video players sync, and why URLs must be `VRCUrl`.
 
 ### Portable UI (follows the player)
-- [ ] Menu that opens near the player instead of being fixed in the world: in front of the face, on the wrist, or from the hand.
-- [ ] Open/close by button, gesture (VR) or hotkey (desktop); remembers the last page.
-- [ ] Follow modes: stays where opened, smoothly follows the head, or attaches to a hand.
-- [ ] Distance, scale and auto-hide timer settings; local-only by default (each player sees only their own).
-- [ ] VR and desktop tested separately (laser reach, readable size, doesn't block the view).
-- [ ] Lesson: tracking data (`GetTrackingData`) and why portable UI is local-only.
+- [x] Menu that opens near the player instead of being fixed in the world: in front of the face, on the wrist, or from the hand.
+- [x] Open/close by button, gesture (VR) or hotkey (desktop); remembers the last page.
+- [x] Follow modes: stays where opened, smoothly follows the head, or attaches to a hand.
+- [x] Distance, scale and auto-hide timer settings; local-only by default (each player sees only their own).
+- [ ] VR and desktop tested separately in the VRChat client (laser reach, readable size, doesn't block the view) – needs a real Build & Test.
+- [x] Lesson: tracking data (`GetTrackingData`) and why portable UI is local-only.
 
 ### Hotkey toggles
-- [ ] Bind desktop keys (e.g. `M` mirror, `P` portable menu, `F1` help) to any UI action.
-- [ ] VR equivalents via VRChat input events (`InputUse`, `InputJump`, `InputLookVertical`…), with a note on what VRChat doesn't allow.
-- [ ] On-screen hint list of the world's hotkeys, toggleable by the player.
-- [ ] Conflict check against VRChat's own desktop keys.
-- [ ] Lesson: Udon input events vs `Input.GetKeyDown`.
+- [x] Bind desktop keys (e.g. `M` mirror, `P` portable menu, `F1` help) to any UI action.
+- [x] VR equivalents via VRChat input events (`InputUse`, `InputJump`, `InputLookVertical`…), with a note on what VRChat doesn't allow.
+- [x] On-screen hint list of the world's hotkeys, toggleable by the player.
+- [x] Conflict check against VRChat's own desktop keys.
+- [x] Lesson: Udon input events vs `Input.GetKeyDown`.
 
 ### Store / market UI
-- [ ] Catalog builder: grid or list of product cards (image, name, price/tier, short description, badge such as "New"/"Owned").
-- [ ] Product detail page: large image gallery, **video preview** (reuses the video player UI), long description, buy/info button.
-- [ ] **Links attached to products.** Be honest about VRChat limits and pick the right option for each link:
-  - [ ] VRChat Creator Economy items: open the real store with `Store.OpenListing` / `Store.OpenWorldStorePage`, unlock content with `UdonProduct` ownership (reuse the World Economy lifecycle notes: wait for `OnPurchasesLoaded`, etc.).
-  - [ ] External shops (Booth, Gumroad, Jinxxy, Patreon…): Udon can't open a browser, so show the URL as text plus a generated **QR code** texture, and a copy-able text field.
-- [ ] Categories, filters and search (text field), sort by price/new.
-- [ ] Data from a JSON file or remote JSON feed (reuse World Data / Gallery mapping), so the creator updates the shop without re-uploading the world. Images from predeclared `VRCUrl`s.
-- [ ] "Owned" state and unlocking world content for buyers (Creator Economy only).
-- [ ] Supporter / thank-you wall linked to the store.
-- [ ] Lessons: how VRChat purchases work, why external links need QR codes, and keeping a shop updatable with remote data.
+- [x] Catalog builder: grid or list of product cards (image, name, price/tier, short description, badge such as "New"/"Owned").
+- [x] Product detail page: large image gallery, **video preview** (reuses the video player UI), long description, buy/info button.
+- [x] **Links attached to products.** Be honest about VRChat limits and pick the right option for each link:
+  - [x] VRChat Creator Economy items: open the real store with `Store.OpenListing` / `Store.OpenWorldStorePage`, unlock content with `UdonProduct` ownership (reuse the World Economy lifecycle notes: wait for `OnPurchasesLoaded`, etc.).
+  - [x] External shops (Booth, Gumroad, Jinxxy, Patreon…): Udon can't open a browser, so show the URL as text plus a generated **QR code** texture, and a copy-able text field.
+- [x] Categories, filters and search (text field), sort by price/new.
+- [x] Data from a remote JSON feed (VRCStringDownloader + VRCJson) updates names, prices, descriptions and categories without re-uploading. Images from predeclared `VRCUrl`s: not yet (cards use Sprites).
+- [x] "Owned" state and unlocking world content for buyers (Creator Economy only).
+- [x] Supporter / thank-you wall linked to the store.
+- [x] Lessons: how VRChat purchases work, why external links need QR codes, and keeping a shop updatable with remote data.
 
 ### Everything else VRChat UI can do (coverage list)
 Each gets a template **and** a lesson, so the Assistant covers the whole range of VRChat world UI.
 
-- [ ] Menus, tabs and sub-pages (core).
-- [ ] Forms and input: text fields, keypads, password/code doors.
-- [ ] Scoreboards and leaderboards (synced and persistent).
-- [ ] Polls and voting (synced, one vote per player).
-- [ ] Dialogue / NPC conversation boxes.
-- [ ] Maps and "you are here" boards with teleport points.
-- [ ] Inventory, achievements and progress screens (persistence).
-- [ ] Image galleries and slideshows (reuse World Gallery).
-- [ ] Avatar pedestals and avatar search boards (reuse World Avatar Search).
-- [ ] Photo-spot / camera helper panels.
-- [ ] Game HUDs (score, timer, lives) for mini-games.
-- [ ] Admin / moderator panels (owner-only controls, instance-master checks).
+- [x] Menus, tabs and sub-pages (core).
+- [x] Forms and input: text fields, keypads, password/code doors.
+- [x] Scoreboards and leaderboards (synced and persistent).
+- [x] Polls and voting (synced, one vote per player).
+- [x] Dialogue / NPC conversation boxes.
+- [x] Maps and "you are here" boards with teleport points.
+- [x] Inventory, achievements and progress screens (persistence).
+- [x] Image galleries and slideshows (local Sprites; remote images → NekoSune World Gallery package).
+- [x] Avatar pedestals and avatar search boards (hidden SDK pedestals + search; big catalogues → NekoSune World Avatar Search).
+- [x] Photo-spot / camera helper panels.
+- [x] Game HUDs (score, timer, lives) for mini-games.
+- [x] Admin / moderator panels (owner-only controls, instance-master checks).
 
 Each lesson ends with the user rebuilding a simpler version by hand, so they learn the skill, not just the tool.
 
 ### More ready-made pieces
-- [ ] Settings menu: mirror quality (HQ/LQ/off), music volume, post-processing, pens, chairs, colliders.
-- [ ] Music player with playlist and shuffle.
-- [ ] Player list with join time, and a world/instance info card.
-- [ ] Clock / event countdown.
-- [ ] Notifications/toasts ("Mirror on", "Welcome!").
-- [ ] Rules/welcome board with a "don't show again" option (persistence).
-- [ ] Teleport menu (reuse the World Player Tools consent model).
+- [x] Settings menu: mirror quality (HQ/LQ/off), music volume, post-processing, pens, chairs, colliders.
+- [x] Music player with playlist and shuffle.
+- [x] Player list with join time, and a world/instance info card.
+- [x] Clock / event countdown.
+- [x] Notifications/toasts ("Mirror on", "Welcome!").
+- [x] Rules/welcome board with a "don't show again" option (persistence).
+- [x] Teleport menu (teleports only move yourself, so no consent step is needed).
 
 ## Phase 5 – Later
 

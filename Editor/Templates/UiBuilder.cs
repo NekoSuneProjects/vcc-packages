@@ -167,6 +167,8 @@ namespace NekoSune.WorldUiAssistant
         public Transform Column(Action inside, string name = "Column", Color? background = null, float padding = 0f)
         {
             var go = new GameObject(name, typeof(RectTransform));
+            // A LayoutElement marks it as a plain column, so directly under a panel it isn't taken for a page.
+            go.AddComponent<LayoutElement>();
             var v = go.AddComponent<VerticalLayoutGroup>();
             v.spacing = theme.spacing * 0.5f;
             int p = Mathf.RoundToInt(padding);

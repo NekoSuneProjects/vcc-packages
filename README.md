@@ -2,7 +2,7 @@
 
 Build VRChat world UI without knowing Unity UI, and learn how it works while you do. Everything the Assistant makes is ordinary Unity UI you can open and edit by hand.
 
-> **Preview (0.3.0).** Phases 1–4 of [TODO.md](TODO.md): panels, actions, pages, lessons, the UI Doctor and templates. Ready-made systems (video player, portable menu, store…) come next.
+> **Preview (0.4.0).** Phases 1–4b of [TODO.md](TODO.md): panels, actions, pages, lessons, the UI Doctor, templates and 21 ready-made systems.
 
 ## Install
 
@@ -28,6 +28,20 @@ Open **NekoSune → World → UI Assistant**.
 
 Before you upload, the panel card checks that every action has what it needs and is connected.
 
+### Templates
+
+| Category | Templates |
+|---|---|
+| Boards | Welcome board, Rules, Credits, Event schedule, Links / QR |
+| Menus | Settings menu, Teleport menu, Tabbed menu, Portable menu, Hotkeys, Admin panel |
+| Media | Video player controls, Music player, Gallery / slideshow |
+| Shop | Store / market (Creator Economy + external shops with QR codes) |
+| Games | Keypad / code door, Scoreboard, Game HUD, Achievements |
+| Social | Poll, Dialogue box, Player list & instance info, Avatar board |
+| Pieces | Map – you are here, Photo spot, Clock & countdown, Message popup, Welcome with "Don't show again" |
+
+Each system is normal UI plus one short UdonSharp script in `Runtime/`. Its settings appear in the **System settings** card of the Build tab, and each has a lesson.
+
 ### How actions work
 
 Each button or toggle with an action gets the `NekoUiAction` UdonSharp script (`Runtime/NekoUiAction.cs`, short and commented). Its On Click calls `UdonBehaviour.SendCustomEvent("Run")`, because VRChat UI can only call Udon that way. Synced actions use `[UdonSynced]` state, so players who join later see the same thing.
@@ -37,7 +51,7 @@ Each button or toggle with an action gets the `NekoUiAction` UdonSharp script (`
 - **Build** – make and edit panels (everything above).
 - **Learn** – lessons that use your own panel, with progress and badges. Start with *1. What a Canvas is*.
 - **Doctor** – checks all panels for common problems and fixes them in one click.
-- **Templates** – welcome, rules, settings, teleport, credits, schedule and links/QR boards; the QR code maker; JSON blueprints.
+- **Templates** – 28 ready-made panels and systems (see below), the QR code maker and JSON blueprints.
 - **Glossary** – every term in plain English.
 
 The toolbar under the tabs sets the **Help** level (Full help, Some help, Expert) and **Explain mode**, which shows the Unity component behind each setting.
