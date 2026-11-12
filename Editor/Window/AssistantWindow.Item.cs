@@ -38,8 +38,9 @@ namespace NekoSune.WorldUiAssistant
             switch (kind)
             {
                 case WidgetKind.Text: DrawTextFields(selected.GetComponent<TMP_Text>()); break;
-                case WidgetKind.Button: DrawButtonFields(selected.GetComponent<Button>()); break;
-                case WidgetKind.Toggle: DrawToggleFields(selected.GetComponent<Toggle>()); break;
+                case WidgetKind.Button: DrawButtonFields(selected.GetComponent<Button>()); DrawActionFields(selected.GetComponent<Button>()); break;
+                case WidgetKind.Toggle: DrawToggleFields(selected.GetComponent<Toggle>()); DrawActionFields(selected.GetComponent<Toggle>()); break;
+                case WidgetKind.Page: DrawPageFields(selected); break;
                 case WidgetKind.Slider: DrawSliderFields(selected.GetComponent<Slider>()); break;
                 case WidgetKind.Image: DrawImageFields(selected.GetComponent<Image>()); break;
                 case WidgetKind.Divider: DrawDividerFields(selected.GetComponent<Image>()); break;
@@ -126,7 +127,6 @@ namespace NekoSune.WorldUiAssistant
             }
             HeightField("Height", false);
             ClickTargetWarning();
-            G.Hint("Making buttons do things (show/hide, teleport, mirrors…) is coming in the next version of the Assistant.");
         }
 
         private void DrawToggleFields(Toggle toggle)

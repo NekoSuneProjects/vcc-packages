@@ -55,6 +55,7 @@ namespace NekoSune.WorldUiAssistant
             UpdateChecker.Changed += Repaint;
             Undo.undoRedoPerformed += OnUndoRedo;
             Selection.selectionChanged += SelectionChanged;
+            EditorApplication.playModeStateChanged += OnPlayModeChanged;
             panelsDirty = true;
         }
 
@@ -63,9 +64,16 @@ namespace NekoSune.WorldUiAssistant
             UpdateChecker.Changed -= Repaint;
             Undo.undoRedoPerformed -= OnUndoRedo;
             Selection.selectionChanged -= SelectionChanged;
+            EditorApplication.playModeStateChanged -= OnPlayModeChanged;
         }
 
         private void OnUndoRedo()
+        {
+            panelsDirty = true;
+            Repaint();
+        }
+
+        private void OnPlayModeChanged(PlayModeStateChange change)
         {
             panelsDirty = true;
             Repaint();
@@ -111,7 +119,7 @@ namespace NekoSune.WorldUiAssistant
 
         private void RefreshPanels()
         {
-            if (!panelsDirty) return;
+            if (!panelsDirty && panels.All(c => c)) return; // e.g. Play-mode copies destroyed on exit
             panelsDirty = false;
             panels = Resources.FindObjectsOfTypeAll<Canvas>()
                 .Where(c => c && !EditorUtility.IsPersistent(c) && c.gameObject.scene.IsValid() && c.hideFlags == HideFlags.None
@@ -395,6 +403,7 @@ namespace NekoSune.WorldUiAssistant
             }
 
             DrawPanelHealth();
+            DrawActionCheck();
 
             if (panelOpen)
             {

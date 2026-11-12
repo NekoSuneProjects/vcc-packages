@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using S = NekoSune.WorldUiAssistant.AssistantStyles;
@@ -23,6 +24,7 @@ namespace NekoSune.WorldUiAssistant
             (WidgetKind.Row, "Row", "Puts the items inside it side by side.", false),
             (WidgetKind.Grid, "Grid", "Equal cells, e.g. a grid of buttons.", false),
             (WidgetKind.ScrollList, "Scroll list", "A box you can scroll when it has more than fits.", false),
+            (WidgetKind.Page, "Page", "A new page with a Back button. The first time, everything on the panel becomes the Home page.", false),
         };
 
         private readonly HashSet<int> collapsed = new HashSet<int>();
@@ -42,6 +44,8 @@ namespace NekoSune.WorldUiAssistant
                 if (content) return (content, -1, "inside " + selected.name);
                 return (selected.parent, selected.GetSiblingIndex() + 1, "after " + selected.name);
             }
+            var shownPage = UiWidgets.PagesOf(panel.transform).FirstOrDefault(p => p.gameObject.activeSelf);
+            if (shownPage) return (shownPage, -1, "at the bottom of the page " + shownPage.name);
             return (panel.transform, -1, "at the bottom of the panel");
         }
 
@@ -76,6 +80,11 @@ namespace NekoSune.WorldUiAssistant
         private void Add(WidgetKind kind, (Transform parent, int index, string where) target)
         {
             var theme = CurrentTheme;
+            if (kind == WidgetKind.Page)
+            {
+                Select(UiActions.AddPage(panel, theme, UiFactory.HasTmpFont));
+                return;
+            }
             var go = kind == WidgetKind.Panel
                 ? UiFactory.CreateTitle(target.parent, target.index, theme)
                 : UiFactory.Create(kind, target.parent, target.index, theme);
@@ -189,8 +198,12 @@ namespace NekoSune.WorldUiAssistant
 
             if (GUI.Button(eye, new GUIContent(EditorGUIUtility.IconContent(t.gameObject.activeSelf ? "d_scenevis_visible_hover" : "d_scenevis_hidden_hover").image, "Show / hide"), GUIStyle.none))
             {
-                Undo.RecordObject(t.gameObject, "Show / hide");
-                t.gameObject.SetActive(!t.gameObject.activeSelf);
+                if (kind == WidgetKind.Page) UiActions.ShowPage(t);
+                else
+                {
+                    Undo.RecordObject(t.gameObject, "Show / hide");
+                    t.gameObject.SetActive(!t.gameObject.activeSelf);
+                }
             }
             if (GUI.Button(dup, new GUIContent(EditorGUIUtility.IconContent("d_TreeEditor.Duplicate").image, "Duplicate"), GUIStyle.none))
             {
@@ -205,6 +218,7 @@ namespace NekoSune.WorldUiAssistant
             {
                 if (selected == t || (selected && selected.IsChildOf(t))) selected = null;
                 Undo.DestroyObjectImmediate(t.gameObject);
+                if (kind == WidgetKind.Page) UiActions.RefreshAllPages(panel);
                 GUIUtility.ExitGUI();
             }
 
@@ -219,7 +233,7 @@ namespace NekoSune.WorldUiAssistant
                 case EventType.MouseDown:
                     if (e.button == 0 && row.Contains(e.mousePosition))
                     {
-                        Select(t);
+                        SelectFromOutline(t);
                         dragCandidate = t;
                         dragStart = e.mousePosition;
                         e.Use();

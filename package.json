@@ -1,15 +1,30 @@
 {
   "name": "com.nekosune.world-ui-assistant",
   "displayName": "NekoSune World UI Assistant",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "unity": "2022.3",
-  "description": "Build VRChat world UI without knowing Unity UI: a New panel wizard with themes, one-click widgets (title, text, button, toggle, slider, image, divider, spacer, row, grid, scroll list), a drag-to-reorder outline and plain-English editing that explains the Unity components behind each part. Open via NekoSune → World → UI Assistant.",
+  "description": "Build VRChat world UI without knowing Unity UI: a New panel wizard with themes, one-click widgets, pages with Back buttons, and button/toggle actions (show/hide, mirror, sound, teleport, open page, Udon event; local or synced) wired through a small readable UdonSharp script. Plain-English editing explains the Unity components behind each part. Open via NekoSune → World → UI Assistant.",
   "author": {
     "name": "NekoSuneVR",
     "email": "contact@nekosunevr.co.uk",
     "url": "https://github.com/NekoSuneVR"
   },
-  "keywords": ["vrchat", "world", "ui", "canvas", "menu", "beginner", "tutorial", "builder", "textmeshpro", "layout"],
+  "keywords": [
+    "vrchat",
+    "world",
+    "ui",
+    "canvas",
+    "menu",
+    "beginner",
+    "tutorial",
+    "builder",
+    "textmeshpro",
+    "layout",
+    "udon",
+    "udonsharp",
+    "actions",
+    "pages"
+  ],
   "dependencies": {
     "com.unity.ugui": "1.0.0",
     "com.unity.textmeshpro": "3.0.6"

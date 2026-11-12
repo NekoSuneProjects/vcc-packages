@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.2.0",
   "url": "https://nekosuneprojects.github.io/vcc-packages/",
-  "notes": "First preview: New panel wizard, themes, widget palette, outline and plain-English editing."
+  "notes": "Buttons and toggles can now do things: show/hide, mirrors, sounds, teleports, pages and Udon events, local or synced."
 }

@@ -4,7 +4,7 @@ A from-scratch Unity editor tool that helps beginners **build** VRChat world UI 
 
 Package: `com.nekosune.world-ui-assistant` · Branch: `world-ui-assistant` · Menu: `NekoSune → World → UI Assistant`
 
-Status: **Phase 1 done – 0.1.0 preview.** Phase 2 (button actions) is next.
+Status: **Phases 1–2 done – 0.2.0 preview.** Phase 3 (teaching mode) is next.
 
 ---
 
@@ -24,9 +24,10 @@ Reuse:
 - [ ] UI Doctor checks (World Space canvas, GraphicRaycaster, VRCUiShape, Navigation = None, small targets, small text).
 
 Avoid:
-- [ ] Wiring buttons with a UnityEvent straight to an UdonSharp method. Use `UdonBehaviour.SendCustomEvent("Name")` instead (the likely bug in World Gallery / Avatar Search Auto-Wire).
-- [ ] Encoding actions in GameObject names (`NUI[id|action|value]`). Store them in a small marker component or ScriptableObject.
-  - Phase 1 needs no markers: widgets are recognised from their normal Unity components (Button, Toggle, layout groups…), so hand-made UI works too. VRChat only strips `IEditorOnly` components from **avatars**, so a world marker component would ship in the world. For Phase 2 actions, keep the data in the generated Udon helper or a ScriptableObject instead.
+- [x] Wiring buttons with a UnityEvent straight to an UdonSharp method. Use `UdonBehaviour.SendCustomEvent("Name")` instead (the likely bug in World Gallery / Avatar Search Auto-Wire).
+  - The Assistant wires On Click → `UdonBehaviour.SendCustomEvent("Run")` on the backing UdonBehaviour, and this is tested in Play mode with ClientSim.
+- [x] Encoding actions in GameObject names (`NUI[id|action|value]`). Store them in a small marker component or ScriptableObject.
+  - Phase 1 needs no markers: widgets are recognised from their normal Unity components (Button, Toggle, layout groups…), so hand-made UI works too. VRChat only strips `IEditorOnly` components from **avatars**, so a world marker component would ship in the world. Phase 2 keeps action data in the `NekoUiAction` UdonSharp script itself – a real Udon component that ships with the world and needs the data at runtime anyway.
 - [x] A static-only window that loses the user's work on script reload. The scene is the saved state; the window only keeps references.
 
 ---
@@ -49,11 +50,16 @@ Avoid:
 
 ## Phase 2 – Make it do things (no code)
 
-- [ ] **Action picker** on buttons and toggles: Show/Hide object, Toggle object, Play/Stop audio, Teleport player, Toggle mirror, Open another page, Send custom event.
-- [ ] Generate one readable UdonSharp helper (`NekoUiActions`) into `Assets/NekoSune/UIAssistant/Generated/`; buttons call it through `SendCustomEvent`.
-- [ ] Local vs synced choice per action, with a one-line explanation of what "synced" means.
-- [ ] **Pages:** tabs/sub-menus with back buttons, built from the outline.
-- [ ] Check after building: every action target exists and the helper compiled (UdonSharp program asset repair, as in Avatar Search).
+- [x] **Action picker** on buttons and toggles: Show / Hide / Show-or-hide objects, Turn a mirror on/off, Play / Stop a sound, Teleport the player, Open a page, Send an Udon event.
+- [x] ~~Generate one UdonSharp helper per panel into `Assets/NekoSune/UIAssistant/Generated/`~~ → instead, one small, commented UdonSharp script ships with the package (`Runtime/NekoUiAction.cs` + program asset + U# assembly definition). Each button/toggle gets its own copy with its settings; On Click / On Value Changed call `SendCustomEvent("Run")`. No code generation, nothing written into Assets, and the script is the one Lesson 5 reads.
+- [x] Local vs synced choice per action, with a one-line explanation. Synced uses `[UdonSynced]` + `RequestSerialization` (late joiners get the state); synced Udon events use `SendCustomNetworkEvent`. Teleports and pages are always local.
+- [x] Toggles drive their action from their on/off state, and synced toggles update their checkbox for other players.
+- [x] **Pages:** Page item adds a page with a heading and a working Back button; the first page wraps the existing content as Home. "Show this page" while editing; Open-a-page actions keep their page lists up to date.
+- [x] Check after building: unconnected buttons (fix), missing objects/sounds/teleport points/pages, out-of-date page lists (fix), missing program asset, UdonSharp compile errors.
+- [x] Tested in Play mode with ClientSim: show/hide, open page + Back, synced toggle.
+- [ ] Mirror quality (HQ/LQ) and "create a mirror for me" – later, with the Settings menu template (Phase 4b).
+- [ ] Udon event picker listing the public methods of the chosen script (currently typed by name).
+- [ ] Animator parameter actions (set bool/trigger) – useful for doors and lights.
 
 ## Phase 3 – Teaching mode (long-term learning)
 
@@ -163,7 +169,7 @@ Each lesson ends with the user rebuilding a simpler version by hand, so they lea
 - [ ] **ChilloutVR (Phase 5):** CCK 3 targets Unity 2021.3 and CCK 4 targets 2022.3. If CVR support is added, either lower `"unity"` to 2021.3 and guard newer APIs, or support CCK 4 only.
 - [ ] **VPM dependencies:**
   - [ ] `com.vrchat.worlds` (includes UdonSharp) – needed for the generated helper and `VRCUiShape`. Pick the lowest version that has everything used (check `SendCustomEvent`, `VRCUiShape`, persistence if used).
-    - 0.1.0 declares `>=3.5.0` (Phase 1 only uses `VRCUiShape`, found by name). Tested with 3.10.5; the lowest version is not verified yet.
+    - Declares `>=3.5.0` (UdonSharp is part of com.vrchat.worlds since 3.4). Tested with 3.10.5; the lowest version is not verified yet.
   - [x] Unity `com.unity.ugui` and `com.unity.textmeshpro` (`"dependencies"` in `package.json`).
   - [x] No hard dependency on the NekoSune World Hub or any other NekoSune package.
 - [ ] **Optional packages detected at runtime** (reflection or asmdef `versionDefines`, never a hard reference): ChilloutVR CCK, TextMeshPro vs legacy Text, Modular Avatar/VRCFury not needed for worlds.

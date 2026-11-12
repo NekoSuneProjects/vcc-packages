@@ -2,7 +2,7 @@
 
 Build VRChat world UI without knowing Unity UI, and learn how it works while you do. Everything the Assistant makes is ordinary Unity UI you can open and edit by hand.
 
-> **Preview (0.1.0).** This is Phase 1 of [TODO.md](TODO.md): building panels. Button actions, lessons, the UI Doctor and ready-made systems come next.
+> **Preview (0.2.0).** Phases 1–2 of [TODO.md](TODO.md): building panels, actions and pages. Lessons, the UI Doctor and ready-made systems come next.
 
 ## Install
 
@@ -19,10 +19,18 @@ Needs the VRChat Worlds SDK and TextMeshPro. If TextMeshPro's essentials aren't 
 Open **NekoSune → World → UI Assistant**.
 
 1. **New panel** – pick a name, size, theme and where to put it, then **Create Panel**. It appears in front of the Scene view camera, ready for the VRChat laser.
-2. **Add** – click Title, Text, Button, Toggle, Slider, Image, Divider, Spacer, Row, Grid or Scroll list. New items go after the selected item, or inside a selected Row, Grid or Scroll list.
+2. **Add** – click Title, Text, Button, Toggle, Slider, Image, Divider, Spacer, Row, Grid, Scroll list or Page. New items go after the selected item, or inside a selected Row, Grid or Scroll list.
 3. **Outline** – drag items to reorder them, or drop them on a Row, Grid or Scroll list to put them inside. Show/hide, duplicate and delete from each row.
 4. **Edit** – change text, colours, sizes and more in plain English. Each item tells you which Unity components it's made of.
-5. **Theme** – click a theme on the panel card to re-colour the whole panel.
+5. **Actions** – select a button or toggle and pick what it does under **When it's clicked**: show/hide something, turn a mirror on/off, play or stop a sound, teleport the player, open a page, or send an event to your own Udon script. Tick **Everyone sees it (synced)** or keep it local.
+6. **Pages** – click **Page** to add a page with a Back button (the first time, your panel becomes the Home page). Point a button at it with **Open a page**.
+7. **Theme** – click a theme on the panel card to re-colour the whole panel.
+
+Before you upload, the panel card checks that every action has what it needs and is connected.
+
+### How actions work
+
+Each button or toggle with an action gets the `NekoUiAction` UdonSharp script (`Runtime/NekoUiAction.cs`, short and commented). Its On Click calls `UdonBehaviour.SendCustomEvent("Run")`, because VRChat UI can only call Udon that way. Synced actions use `[UdonSynced]` state, so players who join later see the same thing.
 
 Every change is one Undo step. Selecting something in the Hierarchy or Scene view selects it in the Assistant too.
 

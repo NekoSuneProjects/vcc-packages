@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace NekoSune.WorldUiAssistant
 {
-    internal enum WidgetKind { Panel, Text, Button, Toggle, Slider, Image, Divider, Spacer, Row, Column, Grid, ScrollList, Other }
+    internal enum WidgetKind { Panel, Page, Text, Button, Toggle, Slider, Image, Divider, Spacer, Row, Column, Grid, ScrollList, Other }
 
     internal enum TextStyle { Title, Heading, Body, Caption }
 
@@ -24,7 +24,7 @@ namespace NekoSune.WorldUiAssistant
             if (t.GetComponent<ScrollRect>()) return WidgetKind.ScrollList;
             if (t.GetComponent<GridLayoutGroup>()) return WidgetKind.Grid;
             if (t.GetComponent<HorizontalLayoutGroup>()) return WidgetKind.Row;
-            if (t.GetComponent<VerticalLayoutGroup>()) return WidgetKind.Column;
+            if (t.GetComponent<VerticalLayoutGroup>()) return IsPanelRoot(t.parent) ? WidgetKind.Page : WidgetKind.Column;
             if (t.GetComponent<TMP_Text>() || t.GetComponent<Text>()) return WidgetKind.Text;
             var image = t.GetComponent<Image>();
             var le = t.GetComponent<LayoutElement>();
@@ -33,12 +33,31 @@ namespace NekoSune.WorldUiAssistant
             return WidgetKind.Other;
         }
 
+        /// <summary>The panel itself: a root Canvas.</summary>
+        public static bool IsPanelRoot(Transform t)
+        {
+            if (!t) return false;
+            var c = t.GetComponent<Canvas>();
+            return c && c.isRootCanvas;
+        }
+
+        /// <summary>Pages are columns directly under the panel; only one is shown at a time.</summary>
+        public static System.Collections.Generic.List<Transform> PagesOf(Transform panel)
+        {
+            var list = new System.Collections.Generic.List<Transform>();
+            if (!panel) return list;
+            for (int i = 0; i < panel.childCount; i++)
+                if (Detect(panel.GetChild(i)) == WidgetKind.Page) list.Add(panel.GetChild(i));
+            return list;
+        }
+
         /// <summary>Where children of this object live (a scroll list keeps them in its Content).</summary>
         public static Transform ContentOf(Transform t)
         {
             switch (Detect(t))
             {
                 case WidgetKind.Panel:
+                case WidgetKind.Page:
                 case WidgetKind.Row:
                 case WidgetKind.Column:
                 case WidgetKind.Grid:
@@ -68,6 +87,7 @@ namespace NekoSune.WorldUiAssistant
             switch (kind)
             {
                 case WidgetKind.Panel: return "Canvas Icon";
+                case WidgetKind.Page: return "Folder Icon";
                 case WidgetKind.Text: return "Text Icon";
                 case WidgetKind.Button: return "Button Icon";
                 case WidgetKind.Toggle: return "Toggle Icon";
@@ -89,8 +109,9 @@ namespace NekoSune.WorldUiAssistant
             switch (kind)
             {
                 case WidgetKind.Panel: return "A Canvas set to World Space (it exists in the 3D world), a GraphicRaycaster so the laser can click it, VRChat's VRCUiShape, a background Image and a VerticalLayoutGroup that stacks everything top to bottom.";
+                case WidgetKind.Page: return "A VerticalLayoutGroup directly under the panel. Only one page is active (GameObject.SetActive) at a time; inactive objects take no space, so the panel shows just that page. \"Open a page\" buttons switch them.";
                 case WidgetKind.Text: return "A TextMeshPro - Text (UI) component. Its height comes from the text, because the layout group asks it for its preferred size.";
-                case WidgetKind.Button: return "An Image (the button background) plus a Button component that changes colour when pointed at, and a TextMeshPro child for the label.";
+                case WidgetKind.Button: return "An Image (the button background) plus a Button component that changes colour when pointed at, and a TextMeshPro child for the label. An action adds a NekoUiAction Udon script; the Button's On Click () calls UdonBehaviour.SendCustomEvent(\"Run\") on it, because VRChat UI can only call Udon through SendCustomEvent.";
                 case WidgetKind.Toggle: return "A Toggle component. Its Graphic (the check) is shown when it is on; the Box is its Target Graphic that reacts to the pointer.";
                 case WidgetKind.Slider: return "A Slider component that moves the Handle and stretches the Fill between Min and Max.";
                 case WidgetKind.Image: return "An Image component. Give it a Sprite (a texture imported as Sprite (2D and UI)).";
