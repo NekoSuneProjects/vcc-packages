@@ -46,7 +46,7 @@ namespace NekoSune.WorldUiAssistant
                 var t = MainTabs[i];
                 var r = new Rect(bar.x + 8 + w * i, bar.y, w, bar.height - 1);
                 bool active = mainTab == t.tab;
-                var content = new GUIContent(labels ? " " + t.label : "", EditorGUIUtility.IconContent(t.icon).image, t.label);
+                var content = new GUIContent(labels ? " " + Loc.T(t.label) : "", EditorGUIUtility.IconContent(t.icon).image, Loc.T(t.label));
                 if (GUI.Button(r, content, active ? S.TabActive : S.Tab) && !active)
                 {
                     mainTab = t.tab;
@@ -59,11 +59,18 @@ namespace NekoSune.WorldUiAssistant
 
             using (new EditorGUILayout.HorizontalScope(EditorStyles.toolbar))
             {
-                GUILayout.Label(new GUIContent("Help", "How much the Assistant explains."), EditorStyles.miniLabel, GUILayout.Width(30));
-                int level = EditorGUILayout.Popup((int)Help.Level, Help.LevelNames.Select((n, i) => n).ToArray(), EditorStyles.toolbarPopup, GUILayout.Width(90));
+                GUILayout.Label(Loc.C("Help", "How much the Assistant explains."), EditorStyles.miniLabel, GUILayout.Width(30));
+                int level = EditorGUILayout.Popup((int)Help.Level, Help.LevelNames.Select(Loc.T).ToArray(), EditorStyles.toolbarPopup, GUILayout.Width(90));
                 if (level != (int)Help.Level) Help.Level = (HintLevel)level;
-                Help.Explain = GUILayout.Toggle(Help.Explain, new GUIContent("Explain mode", "Show which Unity component and property each setting changes."), EditorStyles.toolbarButton);
+                Help.Explain = GUILayout.Toggle(Help.Explain, Loc.C("Explain mode", "Show which Unity component and property each setting changes."), EditorStyles.toolbarButton);
                 GUILayout.FlexibleSpace();
+                var langs = Loc.Languages;
+                if (langs.Count > 1)
+                {
+                    int current = Mathf.Max(0, langs.FindIndex(l => l.code == Loc.Active));
+                    int picked = EditorGUILayout.Popup(current, langs.Select(l => l.display).ToArray(), EditorStyles.toolbarPopup, GUILayout.Width(96));
+                    if (picked != current) Loc.Set(langs[picked].code);
+                }
                 var next = LessonBook.Next;
                 GUILayout.Label(new GUIContent(LessonBook.DoneCount() + "/" + LessonBook.Count() + " lessons", "Lessons finished on this computer."), EditorStyles.miniLabel);
             }
@@ -100,17 +107,17 @@ namespace NekoSune.WorldUiAssistant
             EditorGUILayout.Space(4);
             using (new EditorGUILayout.HorizontalScope())
             {
-                if (step.showMe != null && GUILayout.Button(step.showMeLabel ?? "Show me", GUILayout.Height(24))) step.showMe(Context);
+                if (step.showMe != null && GUILayout.Button(Loc.T(step.showMeLabel ?? "Show me"), GUILayout.Height(24))) step.showMe(Context);
                 GUILayout.FlexibleSpace();
                 using (new EditorGUI.DisabledScope(stepIndex == 0))
-                    if (GUILayout.Button("Back", GUILayout.Height(24), GUILayout.Width(56))) GoToStep(lesson, stepIndex - 1);
+                    if (GUILayout.Button(Loc.T("Back"), GUILayout.Height(24), GUILayout.Width(56))) GoToStep(lesson, stepIndex - 1);
                 string label = step.check != null ? "Check my work" : step.quiz != null ? "Answer" : stepIndex == lesson.steps.Length - 1 ? "Finish" : "Next";
                 var old = GUI.backgroundColor;
                 GUI.backgroundColor = S.Accent;
                 using (new EditorGUI.DisabledScope(step.quiz != null && quizPick < 0))
-                    if (GUILayout.Button(label, GUILayout.Height(24), GUILayout.Width(110))) Advance(lesson, stepIndex, step);
+                    if (GUILayout.Button(Loc.T(label), GUILayout.Height(24), GUILayout.Width(110))) Advance(lesson, stepIndex, step);
                 GUI.backgroundColor = old;
-                if (GUILayout.Button(new GUIContent("✕", "Stop the lesson (your place is kept)."), GUILayout.Height(24), GUILayout.Width(26)))
+                if (GUILayout.Button(Loc.C("✕", "Stop the lesson (your place is kept)."), GUILayout.Height(24), GUILayout.Width(26)))
                 {
                     activeLesson = null;
                     lessonMessage = null;
@@ -208,8 +215,8 @@ namespace NekoSune.WorldUiAssistant
                 EditorGUILayout.Space(6);
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    GUILayout.Label("Next: <b>" + next.title + "</b>", LessonText);
-                    if (GUILayout.Button(LessonBook.StepOf(next) > 0 ? "Continue" : "Start", GUILayout.Width(80))) StartLesson(next);
+                    GUILayout.Label(Loc.T("Next: <b>") + next.title + "</b>", LessonText);
+                    if (GUILayout.Button(Loc.T(LessonBook.StepOf(next) > 0 ? "Continue" : "Start"), GUILayout.Width(80))) StartLesson(next);
                 }
             }
             else G.Report("You finished every lesson. Amazing!", true);
@@ -229,10 +236,10 @@ namespace NekoSune.WorldUiAssistant
                         GUILayout.Label(new GUIContent(lesson.title, lesson.summary), GUILayout.MinWidth(80));
                         GUILayout.FlexibleSpace();
                         GUILayout.Label(lesson.minutes + " min", EditorStyles.miniLabel, GUILayout.Width(44));
-                        if (!string.IsNullOrEmpty(lesson.videoUrl) && GUILayout.Button(new GUIContent("▶", "Watch the video for this lesson"), EditorStyles.miniButton, GUILayout.Width(24)))
+                        if (!string.IsNullOrEmpty(lesson.videoUrl) && GUILayout.Button(Loc.C("▶", "Watch the video for this lesson"), EditorStyles.miniButton, GUILayout.Width(24)))
                             Application.OpenURL(lesson.videoUrl);
                         string label = isDone ? "Again" : LessonBook.StepOf(lesson) > 0 ? "Continue" : "Start";
-                        if (GUILayout.Button(label, EditorStyles.miniButton, GUILayout.Width(64)))
+                        if (GUILayout.Button(Loc.T(label), EditorStyles.miniButton, GUILayout.Width(64)))
                         {
                             if (isDone) LessonBook.Reset(lesson);
                             StartLesson(lesson);
@@ -279,7 +286,7 @@ namespace NekoSune.WorldUiAssistant
         private void DrawMadeCard()
         {
             G.BeginCard(null, null, key: "Made");
-            madeOpen = EditorGUILayout.Foldout(madeOpen, new GUIContent(" What did it make?", EditorGUIUtility.IconContent("d_UnityEditor.InspectorWindow").image), true, G.FoldoutTitle);
+            madeOpen = EditorGUILayout.Foldout(madeOpen, new GUIContent(Loc.T(" What did it make?"), EditorGUIUtility.IconContent("d_UnityEditor.InspectorWindow").image), true, G.FoldoutTitle);
             if (madeOpen)
             {
                 S.Line();
@@ -296,7 +303,7 @@ namespace NekoSune.WorldUiAssistant
                         GUILayout.Label(new GUIContent(" " + ObjectNames.NicifyVariableName(g.Key), EditorGUIUtility.ObjectContent(null, g.First().GetType()).image), GUILayout.Width(Mathf.Min(220, position.width * 0.42f)), GUILayout.Height(18));
                         G.Chip("× " + g.Count());
                         GUILayout.Label(ComponentGuide.Explain(g.Key), S.Hint, GUILayout.MinWidth(40));
-                        if (GUILayout.Button(new GUIContent("Select", "Select every object with this component."), EditorStyles.miniButton, GUILayout.Width(50)))
+                        if (GUILayout.Button(Loc.C("Select", "Select every object with this component."), EditorStyles.miniButton, GUILayout.Width(50)))
                             Selection.objects = g.Select(c => (Object)c.gameObject).Distinct().ToArray();
                     }
                 }

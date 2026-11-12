@@ -1,0 +1,1075 @@
+{
+ "code": "zh-Hans",
+ "name": "Chinese (Simplified)",
+ "nativeName": "简体中文",
+ "entries": [
+  {
+   "k": "+ Link",
+   "v": "+ 链接"
+  },
+  {
+   "k": "✓ VRChat-ready canvas",
+   "v": "✓ 可用于 VRChat 的画布"
+  },
+  {
+   "k": "A box you can scroll when it has more than fits.",
+   "v": "内容放不下时可以滚动的区域。"
+  },
+  {
+   "k": "A Float parameter in the Animator Controller.",
+   "v": "Animator Controller 中的 Float 参数。"
+  },
+  {
+   "k": "A paragraph of text.",
+   "v": "一段文字。"
+  },
+  {
+   "k": "A picture. Pick a Sprite after adding it.",
+   "v": "图片。添加后选择一个 Sprite。"
+  },
+  {
+   "k": "A public float field in that script.",
+   "v": "该脚本中的 public float 字段。"
+  },
+  {
+   "k": "A public method name in that script, e.g. ResetGame.",
+   "v": "脚本中的 public 方法名,例如 ResetGame。"
+  },
+  {
+   "k": "A texture imported with Texture Type = Sprite (2D and UI).",
+   "v": "Texture Type 设为 Sprite (2D and UI) 的纹理。"
+  },
+  {
+   "k": "A thin line between sections.",
+   "v": "分隔各部分的细线。"
+  },
+  {
+   "k": "Achievements / progress",
+   "v": "成就 / 进度"
+  },
+  {
+   "k": "Add",
+   "v": "添加"
+  },
+  {
+   "k": "Add to panel",
+   "v": "添加到面板"
+  },
+  {
+   "k": "Adds the QR picture to the current panel (after the selected item).",
+   "v": "将二维码图片添加到当前面板(选中项之后)。"
+  },
+  {
+   "k": "Admin panel",
+   "v": "管理面板"
+  },
+  {
+   "k": "An Audio Source in the scene.",
+   "v": "场景中的 Audio Source。"
+  },
+  {
+   "k": "An empty object; its blue arrow (forward) is where the player faces.",
+   "v": "一个空物体;蓝色箭头(前方)是玩家朝向。"
+  },
+  {
+   "k": "An on/off checkbox with a label.",
+   "v": "带标签的开/关复选框。"
+  },
+  {
+   "k": "Animator",
+   "v": "Animator"
+  },
+  {
+   "k": "At the world origin (1.5 m up)",
+   "v": "世界原点(高 1.5 米)"
+  },
+  {
+   "k": "Avatar board",
+   "v": "头像板"
+  },
+  {
+   "k": "Back",
+   "v": "返回"
+  },
+  {
+   "k": "Background",
+   "v": "背景"
+  },
+  {
+   "k": "Badges",
+   "v": "徽章"
+  },
+  {
+   "k": "Big bold heading text.",
+   "v": "加粗的大标题。"
+  },
+  {
+   "k": "Blueprint copied",
+   "v": "蓝图已复制"
+  },
+  {
+   "k": "Blueprints (JSON)",
+   "v": "蓝图 (JSON)"
+  },
+  {
+   "k": "Boards",
+   "v": "展板"
+  },
+  {
+   "k": "Bold",
+   "v": "加粗"
+  },
+  {
+   "k": "Box colour",
+   "v": "方框颜色"
+  },
+  {
+   "k": "Build",
+   "v": "搭建"
+  },
+  {
+   "k": "Build a new panel from a .json blueprint.",
+   "v": "从 .json 蓝图创建新面板。"
+  },
+  {
+   "k": "Build a new panel from a blueprint on the clipboard.",
+   "v": "从剪贴板中的蓝图创建新面板。"
+  },
+  {
+   "k": "Build VRChat world UI step by step — and learn how it works",
+   "v": "一步步搭建 VRChat 世界 UI,并了解其原理"
+  },
+  {
+   "k": "Button",
+   "v": "按钮"
+  },
+  {
+   "k": "Button colour",
+   "v": "按钮颜色"
+  },
+  {
+   "k": "Cancel",
+   "v": "取消"
+  },
+  {
+   "k": "Cell height",
+   "v": "单元格高度"
+  },
+  {
+   "k": "Cell width",
+   "v": "单元格宽度"
+  },
+  {
+   "k": "Centre",
+   "v": "居中"
+  },
+  {
+   "k": "Change sound volume",
+   "v": "更改音量"
+  },
+  {
+   "k": "Check my work",
+   "v": "检查我的作业"
+  },
+  {
+   "k": "Check now",
+   "v": "立即检查"
+  },
+  {
+   "k": "Check your project",
+   "v": "检查你的项目"
+  },
+  {
+   "k": "ChilloutVR CCK found",
+   "v": "已找到 ChilloutVR CCK"
+  },
+  {
+   "k": "Clock & countdown",
+   "v": "时钟与倒计时"
+  },
+  {
+   "k": "Colour",
+   "v": "颜色"
+  },
+  {
+   "k": "Column",
+   "v": "列"
+  },
+  {
+   "k": "Columns",
+   "v": "列数"
+  },
+  {
+   "k": "Connect",
+   "v": "连接"
+  },
+  {
+   "k": "Continue",
+   "v": "继续"
+  },
+  {
+   "k": "Copy JSON",
+   "v": "复制 JSON"
+  },
+  {
+   "k": "Copy the blueprint to the clipboard.",
+   "v": "将蓝图复制到剪贴板。"
+  },
+  {
+   "k": "Couldn't draw the settings here:",
+   "v": "无法在此显示设置:"
+  },
+  {
+   "k": "Create",
+   "v": "创建"
+  },
+  {
+   "k": "Create Panel",
+   "v": "创建面板"
+  },
+  {
+   "k": "Credits board",
+   "v": "鸣谢展板"
+  },
+  {
+   "k": "Delete",
+   "v": "删除"
+  },
+  {
+   "k": "Dialogue box",
+   "v": "对话框"
+  },
+  {
+   "k": "Divider",
+   "v": "分隔线"
+  },
+  {
+   "k": "Do this",
+   "v": "执行"
+  },
+  {
+   "k": "Doctor",
+   "v": "诊断"
+  },
+  {
+   "k": "Don't stretch the picture (Image.preserveAspect).",
+   "v": "不拉伸图片 (Image.preserveAspect)。"
+  },
+  {
+   "k": "Download update",
+   "v": "下载更新"
+  },
+  {
+   "k": "Drag an object from the Hierarchy.",
+   "v": "从 Hierarchy 拖入一个物体。"
+  },
+  {
+   "k": "Drag to pick a value, e.g. volume.",
+   "v": "拖动选择数值,例如音量。"
+  },
+  {
+   "k": "Duplicate",
+   "v": "复制"
+  },
+  {
+   "k": "e.g. 1, 2, 3 instead of 1.37",
+   "v": "例如 1、2、3,而不是 1.37"
+  },
+  {
+   "k": "Each click switches between shown and hidden.",
+   "v": "每次点击在显示和隐藏之间切换。"
+  },
+  {
+   "k": "Edge padding",
+   "v": "边缘留白"
+  },
+  {
+   "k": "Edit",
+   "v": "编辑"
+  },
+  {
+   "k": "Empty space.",
+   "v": "空白区域。"
+  },
+  {
+   "k": "Empty. Add something from the Add card.",
+   "v": "空的。从“添加”卡片添加内容。"
+  },
+  {
+   "k": "Equal cells, e.g. a grid of buttons.",
+   "v": "大小相同的格子,例如按钮网格。"
+  },
+  {
+   "k": "Event name",
+   "v": "事件名称"
+  },
+  {
+   "k": "Event schedule",
+   "v": "活动日程"
+  },
+  {
+   "k": "Every word the Assistant uses, in plain English.",
+   "v": "助手用到的每个词,都用通俗的话解释。"
+  },
+  {
+   "k": "Everyone sees it (synced)",
+   "v": "所有人可见(同步)"
+  },
+  {
+   "k": "Expert",
+   "v": "专家"
+  },
+  {
+   "k": "Explain mode",
+   "v": "讲解模式"
+  },
+  {
+   "k": "Export…",
+   "v": "导出…"
+  },
+  {
+   "k": "Fill colour",
+   "v": "填充颜色"
+  },
+  {
+   "k": "Finish",
+   "v": "完成"
+  },
+  {
+   "k": "Fix",
+   "v": "修复"
+  },
+  {
+   "k": "Float variable",
+   "v": "Float 变量"
+  },
+  {
+   "k": "Font size in UI units (mm). 26 reads well at about 2 m.",
+   "v": "字号,单位为 UI 单位(毫米)。26 在约 2 米处清晰易读。"
+  },
+  {
+   "k": "Frame",
+   "v": "定位"
+  },
+  {
+   "k": "From / to",
+   "v": "从 / 到"
+  },
+  {
+   "k": "Full help",
+   "v": "完整帮助"
+  },
+  {
+   "k": "Gallery / slideshow",
+   "v": "图库 / 幻灯片"
+  },
+  {
+   "k": "Game HUD",
+   "v": "游戏 HUD"
+  },
+  {
+   "k": "Games",
+   "v": "游戏"
+  },
+  {
+   "k": "Gap",
+   "v": "间距"
+  },
+  {
+   "k": "Gap between items",
+   "v": "项目间距"
+  },
+  {
+   "k": "Glossary",
+   "v": "术语表"
+  },
+  {
+   "k": "Grid",
+   "v": "网格"
+  },
+  {
+   "k": "Handle colour",
+   "v": "滑块颜色"
+  },
+  {
+   "k": "Help",
+   "v": "帮助"
+  },
+  {
+   "k": "Hide something",
+   "v": "隐藏某物"
+  },
+  {
+   "k": "Hotkeys",
+   "v": "快捷键"
+  },
+  {
+   "k": "How it works in Unity:",
+   "v": "在 Unity 中的原理:"
+  },
+  {
+   "k": "How much the Assistant explains.",
+   "v": "助手讲解的详细程度。"
+  },
+  {
+   "k": "Image",
+   "v": "图片"
+  },
+  {
+   "k": "Import TMP Essentials",
+   "v": "导入 TMP Essentials"
+  },
+  {
+   "k": "Import…",
+   "v": "导入…"
+  },
+  {
+   "k": "In front of the Scene view camera",
+   "v": "场景视图相机前方"
+  },
+  {
+   "k": "Inside the selected object",
+   "v": "所选物体内部"
+  },
+  {
+   "k": "Keep shape",
+   "v": "保持比例"
+  },
+  {
+   "k": "Keypad / code door",
+   "v": "密码键盘 / 密码门"
+  },
+  {
+   "k": "Label",
+   "v": "标签"
+  },
+  {
+   "k": "Label colour",
+   "v": "标签颜色"
+  },
+  {
+   "k": "Label size",
+   "v": "标签大小"
+  },
+  {
+   "k": "Later",
+   "v": "稍后"
+  },
+  {
+   "k": "Learn",
+   "v": "学习"
+  },
+  {
+   "k": "Left",
+   "v": "左对齐"
+  },
+  {
+   "k": "Line up",
+   "v": "对齐"
+  },
+  {
+   "k": "Line up items",
+   "v": "项目对齐"
+  },
+  {
+   "k": "Link or text",
+   "v": "链接或文字"
+  },
+  {
+   "k": "Links / QR board",
+   "v": "链接 / 二维码展板"
+  },
+  {
+   "k": "Look",
+   "v": "外观"
+  },
+  {
+   "k": "Make a teleport point at the centre of the Scene view.",
+   "v": "在场景视图中心创建传送点。"
+  },
+  {
+   "k": "Map – you are here",
+   "v": "地图 – 你在这里"
+  },
+  {
+   "k": "Media",
+   "v": "媒体"
+  },
+  {
+   "k": "Menus",
+   "v": "菜单"
+  },
+  {
+   "k": "Message",
+   "v": "消息"
+  },
+  {
+   "k": "Message popup",
+   "v": "消息弹窗"
+  },
+  {
+   "k": "Mirror",
+   "v": "镜子"
+  },
+  {
+   "k": "Multiplies the picture's colours. White = unchanged.",
+   "v": "与图片颜色相乘。白色 = 不变。"
+  },
+  {
+   "k": "Music player",
+   "v": "音乐播放器"
+  },
+  {
+   "k": "Name",
+   "v": "名称"
+  },
+  {
+   "k": "New",
+   "v": "新建"
+  },
+  {
+   "k": "New panel",
+   "v": "新面板"
+  },
+  {
+   "k": "Next",
+   "v": "下一步"
+  },
+  {
+   "k": "No world UI panels in the open scene yet. Make your first one below.",
+   "v": "场景中还没有世界 UI 面板。在下面创建第一个吧。"
+  },
+  {
+   "k": "Not connected to the slider yet.",
+   "v": "尚未连接到滑块。"
+  },
+  {
+   "k": "Nothing yet",
+   "v": "暂无"
+  },
+  {
+   "k": "Object",
+   "v": "物体"
+  },
+  {
+   "k": "Off hides it (GameObject.SetActive). Hidden items take no space.",
+   "v": "关闭即隐藏 (GameObject.SetActive)。隐藏的项目不占空间。"
+  },
+  {
+   "k": "Open a page",
+   "v": "打开页面"
+  },
+  {
+   "k": "Optional public method to run after the value is set.",
+   "v": "设置数值后运行的 public 方法(可选)。"
+  },
+  {
+   "k": "Optional text that shows the value, e.g. 75%.",
+   "v": "显示数值的文字(可选),例如 75%。"
+  },
+  {
+   "k": "Outline",
+   "v": "大纲"
+  },
+  {
+   "k": "Page",
+   "v": "页面"
+  },
+  {
+   "k": "Panel",
+   "v": "面板"
+  },
+  {
+   "k": "Parameter",
+   "v": "参数"
+  },
+  {
+   "k": "Paste",
+   "v": "粘贴"
+  },
+  {
+   "k": "Photo spot helper",
+   "v": "拍照点助手"
+  },
+  {
+   "k": "Pick a panel to edit, or make a new one.",
+   "v": "选择要编辑的面板,或新建一个。"
+  },
+  {
+   "k": "Pick what moving this slider does, e.g. music volume.",
+   "v": "选择拖动滑块的效果,例如音乐音量。"
+  },
+  {
+   "k": "Picture",
+   "v": "图片"
+  },
+  {
+   "k": "Pieces",
+   "v": "部件"
+  },
+  {
+   "k": "Place it",
+   "v": "放置位置"
+  },
+  {
+   "k": "Play a sound",
+   "v": "播放声音"
+  },
+  {
+   "k": "Player list & instance info",
+   "v": "玩家列表与实例信息"
+  },
+  {
+   "k": "Poll / voting",
+   "v": "投票"
+  },
+  {
+   "k": "Pops up a short message with the scene's Message popup (NekoToast).",
+   "v": "在场景的消息弹窗 (NekoToast) 中显示一条短消息。"
+  },
+  {
+   "k": "Popup",
+   "v": "弹窗"
+  },
+  {
+   "k": "Portable menu",
+   "v": "随身菜单"
+  },
+  {
+   "k": "Put the point on the floor; the player lands standing on it.",
+   "v": "把点放在地面上,玩家会站在上面。"
+  },
+  {
+   "k": "Puts the items inside it side by side.",
+   "v": "把里面的项目并排放置。"
+  },
+  {
+   "k": "QR code maker",
+   "v": "二维码生成器"
+  },
+  {
+   "k": "Remote news board",
+   "v": "远程新闻板"
+  },
+  {
+   "k": "Remove",
+   "v": "移除"
+  },
+  {
+   "k": "Right",
+   "v": "右对齐"
+  },
+  {
+   "k": "Row",
+   "v": "行"
+  },
+  {
+   "k": "Rules board",
+   "v": "规则展板"
+  },
+  {
+   "k": "Save the current panel as a .json blueprint.",
+   "v": "将当前面板保存为 .json 蓝图。"
+  },
+  {
+   "k": "Scoreboard / leaderboard",
+   "v": "记分板 / 排行榜"
+  },
+  {
+   "k": "Scroll list",
+   "v": "滚动列表"
+  },
+  {
+   "k": "Select",
+   "v": "选择"
+  },
+  {
+   "k": "Select every object with this component.",
+   "v": "选择所有带此组件的物体。"
+  },
+  {
+   "k": "Select it and open Unity's Inspector to see every component.",
+   "v": "选中它并打开 Unity 的 Inspector 查看所有组件。"
+  },
+  {
+   "k": "Select the objects this is about.",
+   "v": "选择相关物体。"
+  },
+  {
+   "k": "Select the panel itself (in the Hierarchy and here).",
+   "v": "选择面板本身(在 Hierarchy 和此处)。"
+  },
+  {
+   "k": "Send an Udon event",
+   "v": "发送 Udon 事件"
+  },
+  {
+   "k": "Send the value to Udon",
+   "v": "将数值发送给 Udon"
+  },
+  {
+   "k": "Set an Animator value",
+   "v": "设置 Animator 数值"
+  },
+  {
+   "k": "Set the slider's range to 0 – 1 for volume.",
+   "v": "用于音量时,把滑块范围设为 0 – 1。"
+  },
+  {
+   "k": "Sets size and boldness from the theme. Title is centred.",
+   "v": "按主题设置字号和粗细。标题居中。"
+  },
+  {
+   "k": "Settings menu",
+   "v": "设置菜单"
+  },
+  {
+   "k": "Shop",
+   "v": "商店"
+  },
+  {
+   "k": "Show",
+   "v": "显示"
+  },
+  {
+   "k": "Show / hide",
+   "v": "显示 / 隐藏"
+  },
+  {
+   "k": "Show / hide something",
+   "v": "显示 / 隐藏某物"
+  },
+  {
+   "k": "Show in Inspector",
+   "v": "在 Inspector 中显示"
+  },
+  {
+   "k": "Show me",
+   "v": "演示给我看"
+  },
+  {
+   "k": "Show one of a group",
+   "v": "显示组中的一个"
+  },
+  {
+   "k": "Show something",
+   "v": "显示某物"
+  },
+  {
+   "k": "Show the panel in the Scene view.",
+   "v": "在场景视图中显示面板。"
+  },
+  {
+   "k": "Show this page",
+   "v": "显示此页面"
+  },
+  {
+   "k": "Show value in",
+   "v": "数值显示于"
+  },
+  {
+   "k": "Show which Unity component and property each setting changes.",
+   "v": "显示每个设置改动的 Unity 组件和属性。"
+  },
+  {
+   "k": "Shows this page and hides the others, so you can work on it.",
+   "v": "显示此页面并隐藏其他页面,方便编辑。"
+  },
+  {
+   "k": "Size",
+   "v": "大小"
+  },
+  {
+   "k": "Size (mm)",
+   "v": "尺寸(毫米)"
+  },
+  {
+   "k": "Skip this version",
+   "v": "跳过此版本"
+  },
+  {
+   "k": "Slider",
+   "v": "滑块"
+  },
+  {
+   "k": "Slider.minValue and maxValue.",
+   "v": "Slider.minValue 和 maxValue。"
+  },
+  {
+   "k": "Social",
+   "v": "社交"
+  },
+  {
+   "k": "Some help",
+   "v": "部分帮助"
+  },
+  {
+   "k": "Something to click. Give it an action in its Edit card.",
+   "v": "可点击的东西。在它的编辑卡片中设置动作。"
+  },
+  {
+   "k": "Sound",
+   "v": "声音"
+  },
+  {
+   "k": "Space between the panel's edge and its content.",
+   "v": "面板边缘与内容之间的空间。"
+  },
+  {
+   "k": "Spacer",
+   "v": "间隔"
+  },
+  {
+   "k": "Start",
+   "v": "开始"
+  },
+  {
+   "k": "Start with a title and some text",
+   "v": "以标题和一段文字开始"
+  },
+  {
+   "k": "Starts at",
+   "v": "初始值"
+  },
+  {
+   "k": "Starts on",
+   "v": "初始为开"
+  },
+  {
+   "k": "Stop a sound",
+   "v": "停止声音"
+  },
+  {
+   "k": "Stop the lesson (your place is kept).",
+   "v": "停止课程(会保留进度)。"
+  },
+  {
+   "k": "Store / market",
+   "v": "商店 / 市场"
+  },
+  {
+   "k": "Style",
+   "v": "样式"
+  },
+  {
+   "k": "System settings",
+   "v": "系统设置"
+  },
+  {
+   "k": "Tabbed menu",
+   "v": "标签页菜单"
+  },
+  {
+   "k": "Teleport menu",
+   "v": "传送菜单"
+  },
+  {
+   "k": "Teleport the player",
+   "v": "传送玩家"
+  },
+  {
+   "k": "Teleport to",
+   "v": "传送到"
+  },
+  {
+   "k": "Templates",
+   "v": "模板"
+  },
+  {
+   "k": "Text",
+   "v": "文字"
+  },
+  {
+   "k": "Text under 18 is hard to read in VR from a normal distance.",
+   "v": "小于 18 的文字在 VR 中正常距离下难以阅读。"
+  },
+  {
+   "k": "TextMeshPro's default font isn't imported yet. Text needs it.",
+   "v": "尚未导入 TextMeshPro 的默认字体。文字需要它。"
+  },
+  {
+   "k": "The Image colour. Pointing at it brightens it; clicking darkens it.",
+   "v": "图片颜色。指向时变亮,点击时变暗。"
+  },
+  {
+   "k": "The object's name in the Hierarchy and the outline.",
+   "v": "物体在 Hierarchy 和大纲中的名称。"
+  },
+  {
+   "k": "The one object to show; the rest of the group is hidden.",
+   "v": "要显示的那个物体;组内其余物体会被隐藏。"
+  },
+  {
+   "k": "The UdonBehaviour to send the event to.",
+   "v": "接收事件的 UdonBehaviour。"
+  },
+  {
+   "k": "Theme — click to re-colour everything",
+   "v": "主题 — 点击重新为全部上色"
+  },
+  {
+   "k": "Then send event",
+   "v": "然后发送事件"
+  },
+  {
+   "k": "Then show a message",
+   "v": "然后显示消息"
+  },
+  {
+   "k": "This panel has no pages yet. Click Page in the Add card to make one.",
+   "v": "此面板还没有页面。在“添加”卡片中点击“页面”来创建。"
+  },
+  {
+   "k": "Tick colour",
+   "v": "勾选颜色"
+  },
+  {
+   "k": "Tint",
+   "v": "色调"
+  },
+  {
+   "k": "Title",
+   "v": "标题"
+  },
+  {
+   "k": "Toggle",
+   "v": "开关"
+  },
+  {
+   "k": "Toggle on = playing, off = stopped.",
+   "v": "开 = 播放,关 = 停止。"
+  },
+  {
+   "k": "Toggle.isOn when the world loads.",
+   "v": "世界加载时的 Toggle.isOn。"
+  },
+  {
+   "k": "Track colour",
+   "v": "轨道颜色"
+  },
+  {
+   "k": "Turn a mirror on / off",
+   "v": "开 / 关镜子"
+  },
+  {
+   "k": "Udon script",
+   "v": "Udon 脚本"
+  },
+  {
+   "k": "UI Doctor",
+   "v": "UI 诊断"
+  },
+  {
+   "k": "Video player controls",
+   "v": "视频播放器控制"
+  },
+  {
+   "k": "Video players already in your scene",
+   "v": "场景中已有的视频播放器"
+  },
+  {
+   "k": "Visible",
+   "v": "可见"
+  },
+  {
+   "k": "Watch the video for this lesson",
+   "v": "观看本课视频"
+  },
+  {
+   "k": "Welcome board",
+   "v": "欢迎展板"
+  },
+  {
+   "k": "Welcome with \"Don't show again\"",
+   "v": "带“不再显示”的欢迎"
+  },
+  {
+   "k": "What did it make?",
+   "v": "它创建了什么?"
+  },
+  {
+   "k": "What it's called in the Hierarchy.",
+   "v": "在 Hierarchy 中的名称。"
+  },
+  {
+   "k": "When it's moved",
+   "v": "移动时"
+  },
+  {
+   "k": "Where",
+   "v": "位置"
+  },
+  {
+   "k": "While this is selected, new items from the Add card go inside it.",
+   "v": "选中时,“添加”中的新项目会放到它里面。"
+  },
+  {
+   "k": "Whole numbers only",
+   "v": "仅整数"
+  },
+  {
+   "k": "Width × height. 1 UI unit = 1 mm in the world.",
+   "v": "宽 × 高。1 个 UI 单位 = 世界中的 1 毫米。"
+  },
+  {
+   "k": "You finished every lesson. Amazing!",
+   "v": "你完成了所有课程,太棒了!"
+  },
+  {
+   "k": "Your panels",
+   "v": "你的面板"
+  },
+  {
+   "k": "Your progress",
+   "v": "你的进度"
+  },
+  {
+   "k": "Again",
+   "v": "再来一次"
+  },
+  {
+   "k": "Answer",
+   "v": "回答"
+  },
+  {
+   "k": "Change an Animator",
+   "v": "更改 Animator"
+  },
+  {
+   "k": "Set a Bool",
+   "v": "设置 Bool"
+  },
+  {
+   "k": "Switch a Bool",
+   "v": "切换 Bool"
+  },
+  {
+   "k": "Fire a Trigger",
+   "v": "触发 Trigger"
+  },
+  {
+   "k": "Set an Int",
+   "v": "设置 Int"
+  },
+  {
+   "k": "Value",
+   "v": "数值"
+  },
+  {
+   "k": "Grow with content",
+   "v": "随内容增高"
+  },
+  {
+   "k": "Toggle on = true, off = false.",
+   "v": "开 = true,关 = false。"
+  },
+  {
+   "k": "Environment",
+   "v": "环境"
+  },
+  {
+   "k": "e.g. a door or a light with an Animator Controller.",
+   "v": "例如带 Animator Controller 的门或灯。"
+  }
+ ]
+}

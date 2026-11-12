@@ -1,0 +1,1075 @@
+{
+ "code": "ja",
+ "name": "Japanese",
+ "nativeName": "日本語",
+ "entries": [
+  {
+   "k": "+ Link",
+   "v": "+ リンク"
+  },
+  {
+   "k": "✓ VRChat-ready canvas",
+   "v": "✓ VRChat対応キャンバス"
+  },
+  {
+   "k": "A box you can scroll when it has more than fits.",
+   "v": "入りきらない時にスクロールできるボックス。"
+  },
+  {
+   "k": "A Float parameter in the Animator Controller.",
+   "v": "Animator Controller の Float パラメーター。"
+  },
+  {
+   "k": "A paragraph of text.",
+   "v": "テキストの段落。"
+  },
+  {
+   "k": "A picture. Pick a Sprite after adding it.",
+   "v": "画像。追加後にSpriteを選びます。"
+  },
+  {
+   "k": "A public float field in that script.",
+   "v": "そのスクリプトの public float フィールド。"
+  },
+  {
+   "k": "A public method name in that script, e.g. ResetGame.",
+   "v": "そのスクリプトの public メソッド名(例: ResetGame)。"
+  },
+  {
+   "k": "A texture imported with Texture Type = Sprite (2D and UI).",
+   "v": "Texture Type = Sprite (2D and UI) で読み込んだテクスチャ。"
+  },
+  {
+   "k": "A thin line between sections.",
+   "v": "セクションの間の細い線。"
+  },
+  {
+   "k": "Achievements / progress",
+   "v": "実績 / 進行状況"
+  },
+  {
+   "k": "Add",
+   "v": "追加"
+  },
+  {
+   "k": "Add to panel",
+   "v": "パネルに追加"
+  },
+  {
+   "k": "Adds the QR picture to the current panel (after the selected item).",
+   "v": "QR画像をパネルに追加します(選択中の項目の後)。"
+  },
+  {
+   "k": "Admin panel",
+   "v": "管理パネル"
+  },
+  {
+   "k": "An Audio Source in the scene.",
+   "v": "シーン内の Audio Source。"
+  },
+  {
+   "k": "An empty object; its blue arrow (forward) is where the player faces.",
+   "v": "空のオブジェクト。青い矢印(前方)がプレイヤーの向きです。"
+  },
+  {
+   "k": "An on/off checkbox with a label.",
+   "v": "ラベル付きのオン/オフのチェックボックス。"
+  },
+  {
+   "k": "Animator",
+   "v": "Animator"
+  },
+  {
+   "k": "At the world origin (1.5 m up)",
+   "v": "ワールドの原点(高さ1.5 m)"
+  },
+  {
+   "k": "Avatar board",
+   "v": "アバターボード"
+  },
+  {
+   "k": "Back",
+   "v": "戻る"
+  },
+  {
+   "k": "Background",
+   "v": "背景"
+  },
+  {
+   "k": "Badges",
+   "v": "バッジ"
+  },
+  {
+   "k": "Big bold heading text.",
+   "v": "大きな太字の見出し。"
+  },
+  {
+   "k": "Blueprint copied",
+   "v": "設計図をコピーしました"
+  },
+  {
+   "k": "Blueprints (JSON)",
+   "v": "設計図 (JSON)"
+  },
+  {
+   "k": "Boards",
+   "v": "ボード"
+  },
+  {
+   "k": "Bold",
+   "v": "太字"
+  },
+  {
+   "k": "Box colour",
+   "v": "ボックスの色"
+  },
+  {
+   "k": "Build",
+   "v": "作成"
+  },
+  {
+   "k": "Build a new panel from a .json blueprint.",
+   "v": ".json 設計図から新しいパネルを作ります。"
+  },
+  {
+   "k": "Build a new panel from a blueprint on the clipboard.",
+   "v": "クリップボードの設計図から新しいパネルを作ります。"
+  },
+  {
+   "k": "Build VRChat world UI step by step — and learn how it works",
+   "v": "VRChatワールドのUIを一歩ずつ作り、その仕組みも学べます"
+  },
+  {
+   "k": "Button",
+   "v": "ボタン"
+  },
+  {
+   "k": "Button colour",
+   "v": "ボタンの色"
+  },
+  {
+   "k": "Cancel",
+   "v": "キャンセル"
+  },
+  {
+   "k": "Cell height",
+   "v": "セルの高さ"
+  },
+  {
+   "k": "Cell width",
+   "v": "セルの幅"
+  },
+  {
+   "k": "Centre",
+   "v": "中央"
+  },
+  {
+   "k": "Change sound volume",
+   "v": "音量を変える"
+  },
+  {
+   "k": "Check my work",
+   "v": "確認する"
+  },
+  {
+   "k": "Check now",
+   "v": "今すぐチェック"
+  },
+  {
+   "k": "Check your project",
+   "v": "プロジェクトを確認"
+  },
+  {
+   "k": "ChilloutVR CCK found",
+   "v": "ChilloutVR CCK が見つかりました"
+  },
+  {
+   "k": "Clock & countdown",
+   "v": "時計とカウントダウン"
+  },
+  {
+   "k": "Colour",
+   "v": "色"
+  },
+  {
+   "k": "Column",
+   "v": "列"
+  },
+  {
+   "k": "Columns",
+   "v": "列数"
+  },
+  {
+   "k": "Connect",
+   "v": "接続"
+  },
+  {
+   "k": "Continue",
+   "v": "続ける"
+  },
+  {
+   "k": "Copy JSON",
+   "v": "JSONをコピー"
+  },
+  {
+   "k": "Copy the blueprint to the clipboard.",
+   "v": "設計図をクリップボードにコピーします。"
+  },
+  {
+   "k": "Couldn't draw the settings here:",
+   "v": "ここに設定を表示できませんでした:"
+  },
+  {
+   "k": "Create",
+   "v": "作成"
+  },
+  {
+   "k": "Create Panel",
+   "v": "パネルを作成"
+  },
+  {
+   "k": "Credits board",
+   "v": "クレジットボード"
+  },
+  {
+   "k": "Delete",
+   "v": "削除"
+  },
+  {
+   "k": "Dialogue box",
+   "v": "会話ボックス"
+  },
+  {
+   "k": "Divider",
+   "v": "区切り線"
+  },
+  {
+   "k": "Do this",
+   "v": "動作"
+  },
+  {
+   "k": "Doctor",
+   "v": "ドクター"
+  },
+  {
+   "k": "Don't stretch the picture (Image.preserveAspect).",
+   "v": "画像を引き伸ばさない (Image.preserveAspect)。"
+  },
+  {
+   "k": "Download update",
+   "v": "アップデートをダウンロード"
+  },
+  {
+   "k": "Drag an object from the Hierarchy.",
+   "v": "Hierarchy からオブジェクトをドラッグします。"
+  },
+  {
+   "k": "Drag to pick a value, e.g. volume.",
+   "v": "ドラッグして値を選びます(例: 音量)。"
+  },
+  {
+   "k": "Duplicate",
+   "v": "複製"
+  },
+  {
+   "k": "e.g. 1, 2, 3 instead of 1.37",
+   "v": "例: 1.37 ではなく 1, 2, 3"
+  },
+  {
+   "k": "Each click switches between shown and hidden.",
+   "v": "クリックするたびに表示/非表示が切り替わります。"
+  },
+  {
+   "k": "Edge padding",
+   "v": "端の余白"
+  },
+  {
+   "k": "Edit",
+   "v": "編集"
+  },
+  {
+   "k": "Empty space.",
+   "v": "空きスペース。"
+  },
+  {
+   "k": "Empty. Add something from the Add card.",
+   "v": "空です。「追加」カードから何か追加しましょう。"
+  },
+  {
+   "k": "Equal cells, e.g. a grid of buttons.",
+   "v": "同じ大きさのセル(例: ボタンの格子)。"
+  },
+  {
+   "k": "Event name",
+   "v": "イベント名"
+  },
+  {
+   "k": "Event schedule",
+   "v": "イベント予定表"
+  },
+  {
+   "k": "Every word the Assistant uses, in plain English.",
+   "v": "アシスタントが使う言葉をやさしく説明します。"
+  },
+  {
+   "k": "Everyone sees it (synced)",
+   "v": "全員に見える(同期)"
+  },
+  {
+   "k": "Expert",
+   "v": "エキスパート"
+  },
+  {
+   "k": "Explain mode",
+   "v": "説明モード"
+  },
+  {
+   "k": "Export…",
+   "v": "書き出し…"
+  },
+  {
+   "k": "Fill colour",
+   "v": "塗りの色"
+  },
+  {
+   "k": "Finish",
+   "v": "完了"
+  },
+  {
+   "k": "Fix",
+   "v": "修正"
+  },
+  {
+   "k": "Float variable",
+   "v": "Float 変数"
+  },
+  {
+   "k": "Font size in UI units (mm). 26 reads well at about 2 m.",
+   "v": "UI単位(mm)の文字サイズ。26 なら約2 mで読みやすいです。"
+  },
+  {
+   "k": "Frame",
+   "v": "表示"
+  },
+  {
+   "k": "From / to",
+   "v": "最小 / 最大"
+  },
+  {
+   "k": "Full help",
+   "v": "フルヘルプ"
+  },
+  {
+   "k": "Gallery / slideshow",
+   "v": "ギャラリー / スライドショー"
+  },
+  {
+   "k": "Game HUD",
+   "v": "ゲームHUD"
+  },
+  {
+   "k": "Games",
+   "v": "ゲーム"
+  },
+  {
+   "k": "Gap",
+   "v": "間隔"
+  },
+  {
+   "k": "Gap between items",
+   "v": "項目の間隔"
+  },
+  {
+   "k": "Glossary",
+   "v": "用語集"
+  },
+  {
+   "k": "Grid",
+   "v": "グリッド"
+  },
+  {
+   "k": "Handle colour",
+   "v": "つまみの色"
+  },
+  {
+   "k": "Help",
+   "v": "ヘルプ"
+  },
+  {
+   "k": "Hide something",
+   "v": "何かを隠す"
+  },
+  {
+   "k": "Hotkeys",
+   "v": "ホットキー"
+  },
+  {
+   "k": "How it works in Unity:",
+   "v": "Unity での仕組み:"
+  },
+  {
+   "k": "How much the Assistant explains.",
+   "v": "アシスタントの説明の量。"
+  },
+  {
+   "k": "Image",
+   "v": "画像"
+  },
+  {
+   "k": "Import TMP Essentials",
+   "v": "TMP Essentials を読み込む"
+  },
+  {
+   "k": "Import…",
+   "v": "読み込み…"
+  },
+  {
+   "k": "In front of the Scene view camera",
+   "v": "シーンビューのカメラの前"
+  },
+  {
+   "k": "Inside the selected object",
+   "v": "選択中のオブジェクトの中"
+  },
+  {
+   "k": "Keep shape",
+   "v": "形を保つ"
+  },
+  {
+   "k": "Keypad / code door",
+   "v": "キーパッド / 暗証番号ドア"
+  },
+  {
+   "k": "Label",
+   "v": "ラベル"
+  },
+  {
+   "k": "Label colour",
+   "v": "ラベルの色"
+  },
+  {
+   "k": "Label size",
+   "v": "ラベルのサイズ"
+  },
+  {
+   "k": "Later",
+   "v": "あとで"
+  },
+  {
+   "k": "Learn",
+   "v": "学ぶ"
+  },
+  {
+   "k": "Left",
+   "v": "左"
+  },
+  {
+   "k": "Line up",
+   "v": "揃え"
+  },
+  {
+   "k": "Line up items",
+   "v": "項目の揃え"
+  },
+  {
+   "k": "Link or text",
+   "v": "リンクまたはテキスト"
+  },
+  {
+   "k": "Links / QR board",
+   "v": "リンク / QRボード"
+  },
+  {
+   "k": "Look",
+   "v": "見た目"
+  },
+  {
+   "k": "Make a teleport point at the centre of the Scene view.",
+   "v": "シーンビューの中央にテレポート地点を作ります。"
+  },
+  {
+   "k": "Map – you are here",
+   "v": "マップ – 現在地"
+  },
+  {
+   "k": "Media",
+   "v": "メディア"
+  },
+  {
+   "k": "Menus",
+   "v": "メニュー"
+  },
+  {
+   "k": "Message",
+   "v": "メッセージ"
+  },
+  {
+   "k": "Message popup",
+   "v": "メッセージポップアップ"
+  },
+  {
+   "k": "Mirror",
+   "v": "ミラー"
+  },
+  {
+   "k": "Multiplies the picture's colours. White = unchanged.",
+   "v": "画像の色に掛け合わせます。白 = 変化なし。"
+  },
+  {
+   "k": "Music player",
+   "v": "音楽プレーヤー"
+  },
+  {
+   "k": "Name",
+   "v": "名前"
+  },
+  {
+   "k": "New",
+   "v": "新規"
+  },
+  {
+   "k": "New panel",
+   "v": "新しいパネル"
+  },
+  {
+   "k": "Next",
+   "v": "次へ"
+  },
+  {
+   "k": "No world UI panels in the open scene yet. Make your first one below.",
+   "v": "シーンにまだワールドUIパネルがありません。下で最初のパネルを作りましょう。"
+  },
+  {
+   "k": "Not connected to the slider yet.",
+   "v": "まだスライダーに接続されていません。"
+  },
+  {
+   "k": "Nothing yet",
+   "v": "まだなし"
+  },
+  {
+   "k": "Object",
+   "v": "オブジェクト"
+  },
+  {
+   "k": "Off hides it (GameObject.SetActive). Hidden items take no space.",
+   "v": "オフで非表示 (GameObject.SetActive)。非表示の項目は場所を取りません。"
+  },
+  {
+   "k": "Open a page",
+   "v": "ページを開く"
+  },
+  {
+   "k": "Optional public method to run after the value is set.",
+   "v": "値を設定した後に実行する public メソッド(任意)。"
+  },
+  {
+   "k": "Optional text that shows the value, e.g. 75%.",
+   "v": "値を表示するテキスト(任意、例: 75%)。"
+  },
+  {
+   "k": "Outline",
+   "v": "アウトライン"
+  },
+  {
+   "k": "Page",
+   "v": "ページ"
+  },
+  {
+   "k": "Panel",
+   "v": "パネル"
+  },
+  {
+   "k": "Parameter",
+   "v": "パラメーター"
+  },
+  {
+   "k": "Paste",
+   "v": "貼り付け"
+  },
+  {
+   "k": "Photo spot helper",
+   "v": "フォトスポット補助"
+  },
+  {
+   "k": "Pick a panel to edit, or make a new one.",
+   "v": "編集するパネルを選ぶか、新しく作ります。"
+  },
+  {
+   "k": "Pick what moving this slider does, e.g. music volume.",
+   "v": "スライダーを動かした時の動作を選びます(例: 音楽の音量)。"
+  },
+  {
+   "k": "Picture",
+   "v": "画像"
+  },
+  {
+   "k": "Pieces",
+   "v": "パーツ"
+  },
+  {
+   "k": "Place it",
+   "v": "配置場所"
+  },
+  {
+   "k": "Play a sound",
+   "v": "音を鳴らす"
+  },
+  {
+   "k": "Player list & instance info",
+   "v": "プレイヤー一覧とインスタンス情報"
+  },
+  {
+   "k": "Poll / voting",
+   "v": "投票"
+  },
+  {
+   "k": "Pops up a short message with the scene's Message popup (NekoToast).",
+   "v": "シーンのメッセージポップアップ (NekoToast) に短いメッセージを出します。"
+  },
+  {
+   "k": "Popup",
+   "v": "ポップアップ"
+  },
+  {
+   "k": "Portable menu",
+   "v": "持ち運びメニュー"
+  },
+  {
+   "k": "Put the point on the floor; the player lands standing on it.",
+   "v": "地点は床に置きます。プレイヤーはその上に立って着地します。"
+  },
+  {
+   "k": "Puts the items inside it side by side.",
+   "v": "中の項目を横に並べます。"
+  },
+  {
+   "k": "QR code maker",
+   "v": "QRコードメーカー"
+  },
+  {
+   "k": "Remote news board",
+   "v": "リモートニュースボード"
+  },
+  {
+   "k": "Remove",
+   "v": "削除"
+  },
+  {
+   "k": "Right",
+   "v": "右"
+  },
+  {
+   "k": "Row",
+   "v": "行"
+  },
+  {
+   "k": "Rules board",
+   "v": "ルールボード"
+  },
+  {
+   "k": "Save the current panel as a .json blueprint.",
+   "v": "今のパネルを .json 設計図として保存します。"
+  },
+  {
+   "k": "Scoreboard / leaderboard",
+   "v": "スコアボード / ランキング"
+  },
+  {
+   "k": "Scroll list",
+   "v": "スクロールリスト"
+  },
+  {
+   "k": "Select",
+   "v": "選択"
+  },
+  {
+   "k": "Select every object with this component.",
+   "v": "このコンポーネントを持つ全オブジェクトを選択します。"
+  },
+  {
+   "k": "Select it and open Unity's Inspector to see every component.",
+   "v": "選択して Unity の Inspector で全コンポーネントを見ます。"
+  },
+  {
+   "k": "Select the objects this is about.",
+   "v": "対象のオブジェクトを選択します。"
+  },
+  {
+   "k": "Select the panel itself (in the Hierarchy and here).",
+   "v": "パネル自体を選択します(Hierarchy とここで)。"
+  },
+  {
+   "k": "Send an Udon event",
+   "v": "Udon イベントを送る"
+  },
+  {
+   "k": "Send the value to Udon",
+   "v": "値を Udon に送る"
+  },
+  {
+   "k": "Set an Animator value",
+   "v": "Animator の値を設定"
+  },
+  {
+   "k": "Set the slider's range to 0 – 1 for volume.",
+   "v": "音量ならスライダーの範囲を 0 – 1 にします。"
+  },
+  {
+   "k": "Sets size and boldness from the theme. Title is centred.",
+   "v": "テーマからサイズと太さを設定します。タイトルは中央揃え。"
+  },
+  {
+   "k": "Settings menu",
+   "v": "設定メニュー"
+  },
+  {
+   "k": "Shop",
+   "v": "ショップ"
+  },
+  {
+   "k": "Show",
+   "v": "表示"
+  },
+  {
+   "k": "Show / hide",
+   "v": "表示 / 非表示"
+  },
+  {
+   "k": "Show / hide something",
+   "v": "何かを表示 / 非表示"
+  },
+  {
+   "k": "Show in Inspector",
+   "v": "Inspector で表示"
+  },
+  {
+   "k": "Show me",
+   "v": "やってみせて"
+  },
+  {
+   "k": "Show one of a group",
+   "v": "グループの1つだけ表示"
+  },
+  {
+   "k": "Show something",
+   "v": "何かを表示"
+  },
+  {
+   "k": "Show the panel in the Scene view.",
+   "v": "シーンビューでパネルを表示します。"
+  },
+  {
+   "k": "Show this page",
+   "v": "このページを表示"
+  },
+  {
+   "k": "Show value in",
+   "v": "値の表示先"
+  },
+  {
+   "k": "Show which Unity component and property each setting changes.",
+   "v": "各設定が変える Unity のコンポーネントとプロパティを表示します。"
+  },
+  {
+   "k": "Shows this page and hides the others, so you can work on it.",
+   "v": "このページを表示して他を隠し、編集できるようにします。"
+  },
+  {
+   "k": "Size",
+   "v": "サイズ"
+  },
+  {
+   "k": "Size (mm)",
+   "v": "サイズ (mm)"
+  },
+  {
+   "k": "Skip this version",
+   "v": "このバージョンをスキップ"
+  },
+  {
+   "k": "Slider",
+   "v": "スライダー"
+  },
+  {
+   "k": "Slider.minValue and maxValue.",
+   "v": "Slider.minValue と maxValue。"
+  },
+  {
+   "k": "Social",
+   "v": "ソーシャル"
+  },
+  {
+   "k": "Some help",
+   "v": "少しヘルプ"
+  },
+  {
+   "k": "Something to click. Give it an action in its Edit card.",
+   "v": "クリックできるもの。編集カードで動作を設定します。"
+  },
+  {
+   "k": "Sound",
+   "v": "サウンド"
+  },
+  {
+   "k": "Space between the panel's edge and its content.",
+   "v": "パネルの端と中身の間のスペース。"
+  },
+  {
+   "k": "Spacer",
+   "v": "スペーサー"
+  },
+  {
+   "k": "Start",
+   "v": "開始"
+  },
+  {
+   "k": "Start with a title and some text",
+   "v": "タイトルと文章で始める"
+  },
+  {
+   "k": "Starts at",
+   "v": "初期値"
+  },
+  {
+   "k": "Starts on",
+   "v": "最初はオン"
+  },
+  {
+   "k": "Stop a sound",
+   "v": "音を止める"
+  },
+  {
+   "k": "Stop the lesson (your place is kept).",
+   "v": "レッスンを止めます(進み具合は残ります)。"
+  },
+  {
+   "k": "Store / market",
+   "v": "ストア / マーケット"
+  },
+  {
+   "k": "Style",
+   "v": "スタイル"
+  },
+  {
+   "k": "System settings",
+   "v": "システム設定"
+  },
+  {
+   "k": "Tabbed menu",
+   "v": "タブメニュー"
+  },
+  {
+   "k": "Teleport menu",
+   "v": "テレポートメニュー"
+  },
+  {
+   "k": "Teleport the player",
+   "v": "プレイヤーをテレポート"
+  },
+  {
+   "k": "Teleport to",
+   "v": "テレポート先"
+  },
+  {
+   "k": "Templates",
+   "v": "テンプレート"
+  },
+  {
+   "k": "Text",
+   "v": "テキスト"
+  },
+  {
+   "k": "Text under 18 is hard to read in VR from a normal distance.",
+   "v": "18未満の文字はVRで普通の距離から読みにくいです。"
+  },
+  {
+   "k": "TextMeshPro's default font isn't imported yet. Text needs it.",
+   "v": "TextMeshPro の標準フォントがまだ読み込まれていません。テキストに必要です。"
+  },
+  {
+   "k": "The Image colour. Pointing at it brightens it; clicking darkens it.",
+   "v": "Image の色。指すと明るく、クリックで暗くなります。"
+  },
+  {
+   "k": "The object's name in the Hierarchy and the outline.",
+   "v": "Hierarchy とアウトラインでのオブジェクト名。"
+  },
+  {
+   "k": "The one object to show; the rest of the group is hidden.",
+   "v": "表示する1つのオブジェクト。グループの残りは隠れます。"
+  },
+  {
+   "k": "The UdonBehaviour to send the event to.",
+   "v": "イベントの送り先の UdonBehaviour。"
+  },
+  {
+   "k": "Theme — click to re-colour everything",
+   "v": "テーマ — クリックで全体の色を変更"
+  },
+  {
+   "k": "Then send event",
+   "v": "その後送るイベント"
+  },
+  {
+   "k": "Then show a message",
+   "v": "その後メッセージを表示"
+  },
+  {
+   "k": "This panel has no pages yet. Click Page in the Add card to make one.",
+   "v": "このパネルにはまだページがありません。「追加」カードの「ページ」で作れます。"
+  },
+  {
+   "k": "Tick colour",
+   "v": "チェックの色"
+  },
+  {
+   "k": "Tint",
+   "v": "色合い"
+  },
+  {
+   "k": "Title",
+   "v": "タイトル"
+  },
+  {
+   "k": "Toggle",
+   "v": "トグル"
+  },
+  {
+   "k": "Toggle on = playing, off = stopped.",
+   "v": "トグルオン = 再生、オフ = 停止。"
+  },
+  {
+   "k": "Toggle.isOn when the world loads.",
+   "v": "ワールド読み込み時の Toggle.isOn。"
+  },
+  {
+   "k": "Track colour",
+   "v": "トラックの色"
+  },
+  {
+   "k": "Turn a mirror on / off",
+   "v": "ミラーをオン / オフ"
+  },
+  {
+   "k": "Udon script",
+   "v": "Udon スクリプト"
+  },
+  {
+   "k": "UI Doctor",
+   "v": "UI ドクター"
+  },
+  {
+   "k": "Video player controls",
+   "v": "動画プレーヤー操作"
+  },
+  {
+   "k": "Video players already in your scene",
+   "v": "シーンにある動画プレーヤー"
+  },
+  {
+   "k": "Visible",
+   "v": "表示"
+  },
+  {
+   "k": "Watch the video for this lesson",
+   "v": "このレッスンの動画を見る"
+  },
+  {
+   "k": "Welcome board",
+   "v": "ウェルカムボード"
+  },
+  {
+   "k": "Welcome with \"Don't show again\"",
+   "v": "「次回から表示しない」付きウェルカム"
+  },
+  {
+   "k": "What did it make?",
+   "v": "何が作られた?"
+  },
+  {
+   "k": "What it's called in the Hierarchy.",
+   "v": "Hierarchy での名前。"
+  },
+  {
+   "k": "When it's moved",
+   "v": "動かした時"
+  },
+  {
+   "k": "Where",
+   "v": "場所"
+  },
+  {
+   "k": "While this is selected, new items from the Add card go inside it.",
+   "v": "選択中は「追加」の新しい項目がこの中に入ります。"
+  },
+  {
+   "k": "Whole numbers only",
+   "v": "整数のみ"
+  },
+  {
+   "k": "Width × height. 1 UI unit = 1 mm in the world.",
+   "v": "幅 × 高さ。UI 1単位 = ワールドの1 mm。"
+  },
+  {
+   "k": "You finished every lesson. Amazing!",
+   "v": "全レッスン完了。すごい!"
+  },
+  {
+   "k": "Your panels",
+   "v": "あなたのパネル"
+  },
+  {
+   "k": "Your progress",
+   "v": "進み具合"
+  },
+  {
+   "k": "Again",
+   "v": "もう一度"
+  },
+  {
+   "k": "Answer",
+   "v": "回答"
+  },
+  {
+   "k": "Change an Animator",
+   "v": "Animator を変更"
+  },
+  {
+   "k": "Set a Bool",
+   "v": "Bool を設定"
+  },
+  {
+   "k": "Switch a Bool",
+   "v": "Bool を切り替え"
+  },
+  {
+   "k": "Fire a Trigger",
+   "v": "Trigger を発動"
+  },
+  {
+   "k": "Set an Int",
+   "v": "Int を設定"
+  },
+  {
+   "k": "Value",
+   "v": "値"
+  },
+  {
+   "k": "Grow with content",
+   "v": "内容に合わせて伸ばす"
+  },
+  {
+   "k": "Toggle on = true, off = false.",
+   "v": "オン = true、オフ = false。"
+  },
+  {
+   "k": "Environment",
+   "v": "環境"
+  },
+  {
+   "k": "e.g. a door or a light with an Animator Controller.",
+   "v": "例: Animator Controller の付いたドアやライト。"
+  }
+ ]
+}

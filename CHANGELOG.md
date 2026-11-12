@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.5.0 – languages, remote data and Unity 6 (Phase 5 of TODO.md)
+
+- **12 languages** for the UI: English, Deutsch, Español, Français, Italiano, 日本語, 한국어, Polski, Português (Brasil), Русский, Українська, 简体中文. Picker in the toolbar; starts in your editor's language. Same file format as NekoSune Lip Sync (`Editor/Localization/Languages`). Lesson and glossary text is English for now.
+- **Remote news board** template (`NekoDataCards`): cards filled from a JSON file and pictures on the web, queued to respect VRChat's download limits, optional auto-refresh.
+- **Store:** product pictures from the web (predeclared VRCUrls) over the card and detail pictures.
+- **Video controls:** playlist with titles and thumbnails (up to 8 entries).
+- **Lesson videos:** a ▶ button appears next to a lesson when `Editor/Teach/lesson-videos.json` (or your own copy in `Assets/NekoSune/UIAssistant/`) has a link for it.
+- **ChilloutVR:** info card when the CCK is installed (panels get the CVR Canvas Wrapper; actions are Udon, so VRChat only).
+- **Environment** chips in the Doctor tab: Unity version, VRChat SDK and Worlds versions, UdonSharp state, ChilloutVR.
+- New action **Change an Animator**: set or switch a Bool, fire a Trigger or set an Int (picked from the controller's parameters); local or synced. For doors, lights and more.
+- **Send an Udon event** now lists the public methods of UdonSharp scripts to pick from.
+- **Grow with content** option for panels (ContentSizeFitter).
+- **Quest:** the test world compiles for Android (C# and UdonSharp).
+- **Unity 6:** compiles with no errors or warnings in Unity 6000.3 (with the VRChat Worlds SDK).
+- Requires **com.vrchat.worlds 3.10.1 or newer** (the store and persistence templates use Creator Economy and PlayerData APIs). Tested with 3.10.1 and 3.10.5.
+
 ## 0.4.0 – ready-made systems (Phase 4b of TODO.md)
 
 21 new templates, each built from normal UI plus one small, commented UdonSharp script, each with a lesson that ends in a hand-built version:

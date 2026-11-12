@@ -45,7 +45,7 @@ namespace NekoSune.WorldUiAssistant
                 {
                     open = EditorGUILayout.Foldout(open, " " + ObjectNames.NicifyVariableName(u.GetType().Name) + (u.gameObject != panel.gameObject ? "  (on " + u.name + ")" : ""), true);
                     GUILayout.FlexibleSpace();
-                    if (GUILayout.Button("Select", EditorStyles.miniButton, GUILayout.Width(50))) { Selection.activeObject = u.gameObject; EditorGUIUtility.PingObject(u); }
+                    if (GUILayout.Button(Loc.T("Select"), EditorStyles.miniButton, GUILayout.Width(50))) { Selection.activeObject = u.gameObject; EditorGUIUtility.PingObject(u); }
                 }
                 if (open) systemOpen.Add(id); else systemOpen.Remove(id);
 
@@ -92,7 +92,7 @@ namespace NekoSune.WorldUiAssistant
                 {
                     GUILayout.Label(name + "  (" + component.name + ")");
                     GUILayout.FlexibleSpace();
-                    if (GUILayout.Button("Select", EditorStyles.miniButton, GUILayout.Width(50))) { Selection.activeObject = component.gameObject; EditorGUIUtility.PingObject(component); }
+                    if (GUILayout.Button(Loc.T("Select"), EditorStyles.miniButton, GUILayout.Width(50))) { Selection.activeObject = component.gameObject; EditorGUIUtility.PingObject(component); }
                 }
             G.Hint("These players have their own controls and sync. Keep using their UI – the Assistant's video controls are for the stock VRChat players, so they won't fight over sync. You can still link to them from your menus with \"Send an Udon event\".");
             G.EndCard();

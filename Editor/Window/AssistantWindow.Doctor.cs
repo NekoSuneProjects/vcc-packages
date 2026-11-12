@@ -28,6 +28,21 @@ namespace NekoSune.WorldUiAssistant
 
         private void DrawDoctor()
         {
+            G.BeginCard("d_Settings", "Environment");
+            var sdk = UnityEditor.PackageManager.PackageInfo.FindForAssembly(typeof(VRC.SDKBase.Networking).Assembly);
+            var worlds = UnityEditor.PackageManager.PackageInfo.FindForAssembly(typeof(UdonSharp.UdonSharpBehaviour).Assembly);
+            bool udonOk = !UdonSharp.UdonSharpProgramAsset.AnyUdonSharpScriptHasError();
+            using (new EditorGUILayout.HorizontalScope())
+            {
+                G.Chip("Unity " + Application.unityVersion, Application.unityVersion.StartsWith("2022.3") ? S.Success : S.Warning);
+                G.Chip("VRChat SDK " + (sdk != null ? sdk.version : "?"));
+                G.Chip("Worlds " + (worlds != null ? worlds.version : "missing"), worlds != null ? S.Success : S.Error);
+                G.Chip(udonOk ? "UdonSharp OK" : "UdonSharp errors", udonOk ? S.Success : S.Error);
+                if (UiFactory.CvrWrapperType != null) G.Chip("ChilloutVR CCK");
+                GUILayout.FlexibleSpace();
+            }
+            G.EndCard();
+
             G.BeginCard("d_console.warnicon.sml", "UI Doctor", "Finds common problems in world UI – made by the Assistant or by hand – and fixes them in one click. Every fix can be undone.");
             using (new EditorGUILayout.HorizontalScope())
             {
@@ -40,7 +55,7 @@ namespace NekoSune.WorldUiAssistant
                 if (G.Action("Search Icon", "Check now", doctorAllPanels || panel, true)) RunDoctor();
                 var fixable = findings?.Where(f => f.fix != null).ToList();
                 using (new EditorGUI.DisabledScope(fixable == null || fixable.Count == 0))
-                    if (GUILayout.Button("Fix all (" + (fixable?.Count ?? 0) + ")", S.BigButton, GUILayout.Width(110)))
+                    if (GUILayout.Button(Loc.T("Fix all (") + (fixable?.Count ?? 0) + ")", S.BigButton, GUILayout.Width(110)))
                     {
                         Undo.IncrementCurrentGroup();
                         int group = Undo.GetCurrentGroup();
@@ -62,7 +77,7 @@ namespace NekoSune.WorldUiAssistant
                     GUILayout.Label(EditorGUIUtility.IconContent(icon), GUILayout.Width(18), GUILayout.Height(18));
                     GUILayout.Label(f.title, EditorStyles.boldLabel, GUILayout.MinWidth(60));
                     GUILayout.FlexibleSpace();
-                    if (f.objects != null && f.objects.Length > 0 && GUILayout.Button(new GUIContent("Select", "Select the objects this is about."), EditorStyles.miniButtonLeft, GUILayout.Width(50)))
+                    if (f.objects != null && f.objects.Length > 0 && GUILayout.Button(Loc.C("Select", "Select the objects this is about."), EditorStyles.miniButtonLeft, GUILayout.Width(50)))
                     {
                         Selection.objects = f.objects.Where(o => o).ToArray();
                         if (Selection.activeGameObject) EditorGUIUtility.PingObject(Selection.activeGameObject);
@@ -95,7 +110,7 @@ namespace NekoSune.WorldUiAssistant
             var categories = TemplateLibrary.All.Select(t => t.category).Distinct().ToList();
             EditorGUILayout.Space(4);
             int cat = Mathf.Max(0, categories.IndexOf(templateCategory));
-            cat = GUILayout.Toolbar(cat, categories.ToArray());
+            cat = GUILayout.Toolbar(cat, categories.Select(Loc.T).ToArray());
             templateCategory = categories[cat];
             G.EndCard();
 
@@ -104,7 +119,7 @@ namespace NekoSune.WorldUiAssistant
             foreach (var t in TemplateLibrary.All.Where(x => x.category == templateCategory))
             {
                 G.BeginCard(t.icon, t.title);
-                GUILayout.Label(t.description, EditorStyles.wordWrappedLabel);
+                GUILayout.Label(Loc.T(t.description), EditorStyles.wordWrappedLabel);
                 if (t.id == "links") DrawLinksEditor();
                 EditorGUILayout.Space(4);
                 using (new EditorGUILayout.HorizontalScope())
@@ -115,7 +130,7 @@ namespace NekoSune.WorldUiAssistant
                     GUILayout.FlexibleSpace();
                     var old = GUI.backgroundColor;
                     GUI.backgroundColor = S.Accent;
-                    if (GUILayout.Button(S.Icon("Toolbar Plus", " Create"), GUILayout.Width(110), GUILayout.Height(26)))
+                    if (GUILayout.Button(S.Icon("Toolbar Plus", Loc.T(" Create")), GUILayout.Width(110), GUILayout.Height(26)))
                     {
                         try
                         {
@@ -152,16 +167,16 @@ namespace NekoSune.WorldUiAssistant
                     string n = EditorGUILayout.TextField(links[i].name, GUILayout.Width(110));
                     string u = EditorGUILayout.TextField(links[i].url);
                     links[i] = (n, u);
-                    if (GUILayout.Button("✕", EditorStyles.miniButton, GUILayout.Width(22))) remove = i;
+                    if (GUILayout.Button(Loc.T("✕"), EditorStyles.miniButton, GUILayout.Width(22))) remove = i;
                 }
             if (remove >= 0) links.RemoveAt(remove);
-            if (GUILayout.Button("+ Link", EditorStyles.miniButton, GUILayout.Width(70))) links.Add(("Link", "https://"));
+            if (GUILayout.Button(Loc.T("+ Link"), EditorStyles.miniButton, GUILayout.Width(70))) links.Add(("Link", "https://"));
         }
 
         private void DrawQrMaker()
         {
             G.BeginCard("d_Linked", "QR code maker", "Udon can't open web pages, so show links as QR codes players scan with their phone.");
-            qrText = EditorGUILayout.TextField("Link or text", qrText);
+            qrText = EditorGUILayout.TextField(Loc.T("Link or text"), qrText);
             using (new EditorGUI.DisabledScope(string.IsNullOrWhiteSpace(qrText)))
             using (new EditorGUILayout.HorizontalScope())
             {
@@ -171,7 +186,7 @@ namespace NekoSune.WorldUiAssistant
                     if (sprite) { Selection.activeObject = sprite; EditorGUIUtility.PingObject(sprite); }
                 }
                 using (new EditorGUI.DisabledScope(!panel))
-                    if (GUILayout.Button(new GUIContent("Add to panel", "Adds the QR picture to the current panel (after the selected item)."), GUILayout.Height(24)))
+                    if (GUILayout.Button(Loc.C("Add to panel", "Adds the QR picture to the current panel (after the selected item)."), GUILayout.Height(24)))
                     {
                         var sprite = MakeQr();
                         if (sprite)
@@ -213,23 +228,23 @@ namespace NekoSune.WorldUiAssistant
             {
                 using (new EditorGUI.DisabledScope(!panel))
                 {
-                    if (GUILayout.Button(new GUIContent("Export…", "Save the current panel as a .json blueprint."), GUILayout.Height(24)))
+                    if (GUILayout.Button(Loc.C("Export…", "Save the current panel as a .json blueprint."), GUILayout.Height(24)))
                     {
                         string path = EditorUtility.SaveFilePanel("Export blueprint", "", TemplateLibrary.SafeFileName(panel.name) + ".json", "json");
                         if (!string.IsNullOrEmpty(path)) File.WriteAllText(path, Blueprint.Export(panel, ThemeIdOf(panel)));
                     }
-                    if (GUILayout.Button(new GUIContent("Copy JSON", "Copy the blueprint to the clipboard."), GUILayout.Height(24)))
+                    if (GUILayout.Button(Loc.C("Copy JSON", "Copy the blueprint to the clipboard."), GUILayout.Height(24)))
                     {
                         EditorGUIUtility.systemCopyBuffer = Blueprint.Export(panel, ThemeIdOf(panel));
-                        ShowNotification(new GUIContent("Blueprint copied"));
+                        ShowNotification(Loc.C("Blueprint copied"));
                     }
                 }
-                if (GUILayout.Button(new GUIContent("Import…", "Build a new panel from a .json blueprint."), GUILayout.Height(24)))
+                if (GUILayout.Button(Loc.C("Import…", "Build a new panel from a .json blueprint."), GUILayout.Height(24)))
                 {
                     string path = EditorUtility.OpenFilePanel("Import blueprint", "", "json");
                     if (!string.IsNullOrEmpty(path)) ImportBlueprint(File.ReadAllText(path));
                 }
-                if (GUILayout.Button(new GUIContent("Paste", "Build a new panel from a blueprint on the clipboard."), GUILayout.Height(24)))
+                if (GUILayout.Button(Loc.C("Paste", "Build a new panel from a blueprint on the clipboard."), GUILayout.Height(24)))
                     ImportBlueprint(EditorGUIUtility.systemCopyBuffer);
             }
             if (importNotes != null)

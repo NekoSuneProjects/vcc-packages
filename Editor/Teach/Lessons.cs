@@ -58,8 +58,35 @@ namespace NekoSune.WorldUiAssistant
                     all = new List<Lesson>();
                     all.AddRange(CoreLessons.Build());
                     all.AddRange(SystemLessons.Build());
+                    ApplyVideoLinks(all);
                 }
                 return all;
+            }
+        }
+
+        public const string VideoLinksPackage = "Packages/com.nekosune.world-ui-assistant/Editor/Teach/lesson-videos.json";
+        public const string VideoLinksProject = "Assets/NekoSune/UIAssistant/lesson-videos.json";
+
+        [System.Serializable] private class VideoLink { public string lesson; public string url; }
+        [System.Serializable] private class VideoLinks { public VideoLink[] videos; }
+
+        /// <summary>Tutorial videos per lesson from lesson-videos.json (the package's, then your own in Assets to add or override).</summary>
+        private static void ApplyVideoLinks(List<Lesson> lessons)
+        {
+            foreach (var path in new[] { VideoLinksPackage, VideoLinksProject })
+            {
+                if (!System.IO.File.Exists(path)) continue;
+                try
+                {
+                    var data = JsonUtility.FromJson<VideoLinks>(System.IO.File.ReadAllText(path));
+                    if (data?.videos == null) continue;
+                    foreach (var v in data.videos)
+                    {
+                        var l = lessons.FirstOrDefault(x => x.id == v.lesson);
+                        if (l != null && !string.IsNullOrEmpty(v.url)) l.videoUrl = v.url;
+                    }
+                }
+                catch (System.Exception e) { Debug.LogWarning("[NekoUI Assistant] Couldn't read " + path + ": " + e.Message); }
             }
         }
 

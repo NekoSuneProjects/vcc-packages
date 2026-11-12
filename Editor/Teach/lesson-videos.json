@@ -1,0 +1,153 @@
+{
+  "_readme": "Tutorial video per lesson. Fill in a url to show a play button next to the lesson. To add your own without editing the package, copy this file to Assets/NekoSune/UIAssistant/lesson-videos.json.",
+  "videos": [
+    {
+      "lesson": "canvas",
+      "url": ""
+    },
+    {
+      "lesson": "recttransform",
+      "url": ""
+    },
+    {
+      "lesson": "layout",
+      "url": ""
+    },
+    {
+      "lesson": "events",
+      "url": ""
+    },
+    {
+      "lesson": "udon",
+      "url": ""
+    },
+    {
+      "lesson": "sync",
+      "url": ""
+    },
+    {
+      "lesson": "performance",
+      "url": ""
+    },
+    {
+      "lesson": "graduation",
+      "url": ""
+    },
+    {
+      "lesson": "t-welcome",
+      "url": ""
+    },
+    {
+      "lesson": "t-rules",
+      "url": ""
+    },
+    {
+      "lesson": "t-settings",
+      "url": ""
+    },
+    {
+      "lesson": "t-teleport",
+      "url": ""
+    },
+    {
+      "lesson": "t-credits",
+      "url": ""
+    },
+    {
+      "lesson": "t-schedule",
+      "url": ""
+    },
+    {
+      "lesson": "t-links",
+      "url": ""
+    },
+    {
+      "lesson": "s-video",
+      "url": ""
+    },
+    {
+      "lesson": "s-music",
+      "url": ""
+    },
+    {
+      "lesson": "s-news",
+      "url": ""
+    },
+    {
+      "lesson": "s-slideshow",
+      "url": ""
+    },
+    {
+      "lesson": "s-tabs",
+      "url": ""
+    },
+    {
+      "lesson": "s-portable",
+      "url": ""
+    },
+    {
+      "lesson": "s-hotkeys",
+      "url": ""
+    },
+    {
+      "lesson": "s-admin",
+      "url": ""
+    },
+    {
+      "lesson": "s-store",
+      "url": ""
+    },
+    {
+      "lesson": "s-keypad",
+      "url": ""
+    },
+    {
+      "lesson": "s-scoreboard",
+      "url": ""
+    },
+    {
+      "lesson": "s-hud",
+      "url": ""
+    },
+    {
+      "lesson": "s-achievements",
+      "url": ""
+    },
+    {
+      "lesson": "s-poll",
+      "url": ""
+    },
+    {
+      "lesson": "s-dialogue",
+      "url": ""
+    },
+    {
+      "lesson": "s-players",
+      "url": ""
+    },
+    {
+      "lesson": "s-avatars",
+      "url": ""
+    },
+    {
+      "lesson": "s-map",
+      "url": ""
+    },
+    {
+      "lesson": "s-photo",
+      "url": ""
+    },
+    {
+      "lesson": "s-clock",
+      "url": ""
+    },
+    {
+      "lesson": "s-toast",
+      "url": ""
+    },
+    {
+      "lesson": "s-welcome-once",
+      "url": ""
+    }
+  ]
+}

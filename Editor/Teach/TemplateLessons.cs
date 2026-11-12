@@ -134,7 +134,7 @@ namespace NekoSune.WorldUiAssistant
                 new LessonStep
                 {
                     text = "Find the teleport points under <b>World UI Assistant – Objects</b> and move them to real places in your world. The blue arrow (forward) is where the player will face.",
-                    check = c => UnityEngine.Object.FindObjectsOfType<Transform>(true).Count(t => t.name.StartsWith("Teleport Point")) > 0,
+                    check = c => UnityEngine.Object.FindObjectsByType<Transform>(FindObjectsInactive.Include, FindObjectsSortMode.None).Count(t => t.name.StartsWith("Teleport Point")) > 0,
                     checkHint = "Create the Teleport menu first.",
                 },
                 new LessonStep

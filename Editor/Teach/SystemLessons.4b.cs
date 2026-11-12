@@ -70,6 +70,23 @@ namespace NekoSune.WorldUiAssistant
                 ByHand("on your own canvas, add a Button whose On Click calls <b>AudioSource → Play</b> on an object with an Audio Source. (VRChat allows a few safe Unity calls like this straight from UI.)",
                     () => HandMadeHas(c => c.GetComponentsInChildren<Button>(true).Any(b => Calls(b.onClick, "Play"))), "A hand-made button calling AudioSource.Play.")));
 
+            list.Add(Make("s-news", "news", "Remote news board", "Remote data: JSON and pictures from the web.", "Webmaster", 10,
+                CreateStep("Remote news board", "News Board"),
+                Quiz("Why must the JSON and picture URLs be typed in the editor (VRCUrl)?",
+                    new[] { "VRChat only lets worlds load URLs that are fixed at upload time or typed by a player", "Because Udon can't add strings" }, 0,
+                    "Worlds can't build URLs at runtime. Change the file behind the URL instead – the URL stays the same."),
+                Quiz("You have 5 pictures. How long until all are loaded?",
+                    new[] { "About 25 seconds – VRChat allows one image download every 5 seconds", "Instantly" }, 0,
+                    "Downloads are rate-limited, so NekoDataCards queues them. Hosts like GitHub Pages are trusted; others need players to allow untrusted URLs."),
+                new LessonStep
+                {
+                    text = "Host a JSON file like <i>[{\"title\": \"Party Friday!\", \"text\": \"20:00 UTC\"}]</i> (e.g. on GitHub Pages) and paste its address into <b>Data Url</b> in the System settings card.",
+                    check = c => Panel("News Board")?.GetComponent<NekoDataCards>()?.dataUrl is VRC.SDKBase.VRCUrl u && !string.IsNullOrEmpty(u.Get()),
+                    checkHint = "Set the Data Url.",
+                },
+                ByHand("on your own canvas, add a <b>Raw Image</b> and drag it into a NekoDataCards' <i>Pictures</i> list.",
+                    () => Resources.FindObjectsOfTypeAll<NekoDataCards>().Any(d => d && d.pictures != null && d.pictures.Any(p => p && InHandMade(p))), "A NekoDataCards picture on a hand-made canvas.")));
+
             list.Add(Make("s-slideshow", "slideshow", "Gallery / slideshow", "Sprites, captions and synced presentations.", "Curator", 6,
                 CreateStep("Gallery / slideshow", "Slideshow"),
                 new LessonStep

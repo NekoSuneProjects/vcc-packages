@@ -12,7 +12,7 @@ using VRC.Udon;
 namespace NekoSune.WorldUiAssistant
 {
     /// <summary>What a button or toggle can do, in the order shown in the action picker.</summary>
-    internal enum ActionChoice { Nothing, Show, Hide, ShowHide, Mirror, PlaySound, StopSound, Teleport, OpenPage, CustomEvent, ShowOne }
+    internal enum ActionChoice { Nothing, Show, Hide, ShowHide, Mirror, PlaySound, StopSound, Teleport, OpenPage, CustomEvent, ShowOne, Animator }
 
     /// <summary>What a slider can drive.</summary>
     internal enum SliderChoice { Nothing, SoundVolume, AnimatorFloat, SendToUdon }
@@ -28,7 +28,7 @@ namespace NekoSune.WorldUiAssistant
         public static readonly string[] ChoiceLabels =
         {
             "Nothing yet", "Show something", "Hide something", "Show / hide something", "Turn a mirror on / off",
-            "Play a sound", "Stop a sound", "Teleport the player", "Open a page", "Send an Udon event", "Show one of a group",
+            "Play a sound", "Stop a sound", "Teleport the player", "Open a page", "Send an Udon event", "Show one of a group", "Change an Animator",
         };
 
         public static NekoUiAction Get(Selectable s) => s ? s.GetComponent<NekoUiAction>() : null;
@@ -47,6 +47,7 @@ namespace NekoSune.WorldUiAssistant
                 case NekoUiAction.OpenPage: return ActionChoice.OpenPage;
                 case NekoUiAction.CustomEvent: return ActionChoice.CustomEvent;
                 case NekoUiAction.ShowOneOfGroup: return ActionChoice.ShowOne;
+                case NekoUiAction.SetAnimator: return ActionChoice.Animator;
                 default: return ActionChoice.Nothing;
             }
         }
@@ -63,6 +64,7 @@ namespace NekoSune.WorldUiAssistant
                 case ActionChoice.OpenPage: return NekoUiAction.OpenPage;
                 case ActionChoice.CustomEvent: return NekoUiAction.CustomEvent;
                 case ActionChoice.ShowOne: return NekoUiAction.ShowOneOfGroup;
+                case ActionChoice.Animator: return NekoUiAction.SetAnimator;
                 default: return NekoUiAction.ToggleObjects; // ShowHide, Mirror
             }
         }
@@ -386,6 +388,10 @@ namespace NekoSune.WorldUiAssistant
                     case ActionChoice.ShowOne:
                         if (a.targets == null || a.targets.Length == 0 || a.targets.Any(t => !t))
                             list.Add(new Problem { text = "\"" + a.name + "\" has an empty group (or an empty slot).", where = where });
+                        break;
+                    case ActionChoice.Animator:
+                        if (!a.animator || string.IsNullOrEmpty(a.parameter))
+                            list.Add(new Problem { text = "\"" + a.name + "\" needs an Animator and a parameter.", where = where });
                         break;
                     case ActionChoice.CustomEvent:
                         if (!a.eventTarget || string.IsNullOrEmpty(a.eventName))

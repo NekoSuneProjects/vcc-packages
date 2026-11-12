@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using VRC.Economy;
 using VRC.SDK3.Data;
+using VRC.SDK3.Image;
 using VRC.SDK3.StringLoading;
 using VRC.SDKBase;
 using VRC.Udon.Common.Interfaces;
@@ -73,11 +74,18 @@ namespace NekoSune.WorldUiAssistant
         [Header("Remote data (optional)")]
         [Tooltip("JSON array: [{\"name\":…, \"price\":…, \"description\":…, \"category\":…}] – one per card.")]
         public VRCUrl dataUrl;
+        [Tooltip("Optional picture URL per product (shown over the card picture once loaded). One download every 5 s.")]
+        public VRCUrl[] imageUrls;
+        public RawImage[] cardRemotePictures;
+        public RawImage detailRemotePicture;
 
         private int current = -1;
         private string category = "";
         private bool[] owned;
         private string supporters = "";
+        private VRCImageDownloader images;
+        private Texture2D[] remoteTextures;
+        private int nextImage;
 
         private void Start()
         {
@@ -87,7 +95,46 @@ namespace NekoSune.WorldUiAssistant
             UpdateUnlocks();
             UpdateSupporterWall();
             if (dataUrl != null && !string.IsNullOrEmpty(dataUrl.Get())) VRCStringDownloader.LoadUrl(dataUrl, (IUdonEventReceiver)this);
+            remoteTextures = new Texture2D[Count()];
+            if (imageUrls != null && imageUrls.Length > 0)
+            {
+                images = new VRCImageDownloader();
+                LoadNextImage();
+            }
             Filter();
+        }
+
+        public void LoadNextImage()
+        {
+            while (nextImage < imageUrls.Length && (imageUrls[nextImage] == null || string.IsNullOrEmpty(imageUrls[nextImage].Get()))) nextImage++;
+            if (nextImage >= imageUrls.Length || nextImage >= Count()) return;
+            images.DownloadImage(imageUrls[nextImage], null, (IUdonEventReceiver)this, null);
+        }
+
+        public override void OnImageLoadSuccess(IVRCImageDownload result)
+        {
+            if (nextImage < remoteTextures.Length)
+            {
+                remoteTextures[nextImage] = result.Result;
+                if (cardRemotePictures != null && nextImage < cardRemotePictures.Length && cardRemotePictures[nextImage] != null)
+                {
+                    cardRemotePictures[nextImage].texture = result.Result;
+                    cardRemotePictures[nextImage].gameObject.SetActive(true);
+                }
+            }
+            nextImage++;
+            SendCustomEventDelayedSeconds(nameof(LoadNextImage), 5.5f);
+        }
+
+        public override void OnImageLoadError(IVRCImageDownload result)
+        {
+            nextImage++;
+            SendCustomEventDelayedSeconds(nameof(LoadNextImage), 5.5f);
+        }
+
+        private void OnDestroy()
+        {
+            if (images != null) images.Dispose();
         }
 
         private int Count() => names == null ? 0 : names.Length;
@@ -115,6 +162,12 @@ namespace NekoSune.WorldUiAssistant
             if (detailPrice != null) detailPrice.text = Get(prices, i);
             if (detailDescription != null) detailDescription.text = Get(descriptions, i);
             if (detailPicture != null && pictures != null && i < pictures.Length && pictures[i] != null) detailPicture.sprite = pictures[i];
+            bool remote = remoteTextures != null && i < remoteTextures.Length && remoteTextures[i] != null;
+            if (detailRemotePicture != null)
+            {
+                detailRemotePicture.gameObject.SetActive(remote);
+                if (remote) detailRemotePicture.texture = remoteTextures[i];
+            }
 
             bool economy = products != null && i < products.Length && products[i] != null;
             bool isOwned = owned != null && i < owned.Length && owned[i];

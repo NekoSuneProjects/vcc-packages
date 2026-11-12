@@ -1,0 +1,1075 @@
+{
+ "code": "ko",
+ "name": "Korean",
+ "nativeName": "한국어",
+ "entries": [
+  {
+   "k": "+ Link",
+   "v": "+ 링크"
+  },
+  {
+   "k": "✓ VRChat-ready canvas",
+   "v": "✓ VRChat 준비 완료 캔버스"
+  },
+  {
+   "k": "A box you can scroll when it has more than fits.",
+   "v": "내용이 넘칠 때 스크롤할 수 있는 상자."
+  },
+  {
+   "k": "A Float parameter in the Animator Controller.",
+   "v": "Animator Controller의 Float 파라미터."
+  },
+  {
+   "k": "A paragraph of text.",
+   "v": "텍스트 문단."
+  },
+  {
+   "k": "A picture. Pick a Sprite after adding it.",
+   "v": "그림. 추가한 뒤 Sprite를 고르세요."
+  },
+  {
+   "k": "A public float field in that script.",
+   "v": "그 스크립트의 public float 필드."
+  },
+  {
+   "k": "A public method name in that script, e.g. ResetGame.",
+   "v": "그 스크립트의 public 메서드 이름 (예: ResetGame)."
+  },
+  {
+   "k": "A texture imported with Texture Type = Sprite (2D and UI).",
+   "v": "Texture Type = Sprite (2D and UI)로 가져온 텍스처."
+  },
+  {
+   "k": "A thin line between sections.",
+   "v": "구역 사이의 얇은 선."
+  },
+  {
+   "k": "Achievements / progress",
+   "v": "업적 / 진행도"
+  },
+  {
+   "k": "Add",
+   "v": "추가"
+  },
+  {
+   "k": "Add to panel",
+   "v": "패널에 추가"
+  },
+  {
+   "k": "Adds the QR picture to the current panel (after the selected item).",
+   "v": "QR 그림을 패널에 추가합니다 (선택한 항목 뒤)."
+  },
+  {
+   "k": "Admin panel",
+   "v": "관리자 패널"
+  },
+  {
+   "k": "An Audio Source in the scene.",
+   "v": "씬의 Audio Source."
+  },
+  {
+   "k": "An empty object; its blue arrow (forward) is where the player faces.",
+   "v": "빈 오브젝트. 파란 화살표(앞)가 플레이어가 볼 방향입니다."
+  },
+  {
+   "k": "An on/off checkbox with a label.",
+   "v": "라벨이 있는 켜기/끄기 체크박스."
+  },
+  {
+   "k": "Animator",
+   "v": "Animator"
+  },
+  {
+   "k": "At the world origin (1.5 m up)",
+   "v": "월드 원점 (1.5 m 위)"
+  },
+  {
+   "k": "Avatar board",
+   "v": "아바타 보드"
+  },
+  {
+   "k": "Back",
+   "v": "뒤로"
+  },
+  {
+   "k": "Background",
+   "v": "배경"
+  },
+  {
+   "k": "Badges",
+   "v": "배지"
+  },
+  {
+   "k": "Big bold heading text.",
+   "v": "크고 굵은 제목."
+  },
+  {
+   "k": "Blueprint copied",
+   "v": "블루프린트 복사됨"
+  },
+  {
+   "k": "Blueprints (JSON)",
+   "v": "블루프린트 (JSON)"
+  },
+  {
+   "k": "Boards",
+   "v": "보드"
+  },
+  {
+   "k": "Bold",
+   "v": "굵게"
+  },
+  {
+   "k": "Box colour",
+   "v": "상자 색"
+  },
+  {
+   "k": "Build",
+   "v": "만들기"
+  },
+  {
+   "k": "Build a new panel from a .json blueprint.",
+   "v": ".json 블루프린트로 새 패널을 만듭니다."
+  },
+  {
+   "k": "Build a new panel from a blueprint on the clipboard.",
+   "v": "클립보드의 블루프린트로 새 패널을 만듭니다."
+  },
+  {
+   "k": "Build VRChat world UI step by step — and learn how it works",
+   "v": "VRChat 월드 UI를 단계별로 만들고 원리를 배우세요"
+  },
+  {
+   "k": "Button",
+   "v": "버튼"
+  },
+  {
+   "k": "Button colour",
+   "v": "버튼 색"
+  },
+  {
+   "k": "Cancel",
+   "v": "취소"
+  },
+  {
+   "k": "Cell height",
+   "v": "셀 높이"
+  },
+  {
+   "k": "Cell width",
+   "v": "셀 너비"
+  },
+  {
+   "k": "Centre",
+   "v": "가운데"
+  },
+  {
+   "k": "Change sound volume",
+   "v": "소리 크기 바꾸기"
+  },
+  {
+   "k": "Check my work",
+   "v": "내 작업 확인"
+  },
+  {
+   "k": "Check now",
+   "v": "지금 확인"
+  },
+  {
+   "k": "Check your project",
+   "v": "프로젝트 확인"
+  },
+  {
+   "k": "ChilloutVR CCK found",
+   "v": "ChilloutVR CCK 발견"
+  },
+  {
+   "k": "Clock & countdown",
+   "v": "시계 & 카운트다운"
+  },
+  {
+   "k": "Colour",
+   "v": "색"
+  },
+  {
+   "k": "Column",
+   "v": "열"
+  },
+  {
+   "k": "Columns",
+   "v": "열 수"
+  },
+  {
+   "k": "Connect",
+   "v": "연결"
+  },
+  {
+   "k": "Continue",
+   "v": "계속"
+  },
+  {
+   "k": "Copy JSON",
+   "v": "JSON 복사"
+  },
+  {
+   "k": "Copy the blueprint to the clipboard.",
+   "v": "블루프린트를 클립보드에 복사합니다."
+  },
+  {
+   "k": "Couldn't draw the settings here:",
+   "v": "여기에 설정을 표시할 수 없습니다:"
+  },
+  {
+   "k": "Create",
+   "v": "만들기"
+  },
+  {
+   "k": "Create Panel",
+   "v": "패널 만들기"
+  },
+  {
+   "k": "Credits board",
+   "v": "크레딧 보드"
+  },
+  {
+   "k": "Delete",
+   "v": "삭제"
+  },
+  {
+   "k": "Dialogue box",
+   "v": "대화 상자"
+  },
+  {
+   "k": "Divider",
+   "v": "구분선"
+  },
+  {
+   "k": "Do this",
+   "v": "할 일"
+  },
+  {
+   "k": "Doctor",
+   "v": "닥터"
+  },
+  {
+   "k": "Don't stretch the picture (Image.preserveAspect).",
+   "v": "그림을 늘이지 않음 (Image.preserveAspect)."
+  },
+  {
+   "k": "Download update",
+   "v": "업데이트 다운로드"
+  },
+  {
+   "k": "Drag an object from the Hierarchy.",
+   "v": "Hierarchy에서 오브젝트를 끌어오세요."
+  },
+  {
+   "k": "Drag to pick a value, e.g. volume.",
+   "v": "끌어서 값을 고릅니다 (예: 볼륨)."
+  },
+  {
+   "k": "Duplicate",
+   "v": "복제"
+  },
+  {
+   "k": "e.g. 1, 2, 3 instead of 1.37",
+   "v": "예: 1.37 대신 1, 2, 3"
+  },
+  {
+   "k": "Each click switches between shown and hidden.",
+   "v": "클릭할 때마다 보이기/숨기기가 바뀝니다."
+  },
+  {
+   "k": "Edge padding",
+   "v": "가장자리 여백"
+  },
+  {
+   "k": "Edit",
+   "v": "편집"
+  },
+  {
+   "k": "Empty space.",
+   "v": "빈 공간."
+  },
+  {
+   "k": "Empty. Add something from the Add card.",
+   "v": "비어 있습니다. 추가 카드에서 무언가를 추가하세요."
+  },
+  {
+   "k": "Equal cells, e.g. a grid of buttons.",
+   "v": "같은 크기의 칸 (예: 버튼 격자)."
+  },
+  {
+   "k": "Event name",
+   "v": "이벤트 이름"
+  },
+  {
+   "k": "Event schedule",
+   "v": "이벤트 일정"
+  },
+  {
+   "k": "Every word the Assistant uses, in plain English.",
+   "v": "어시스턴트가 쓰는 모든 용어를 쉽게 설명합니다."
+  },
+  {
+   "k": "Everyone sees it (synced)",
+   "v": "모두에게 보임 (동기화)"
+  },
+  {
+   "k": "Expert",
+   "v": "전문가"
+  },
+  {
+   "k": "Explain mode",
+   "v": "설명 모드"
+  },
+  {
+   "k": "Export…",
+   "v": "내보내기…"
+  },
+  {
+   "k": "Fill colour",
+   "v": "채우기 색"
+  },
+  {
+   "k": "Finish",
+   "v": "완료"
+  },
+  {
+   "k": "Fix",
+   "v": "고치기"
+  },
+  {
+   "k": "Float variable",
+   "v": "Float 변수"
+  },
+  {
+   "k": "Font size in UI units (mm). 26 reads well at about 2 m.",
+   "v": "UI 단위(mm)의 글자 크기. 26이면 약 2 m에서 잘 보입니다."
+  },
+  {
+   "k": "Frame",
+   "v": "보기"
+  },
+  {
+   "k": "From / to",
+   "v": "최소 / 최대"
+  },
+  {
+   "k": "Full help",
+   "v": "전체 도움말"
+  },
+  {
+   "k": "Gallery / slideshow",
+   "v": "갤러리 / 슬라이드쇼"
+  },
+  {
+   "k": "Game HUD",
+   "v": "게임 HUD"
+  },
+  {
+   "k": "Games",
+   "v": "게임"
+  },
+  {
+   "k": "Gap",
+   "v": "간격"
+  },
+  {
+   "k": "Gap between items",
+   "v": "항목 간격"
+  },
+  {
+   "k": "Glossary",
+   "v": "용어집"
+  },
+  {
+   "k": "Grid",
+   "v": "그리드"
+  },
+  {
+   "k": "Handle colour",
+   "v": "손잡이 색"
+  },
+  {
+   "k": "Help",
+   "v": "도움말"
+  },
+  {
+   "k": "Hide something",
+   "v": "무언가 숨기기"
+  },
+  {
+   "k": "Hotkeys",
+   "v": "단축키"
+  },
+  {
+   "k": "How it works in Unity:",
+   "v": "Unity에서의 원리:"
+  },
+  {
+   "k": "How much the Assistant explains.",
+   "v": "어시스턴트가 얼마나 설명할지."
+  },
+  {
+   "k": "Image",
+   "v": "이미지"
+  },
+  {
+   "k": "Import TMP Essentials",
+   "v": "TMP Essentials 가져오기"
+  },
+  {
+   "k": "Import…",
+   "v": "가져오기…"
+  },
+  {
+   "k": "In front of the Scene view camera",
+   "v": "씬 뷰 카메라 앞"
+  },
+  {
+   "k": "Inside the selected object",
+   "v": "선택한 오브젝트 안"
+  },
+  {
+   "k": "Keep shape",
+   "v": "모양 유지"
+  },
+  {
+   "k": "Keypad / code door",
+   "v": "키패드 / 비밀번호 문"
+  },
+  {
+   "k": "Label",
+   "v": "라벨"
+  },
+  {
+   "k": "Label colour",
+   "v": "라벨 색"
+  },
+  {
+   "k": "Label size",
+   "v": "라벨 크기"
+  },
+  {
+   "k": "Later",
+   "v": "나중에"
+  },
+  {
+   "k": "Learn",
+   "v": "배우기"
+  },
+  {
+   "k": "Left",
+   "v": "왼쪽"
+  },
+  {
+   "k": "Line up",
+   "v": "정렬"
+  },
+  {
+   "k": "Line up items",
+   "v": "항목 정렬"
+  },
+  {
+   "k": "Link or text",
+   "v": "링크 또는 텍스트"
+  },
+  {
+   "k": "Links / QR board",
+   "v": "링크 / QR 보드"
+  },
+  {
+   "k": "Look",
+   "v": "모양"
+  },
+  {
+   "k": "Make a teleport point at the centre of the Scene view.",
+   "v": "씬 뷰 가운데에 텔레포트 지점을 만듭니다."
+  },
+  {
+   "k": "Map – you are here",
+   "v": "지도 – 현재 위치"
+  },
+  {
+   "k": "Media",
+   "v": "미디어"
+  },
+  {
+   "k": "Menus",
+   "v": "메뉴"
+  },
+  {
+   "k": "Message",
+   "v": "메시지"
+  },
+  {
+   "k": "Message popup",
+   "v": "메시지 팝업"
+  },
+  {
+   "k": "Mirror",
+   "v": "거울"
+  },
+  {
+   "k": "Multiplies the picture's colours. White = unchanged.",
+   "v": "그림 색에 곱합니다. 흰색 = 그대로."
+  },
+  {
+   "k": "Music player",
+   "v": "음악 플레이어"
+  },
+  {
+   "k": "Name",
+   "v": "이름"
+  },
+  {
+   "k": "New",
+   "v": "새로"
+  },
+  {
+   "k": "New panel",
+   "v": "새 패널"
+  },
+  {
+   "k": "Next",
+   "v": "다음"
+  },
+  {
+   "k": "No world UI panels in the open scene yet. Make your first one below.",
+   "v": "아직 씬에 월드 UI 패널이 없습니다. 아래에서 첫 패널을 만드세요."
+  },
+  {
+   "k": "Not connected to the slider yet.",
+   "v": "아직 슬라이더에 연결되지 않았습니다."
+  },
+  {
+   "k": "Nothing yet",
+   "v": "아직 없음"
+  },
+  {
+   "k": "Object",
+   "v": "오브젝트"
+  },
+  {
+   "k": "Off hides it (GameObject.SetActive). Hidden items take no space.",
+   "v": "끄면 숨겨집니다 (GameObject.SetActive). 숨긴 항목은 공간을 차지하지 않습니다."
+  },
+  {
+   "k": "Open a page",
+   "v": "페이지 열기"
+  },
+  {
+   "k": "Optional public method to run after the value is set.",
+   "v": "값을 설정한 뒤 실행할 public 메서드 (선택)."
+  },
+  {
+   "k": "Optional text that shows the value, e.g. 75%.",
+   "v": "값을 보여 줄 텍스트 (선택, 예: 75%)."
+  },
+  {
+   "k": "Outline",
+   "v": "개요"
+  },
+  {
+   "k": "Page",
+   "v": "페이지"
+  },
+  {
+   "k": "Panel",
+   "v": "패널"
+  },
+  {
+   "k": "Parameter",
+   "v": "파라미터"
+  },
+  {
+   "k": "Paste",
+   "v": "붙여넣기"
+  },
+  {
+   "k": "Photo spot helper",
+   "v": "포토 스팟 도우미"
+  },
+  {
+   "k": "Pick a panel to edit, or make a new one.",
+   "v": "편집할 패널을 고르거나 새로 만드세요."
+  },
+  {
+   "k": "Pick what moving this slider does, e.g. music volume.",
+   "v": "슬라이더를 움직일 때 할 일을 고르세요 (예: 음악 볼륨)."
+  },
+  {
+   "k": "Picture",
+   "v": "그림"
+  },
+  {
+   "k": "Pieces",
+   "v": "조각"
+  },
+  {
+   "k": "Place it",
+   "v": "배치 위치"
+  },
+  {
+   "k": "Play a sound",
+   "v": "소리 재생"
+  },
+  {
+   "k": "Player list & instance info",
+   "v": "플레이어 목록 & 인스턴스 정보"
+  },
+  {
+   "k": "Poll / voting",
+   "v": "투표"
+  },
+  {
+   "k": "Pops up a short message with the scene's Message popup (NekoToast).",
+   "v": "씬의 메시지 팝업(NekoToast)에 짧은 메시지를 띄웁니다."
+  },
+  {
+   "k": "Popup",
+   "v": "팝업"
+  },
+  {
+   "k": "Portable menu",
+   "v": "휴대 메뉴"
+  },
+  {
+   "k": "Put the point on the floor; the player lands standing on it.",
+   "v": "지점을 바닥에 두세요. 플레이어가 그 위에 서서 도착합니다."
+  },
+  {
+   "k": "Puts the items inside it side by side.",
+   "v": "안의 항목을 나란히 놓습니다."
+  },
+  {
+   "k": "QR code maker",
+   "v": "QR 코드 만들기"
+  },
+  {
+   "k": "Remote news board",
+   "v": "원격 뉴스 보드"
+  },
+  {
+   "k": "Remove",
+   "v": "제거"
+  },
+  {
+   "k": "Right",
+   "v": "오른쪽"
+  },
+  {
+   "k": "Row",
+   "v": "행"
+  },
+  {
+   "k": "Rules board",
+   "v": "규칙 보드"
+  },
+  {
+   "k": "Save the current panel as a .json blueprint.",
+   "v": "현재 패널을 .json 블루프린트로 저장합니다."
+  },
+  {
+   "k": "Scoreboard / leaderboard",
+   "v": "점수판 / 순위표"
+  },
+  {
+   "k": "Scroll list",
+   "v": "스크롤 목록"
+  },
+  {
+   "k": "Select",
+   "v": "선택"
+  },
+  {
+   "k": "Select every object with this component.",
+   "v": "이 컴포넌트가 있는 모든 오브젝트를 선택합니다."
+  },
+  {
+   "k": "Select it and open Unity's Inspector to see every component.",
+   "v": "선택하고 Unity Inspector를 열어 모든 컴포넌트를 봅니다."
+  },
+  {
+   "k": "Select the objects this is about.",
+   "v": "관련 오브젝트를 선택합니다."
+  },
+  {
+   "k": "Select the panel itself (in the Hierarchy and here).",
+   "v": "패널 자체를 선택합니다 (Hierarchy와 여기서)."
+  },
+  {
+   "k": "Send an Udon event",
+   "v": "Udon 이벤트 보내기"
+  },
+  {
+   "k": "Send the value to Udon",
+   "v": "값을 Udon으로 보내기"
+  },
+  {
+   "k": "Set an Animator value",
+   "v": "Animator 값 설정"
+  },
+  {
+   "k": "Set the slider's range to 0 – 1 for volume.",
+   "v": "볼륨은 슬라이더 범위를 0 – 1로 두세요."
+  },
+  {
+   "k": "Sets size and boldness from the theme. Title is centred.",
+   "v": "테마에 맞춰 크기와 굵기를 정합니다. 제목은 가운데 정렬."
+  },
+  {
+   "k": "Settings menu",
+   "v": "설정 메뉴"
+  },
+  {
+   "k": "Shop",
+   "v": "상점"
+  },
+  {
+   "k": "Show",
+   "v": "보이기"
+  },
+  {
+   "k": "Show / hide",
+   "v": "보이기 / 숨기기"
+  },
+  {
+   "k": "Show / hide something",
+   "v": "무언가 보이기 / 숨기기"
+  },
+  {
+   "k": "Show in Inspector",
+   "v": "Inspector에서 보기"
+  },
+  {
+   "k": "Show me",
+   "v": "보여 주기"
+  },
+  {
+   "k": "Show one of a group",
+   "v": "그룹 중 하나만 보이기"
+  },
+  {
+   "k": "Show something",
+   "v": "무언가 보이기"
+  },
+  {
+   "k": "Show the panel in the Scene view.",
+   "v": "씬 뷰에서 패널을 보여 줍니다."
+  },
+  {
+   "k": "Show this page",
+   "v": "이 페이지 보이기"
+  },
+  {
+   "k": "Show value in",
+   "v": "값 표시 위치"
+  },
+  {
+   "k": "Show which Unity component and property each setting changes.",
+   "v": "각 설정이 바꾸는 Unity 컴포넌트와 속성을 보여 줍니다."
+  },
+  {
+   "k": "Shows this page and hides the others, so you can work on it.",
+   "v": "이 페이지를 보이고 나머지는 숨겨 작업할 수 있게 합니다."
+  },
+  {
+   "k": "Size",
+   "v": "크기"
+  },
+  {
+   "k": "Size (mm)",
+   "v": "크기 (mm)"
+  },
+  {
+   "k": "Skip this version",
+   "v": "이 버전 건너뛰기"
+  },
+  {
+   "k": "Slider",
+   "v": "슬라이더"
+  },
+  {
+   "k": "Slider.minValue and maxValue.",
+   "v": "Slider.minValue 및 maxValue."
+  },
+  {
+   "k": "Social",
+   "v": "소셜"
+  },
+  {
+   "k": "Some help",
+   "v": "약간의 도움말"
+  },
+  {
+   "k": "Something to click. Give it an action in its Edit card.",
+   "v": "클릭할 수 있는 것. 편집 카드에서 동작을 지정하세요."
+  },
+  {
+   "k": "Sound",
+   "v": "소리"
+  },
+  {
+   "k": "Space between the panel's edge and its content.",
+   "v": "패널 가장자리와 내용 사이의 공간."
+  },
+  {
+   "k": "Spacer",
+   "v": "여백"
+  },
+  {
+   "k": "Start",
+   "v": "시작"
+  },
+  {
+   "k": "Start with a title and some text",
+   "v": "제목과 글로 시작"
+  },
+  {
+   "k": "Starts at",
+   "v": "시작 값"
+  },
+  {
+   "k": "Starts on",
+   "v": "처음에 켜짐"
+  },
+  {
+   "k": "Stop a sound",
+   "v": "소리 정지"
+  },
+  {
+   "k": "Stop the lesson (your place is kept).",
+   "v": "강의를 멈춥니다 (진행 위치는 저장됨)."
+  },
+  {
+   "k": "Store / market",
+   "v": "상점 / 마켓"
+  },
+  {
+   "k": "Style",
+   "v": "스타일"
+  },
+  {
+   "k": "System settings",
+   "v": "시스템 설정"
+  },
+  {
+   "k": "Tabbed menu",
+   "v": "탭 메뉴"
+  },
+  {
+   "k": "Teleport menu",
+   "v": "텔레포트 메뉴"
+  },
+  {
+   "k": "Teleport the player",
+   "v": "플레이어 텔레포트"
+  },
+  {
+   "k": "Teleport to",
+   "v": "텔레포트 위치"
+  },
+  {
+   "k": "Templates",
+   "v": "템플릿"
+  },
+  {
+   "k": "Text",
+   "v": "텍스트"
+  },
+  {
+   "k": "Text under 18 is hard to read in VR from a normal distance.",
+   "v": "18보다 작은 글자는 VR에서 보통 거리로 읽기 어렵습니다."
+  },
+  {
+   "k": "TextMeshPro's default font isn't imported yet. Text needs it.",
+   "v": "TextMeshPro 기본 글꼴을 아직 가져오지 않았습니다. 텍스트에 필요합니다."
+  },
+  {
+   "k": "The Image colour. Pointing at it brightens it; clicking darkens it.",
+   "v": "이미지 색. 가리키면 밝아지고 클릭하면 어두워집니다."
+  },
+  {
+   "k": "The object's name in the Hierarchy and the outline.",
+   "v": "Hierarchy와 개요에 보이는 오브젝트 이름."
+  },
+  {
+   "k": "The one object to show; the rest of the group is hidden.",
+   "v": "보일 오브젝트 하나. 그룹의 나머지는 숨겨집니다."
+  },
+  {
+   "k": "The UdonBehaviour to send the event to.",
+   "v": "이벤트를 보낼 UdonBehaviour."
+  },
+  {
+   "k": "Theme — click to re-colour everything",
+   "v": "테마 — 클릭하면 전체 색이 바뀝니다"
+  },
+  {
+   "k": "Then send event",
+   "v": "그다음 보낼 이벤트"
+  },
+  {
+   "k": "Then show a message",
+   "v": "그다음 메시지 보이기"
+  },
+  {
+   "k": "This panel has no pages yet. Click Page in the Add card to make one.",
+   "v": "이 패널에는 아직 페이지가 없습니다. 추가 카드의 페이지를 누르세요."
+  },
+  {
+   "k": "Tick colour",
+   "v": "체크 색"
+  },
+  {
+   "k": "Tint",
+   "v": "색조"
+  },
+  {
+   "k": "Title",
+   "v": "제목"
+  },
+  {
+   "k": "Toggle",
+   "v": "토글"
+  },
+  {
+   "k": "Toggle on = playing, off = stopped.",
+   "v": "토글 켜짐 = 재생, 꺼짐 = 정지."
+  },
+  {
+   "k": "Toggle.isOn when the world loads.",
+   "v": "월드가 로드될 때의 Toggle.isOn."
+  },
+  {
+   "k": "Track colour",
+   "v": "트랙 색"
+  },
+  {
+   "k": "Turn a mirror on / off",
+   "v": "거울 켜기 / 끄기"
+  },
+  {
+   "k": "Udon script",
+   "v": "Udon 스크립트"
+  },
+  {
+   "k": "UI Doctor",
+   "v": "UI 닥터"
+  },
+  {
+   "k": "Video player controls",
+   "v": "비디오 플레이어 컨트롤"
+  },
+  {
+   "k": "Video players already in your scene",
+   "v": "씬에 이미 있는 비디오 플레이어"
+  },
+  {
+   "k": "Visible",
+   "v": "보임"
+  },
+  {
+   "k": "Watch the video for this lesson",
+   "v": "이 강의의 동영상 보기"
+  },
+  {
+   "k": "Welcome board",
+   "v": "환영 보드"
+  },
+  {
+   "k": "Welcome with \"Don't show again\"",
+   "v": "\"다시 보지 않기\"가 있는 환영"
+  },
+  {
+   "k": "What did it make?",
+   "v": "무엇이 만들어졌나요?"
+  },
+  {
+   "k": "What it's called in the Hierarchy.",
+   "v": "Hierarchy에서의 이름."
+  },
+  {
+   "k": "When it's moved",
+   "v": "움직일 때"
+  },
+  {
+   "k": "Where",
+   "v": "위치"
+  },
+  {
+   "k": "While this is selected, new items from the Add card go inside it.",
+   "v": "선택한 동안 추가 카드의 새 항목은 이 안에 들어갑니다."
+  },
+  {
+   "k": "Whole numbers only",
+   "v": "정수만"
+  },
+  {
+   "k": "Width × height. 1 UI unit = 1 mm in the world.",
+   "v": "너비 × 높이. UI 1단위 = 월드 1 mm."
+  },
+  {
+   "k": "You finished every lesson. Amazing!",
+   "v": "모든 강의를 마쳤어요. 대단해요!"
+  },
+  {
+   "k": "Your panels",
+   "v": "내 패널"
+  },
+  {
+   "k": "Your progress",
+   "v": "내 진행도"
+  },
+  {
+   "k": "Again",
+   "v": "다시"
+  },
+  {
+   "k": "Answer",
+   "v": "답하기"
+  },
+  {
+   "k": "Change an Animator",
+   "v": "Animator 바꾸기"
+  },
+  {
+   "k": "Set a Bool",
+   "v": "Bool 설정"
+  },
+  {
+   "k": "Switch a Bool",
+   "v": "Bool 전환"
+  },
+  {
+   "k": "Fire a Trigger",
+   "v": "Trigger 발동"
+  },
+  {
+   "k": "Set an Int",
+   "v": "Int 설정"
+  },
+  {
+   "k": "Value",
+   "v": "값"
+  },
+  {
+   "k": "Grow with content",
+   "v": "내용에 맞춰 늘리기"
+  },
+  {
+   "k": "Toggle on = true, off = false.",
+   "v": "켜짐 = true, 꺼짐 = false."
+  },
+  {
+   "k": "Environment",
+   "v": "환경"
+  },
+  {
+   "k": "e.g. a door or a light with an Animator Controller.",
+   "v": "예: Animator Controller가 있는 문이나 조명."
+  }
+ ]
+}

@@ -28,6 +28,7 @@ namespace NekoSune.WorldUiAssistant
             // Media
             Add("video", "Video player controls", "Media", "VideoClip Icon", "Play/pause, stop, seek, time, volume, URL field, loop, resync and a playlist for a stock VRChat video player (one is added if your scene has none). Synced so everyone watches together.", BuildVideo);
             Add("music", "Music player", "Media", "AudioClip Icon", "Playlist with play/pause, next/back, shuffle and volume. Local or synced.", BuildMusic);
+            Add("news", "Remote news board", "Media", "d_Linked", "Cards filled from a JSON file and pictures on the web – update news or events without re-uploading the world.", BuildNews);
             Add("slideshow", "Gallery / slideshow", "Media", "Image Icon", "Pictures with captions, Next/Back and auto-advance. Synced for presentations.", BuildSlideshow);
 
             // Menus & controls
@@ -84,6 +85,21 @@ namespace NekoSune.WorldUiAssistant
         {
             var le = c.GetComponent<LayoutElement>();
             return le ? le : Undo.AddComponent<LayoutElement>(c.gameObject);
+        }
+
+        /// <summary>A picture slot for downloaded images (RawImage shows a Texture2D).</summary>
+        private static RawImage Raw(UiBuilder b, float height, string name, bool startHidden)
+        {
+            var go = new GameObject(name, typeof(RectTransform), typeof(RawImage), typeof(LayoutElement));
+            go.GetComponent<LayoutElement>().preferredHeight = height;
+            var raw = go.GetComponent<RawImage>();
+            raw.color = b.theme.control;
+            raw.raycastTarget = false;
+            go.transform.SetParent(b.parent, false);
+            UiFactory.SetLayer(go.transform, b.panel.gameObject.layer);
+            Undo.RegisterCreatedObjectUndo(go, "Add picture");
+            go.SetActive(!startHidden);
+            return raw;
         }
 
         private static Image FilledBar(UiBuilder b, string name, Color color, float height = 24f)
@@ -201,6 +217,25 @@ namespace NekoSune.WorldUiAssistant
                 Btn(b, "◀ Previous", v, nameof(NekoVideoPanel.Previous));
                 Btn(b, "Next ▶", v, nameof(NekoVideoPanel.Next));
             }, "Playlist Buttons");
+            var entries = new GameObject[8];
+            var labels = new TextMeshProUGUI[8];
+            var thumbs = new Image[8];
+            b.Scroll(260, () =>
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    int index = i;
+                    entries[i] = b.Row(() =>
+                    {
+                        thumbs[index] = b.Image(null, 64, "Thumbnail");
+                        var le = thumbs[index].GetComponent<LayoutElement>();
+                        le.preferredWidth = le.minWidth = 110;
+                        le.flexibleWidth = 0;
+                        var button = Btn(b, "Video " + (index + 1), v, "Play" + index);
+                        labels[index] = (TextMeshProUGUI)button.GetComponentInChildren<TMP_Text>();
+                    }, "Entry " + (i + 1)).gameObject;
+                }
+            }, "Playlist");
 
             B.Set(v, x =>
             {
@@ -215,6 +250,10 @@ namespace NekoSune.WorldUiAssistant
                 x.loopToggle = loop;
                 x.playlist = new VRCUrl[0];
                 x.titles = new string[0];
+                x.thumbnails = new Sprite[0];
+                x.playlistButtons = entries;
+                x.playlistLabels = labels;
+                x.playlistThumbs = thumbs;
             });
             return b.panel;
         }
@@ -265,6 +304,30 @@ namespace NekoSune.WorldUiAssistant
                 Btn(b, "Next ▶", s, nameof(NekoSlideshow.Next));
             }, "Buttons");
             B.Set(s, x => { x.slides = new Sprite[0]; x.captions = new string[0]; x.picture = picture; x.captionText = Tmp(caption); x.counterText = Tmp(counter); });
+            return b.panel;
+        }
+
+        private static Canvas BuildNews(UiThemeId theme)
+        {
+            var b = UiBuilder.NewPanel("News Board", new Vector2(1000, 1200), theme);
+            var d = Udon<NekoDataCards>(b.panel);
+            b.Title("News");
+            var status = b.Caption("Set the Data Url in the System settings card.");
+            var cards = new GameObject[3];
+            var titles = new TextMeshProUGUI[3];
+            var texts = new TextMeshProUGUI[3];
+            var pics = new RawImage[3];
+            for (int i = 0; i < 3; i++)
+            {
+                int index = i;
+                cards[i] = b.Column(() =>
+                {
+                    pics[index] = Raw(b, 200, "Picture", false);
+                    titles[index] = Tmp(b.Heading("Card " + (index + 1)));
+                    texts[index] = Tmp(b.Text("Text from your JSON file goes here.", TextStyle.Body, "Text"));
+                }, "Card " + (i + 1), b.theme.control * new Color(1, 1, 1, 0.5f), 12f).gameObject;
+            }
+            B.Set(d, x => { x.cards = cards; x.titles = titles; x.texts = texts; x.pictures = pics; x.statusText = Tmp(status); x.imageUrls = new VRCUrl[0]; });
             return b.panel;
         }
 
@@ -369,6 +432,8 @@ namespace NekoSune.WorldUiAssistant
             var b = UiBuilder.NewPanel("Store", new Vector2(1300, 1400), theme);
             var store = Udon<NekoStore>(b.panel);
             int n = SampleProducts.Length;
+            var remotePics = new RawImage[n];
+            RawImage detailRemote = null;
             var cards = new GameObject[n];
             var cardNames = new TextMeshProUGUI[n];
             var cardPrices = new TextMeshProUGUI[n];
@@ -414,6 +479,7 @@ namespace NekoSune.WorldUiAssistant
                         {
                             var pic = b.Image(null, 150, "Picture");
                             pic.color = b.theme.control;
+                            remotePics[index] = Raw(b, 150, "Remote Picture", true);
                             cardNames[index] = Tmp(b.Text(SampleProducts[index].name, TextStyle.Body, "Name"));
                             cardNames[index].fontStyle = FontStyles.Bold;
                             cardPrices[index] = Tmp(b.Text(SampleProducts[index].price, TextStyle.Caption, "Price"));
@@ -445,6 +511,7 @@ namespace NekoSune.WorldUiAssistant
                 Btn(b, "◀ Back to shop", store, nameof(NekoStore.Back));
                 detailPic = b.Image(null, 360, "Picture");
                 detailPic.color = b.theme.control;
+                detailRemote = Raw(b, 360, "Remote Picture", true);
                 detailName = b.Heading("Product");
                 detailPrice = b.Text("", TextStyle.Body, "Price");
                 detailDesc = b.Text("", TextStyle.Body, "Description");
@@ -496,6 +563,9 @@ namespace NekoSune.WorldUiAssistant
                 x.unlockObjects = new GameObject[0]; x.unlockForProduct = new int[0];
                 x.supporterText = Tmp(supporters);
                 x.thankYouNames = new[] { "Everyone who visits" };
+                x.imageUrls = new VRCUrl[0];
+                x.cardRemotePictures = remotePics;
+                x.detailRemotePicture = detailRemote;
             });
             return b.panel;
         }

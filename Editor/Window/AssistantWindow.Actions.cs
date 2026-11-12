@@ -20,7 +20,7 @@ namespace NekoSune.WorldUiAssistant
 
             var a = UiActions.Get(control);
             var choice = UiActions.ChoiceOf(a);
-            var picked = (ActionChoice)EditorGUILayout.Popup(new GUIContent("Do this"), (int)choice, UiActions.ChoiceLabels);
+            var picked = (ActionChoice)EditorGUILayout.Popup(Loc.C("Do this"), (int)choice, UiActions.ChoiceLabels.Select(Loc.T).ToArray());
             G.Api("NekoUiAction.action · Button.onClick → UdonBehaviour.SendCustomEvent(\"Run\")");
             if (picked != choice)
             {
@@ -48,6 +48,7 @@ namespace NekoSune.WorldUiAssistant
                 case ActionChoice.OpenPage: DrawPagePick(a); break;
                 case ActionChoice.CustomEvent: DrawCustomEvent(a); break;
                 case ActionChoice.ShowOne: DrawShowOne(a); break;
+                case ActionChoice.Animator: DrawAnimator(a, isToggle); break;
             }
 
             DrawToastOption(a);
@@ -55,7 +56,7 @@ namespace NekoSune.WorldUiAssistant
             if (UiActions.CanSync(choice))
             {
                 EditorGUI.BeginChangeCheck();
-                bool synced = EditorGUILayout.ToggleLeft(new GUIContent(" Everyone sees it (synced)", "UdonSynced: the change is sent to every player, and people who join later get it too."), a.synced);
+                bool synced = EditorGUILayout.ToggleLeft(Loc.C(" Everyone sees it (synced)", "UdonSynced: the change is sent to every player, and people who join later get it too."), a.synced);
                 G.Api("NekoUiAction.synced → [UdonSynced] + RequestSerialization");
                 if (EditorGUI.EndChangeCheck()) UiActions.Edit(a, "Synced", x => x.synced = synced);
                 G.Hint(a.synced
@@ -72,7 +73,7 @@ namespace NekoSune.WorldUiAssistant
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     G.Report("Not connected to the " + (isToggle ? "toggle" : "button") + " yet.", false);
-                    if (GUILayout.Button("Connect", GUILayout.Width(70))) UiActions.Wire(control, a);
+                    if (GUILayout.Button(Loc.T("Connect"), GUILayout.Width(70))) UiActions.Wire(control, a);
                 }
             }
         }
@@ -86,13 +87,13 @@ namespace NekoSune.WorldUiAssistant
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     EditorGUI.BeginChangeCheck();
-                    var go = (GameObject)EditorGUILayout.ObjectField(i == 0 ? new GUIContent("Object", "Drag an object from the Hierarchy.") : new GUIContent(" "), targets[i], typeof(GameObject), true);
+                    var go = (GameObject)EditorGUILayout.ObjectField(i == 0 ? Loc.C("Object", "Drag an object from the Hierarchy.") : Loc.C(" "), targets[i], typeof(GameObject), true);
                     if (EditorGUI.EndChangeCheck())
                     {
                         int index = i;
                         UiActions.Edit(a, "Pick object", x => { var t = x.targets.ToArray(); t[index] = go; x.targets = t; });
                     }
-                    if (GUILayout.Button(new GUIContent("✕", "Remove"), EditorStyles.miniButton, GUILayout.Width(22))) remove = i;
+                    if (GUILayout.Button(Loc.C("✕", "Remove"), EditorStyles.miniButton, GUILayout.Width(22))) remove = i;
                 }
             }
             if (remove >= 0) UiActions.Edit(a, "Remove object", x => x.targets = x.targets.Where((_, i) => i != remove).ToArray());
@@ -118,7 +119,7 @@ namespace NekoSune.WorldUiAssistant
             }
             var current = a.targets != null && a.targets.Length > 0 ? a.targets[0] : null;
             int index = Mathf.Max(0, mirrors.IndexOf(current));
-            int picked = EditorGUILayout.Popup(new GUIContent("Mirror"), index, mirrors.Select(m => m.name).ToArray());
+            int picked = EditorGUILayout.Popup(Loc.C("Mirror"), index, mirrors.Select(m => m.name).ToArray());
             if (mirrors[picked] != current) UiActions.Edit(a, "Pick mirror", x => x.targets = new[] { mirrors[picked] });
             G.Hint("Mirrors are heavy for performance, so most worlds start them off and let each player turn them on (local).");
         }
@@ -126,7 +127,7 @@ namespace NekoSune.WorldUiAssistant
         private void DrawSound(NekoUiAction a, bool isToggle)
         {
             EditorGUI.BeginChangeCheck();
-            var src = (AudioSource)EditorGUILayout.ObjectField(new GUIContent("Sound", "An Audio Source in the scene."), a.sound, typeof(AudioSource), true);
+            var src = (AudioSource)EditorGUILayout.ObjectField(Loc.C("Sound", "An Audio Source in the scene."), a.sound, typeof(AudioSource), true);
             if (EditorGUI.EndChangeCheck()) UiActions.Edit(a, "Pick sound", x => x.sound = src);
             if (isToggle) G.Hint("Toggle on = playing, off = stopped.");
         }
@@ -136,9 +137,9 @@ namespace NekoSune.WorldUiAssistant
             using (new EditorGUILayout.HorizontalScope())
             {
                 EditorGUI.BeginChangeCheck();
-                var t = (Transform)EditorGUILayout.ObjectField(new GUIContent("Teleport to", "An empty object; its blue arrow (forward) is where the player faces."), a.teleportTarget, typeof(Transform), true);
+                var t = (Transform)EditorGUILayout.ObjectField(Loc.C("Teleport to", "An empty object; its blue arrow (forward) is where the player faces."), a.teleportTarget, typeof(Transform), true);
                 if (EditorGUI.EndChangeCheck()) UiActions.Edit(a, "Pick teleport point", x => x.teleportTarget = t);
-                if (GUILayout.Button(new GUIContent("New", "Make a teleport point at the centre of the Scene view."), EditorStyles.miniButton, GUILayout.Width(44)))
+                if (GUILayout.Button(Loc.C("New", "Make a teleport point at the centre of the Scene view."), EditorStyles.miniButton, GUILayout.Width(44)))
                 {
                     var go = new GameObject("Teleport Point");
                     var view = SceneView.lastActiveSceneView;
@@ -160,16 +161,59 @@ namespace NekoSune.WorldUiAssistant
                 return;
             }
             int index = a.page ? pages.IndexOf(a.page.transform) : -1;
-            int picked = EditorGUILayout.Popup(new GUIContent("Page"), index, pages.Select(p => p.name).ToArray());
+            int picked = EditorGUILayout.Popup(Loc.C("Page"), index, pages.Select(p => p.name).ToArray());
             if (picked != index && picked >= 0)
                 UiActions.Edit(a, "Pick page", x => { x.page = pages[picked].gameObject; UiActions.RefreshPages(x); });
+        }
+
+        private static readonly string[] ParamKinds = { "Set a Bool", "Switch a Bool", "Fire a Trigger", "Set an Int" };
+
+        private void DrawAnimator(NekoUiAction a, bool isToggle)
+        {
+            EditorGUI.BeginChangeCheck();
+            var animator = (Animator)EditorGUILayout.ObjectField(Loc.C("Animator", "e.g. a door or a light with an Animator Controller."), a.animator, typeof(Animator), true);
+            int kind = EditorGUILayout.Popup(Loc.T("Do this"), a.parameterKind, ParamKinds.Select(Loc.T).ToArray());
+            G.Api("Animator.SetBool / SetTrigger / SetInteger");
+            // Offer the controller's parameters of the right type.
+            var controller = animator ? animator.runtimeAnimatorController as UnityEditor.Animations.AnimatorController : null;
+            string parameter = a.parameter;
+            if (controller)
+            {
+                var wanted = kind == NekoUiAction.ParamTrigger ? AnimatorControllerParameterType.Trigger : kind == NekoUiAction.ParamInt ? AnimatorControllerParameterType.Int : AnimatorControllerParameterType.Bool;
+                var names = controller.parameters.Where(p => p.type == wanted).Select(p => p.name).ToArray();
+                if (names.Length > 0)
+                {
+                    int idx = Mathf.Max(0, System.Array.IndexOf(names, parameter));
+                    parameter = names[EditorGUILayout.Popup(Loc.T("Parameter"), idx, names)];
+                }
+                else G.Report("The Animator Controller has no " + wanted + " parameter yet.", false);
+            }
+            else parameter = EditorGUILayout.TextField(Loc.T("Parameter"), parameter);
+            bool boolValue = a.boolValue;
+            int intValue = a.intValue;
+            if (kind == NekoUiAction.ParamBoolSet && !isToggle) boolValue = EditorGUILayout.Toggle(Loc.T("Value"), boolValue);
+            if (kind == NekoUiAction.ParamInt) intValue = EditorGUILayout.IntField(Loc.T("Value"), intValue);
+            if (EditorGUI.EndChangeCheck())
+                UiActions.Edit(a, "Animator action", x => { x.animator = animator; x.parameterKind = kind; x.parameter = parameter; x.boolValue = boolValue; x.intValue = intValue; });
+            if (isToggle && kind <= NekoUiAction.ParamBoolSwitch) G.Hint("Toggle on = true, off = false.");
         }
 
         private void DrawCustomEvent(NekoUiAction a)
         {
             EditorGUI.BeginChangeCheck();
-            var target = (UdonBehaviour)EditorGUILayout.ObjectField(new GUIContent("Udon script", "The UdonBehaviour to send the event to."), a.eventTarget, typeof(UdonBehaviour), true);
-            string evt = EditorGUILayout.TextField(new GUIContent("Event name", "A public method name in that script, e.g. ResetGame."), a.eventName);
+            var target = (UdonBehaviour)EditorGUILayout.ObjectField(Loc.C("Udon script", "The UdonBehaviour to send the event to."), a.eventTarget, typeof(UdonBehaviour), true);
+            string evt = a.eventName;
+            // For UdonSharp scripts, list their public methods (no parameters) to pick from.
+            var proxy = target ? UdonSharpEditor.UdonSharpEditorUtility.GetProxyBehaviour(target) : null;
+            var methods = proxy ? proxy.GetType().GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.DeclaredOnly)
+                .Where(m => m.GetParameters().Length == 0 && !m.IsSpecialName && m.ReturnType == typeof(void)).Select(m => m.Name).ToArray() : new string[0];
+            if (methods.Length > 0)
+            {
+                int idx = System.Array.IndexOf(methods, evt);
+                int picked = EditorGUILayout.Popup(Loc.T("Event name"), idx, methods);
+                if (picked >= 0) evt = methods[picked];
+            }
+            else evt = EditorGUILayout.TextField(Loc.C("Event name", "A public method name in that script, e.g. ResetGame."), a.eventName);
             if (EditorGUI.EndChangeCheck()) UiActions.Edit(a, "Custom event", x => { x.eventTarget = target; x.eventName = evt; });
             G.Hint("For your own UdonSharp scripts: drag the object that has the script, and type the name of a public method.");
         }
@@ -180,7 +224,7 @@ namespace NekoSune.WorldUiAssistant
             var group = (a.targets ?? new GameObject[0]).Where(t => t).ToList();
             var names = new[] { "(none – hide them all)" }.Concat(group.Select(g => g.name)).ToArray();
             int index = a.page ? group.IndexOf(a.page) + 1 : 0;
-            int picked = EditorGUILayout.Popup(new GUIContent("Show", "The one object to show; the rest of the group is hidden."), index, names);
+            int picked = EditorGUILayout.Popup(Loc.C("Show", "The one object to show; the rest of the group is hidden."), index, names);
             G.Api("NekoUiAction.page (shown) · targets (the group)");
             if (picked != index) UiActions.Edit(a, "Pick shown object", x => x.page = picked == 0 ? null : group[picked - 1]);
             G.Hint("Example: a mirror group (HQ, LQ) with one button each for HQ, LQ and Off.");
@@ -191,14 +235,14 @@ namespace NekoSune.WorldUiAssistant
             var toasts = UiActions.FindToasts();
             if (toasts.Count == 0 && !a.toast) return;
             EditorGUI.BeginChangeCheck();
-            bool on = EditorGUILayout.ToggleLeft(new GUIContent(" Then show a message", "Pops up a short message with the scene's Message popup (NekoToast)."), a.toast);
+            bool on = EditorGUILayout.ToggleLeft(Loc.C(" Then show a message", "Pops up a short message with the scene's Message popup (NekoToast)."), a.toast);
             if (EditorGUI.EndChangeCheck())
                 UiActions.Edit(a, "Message", x => { x.toast = on ? toasts.FirstOrDefault() : null; if (on && string.IsNullOrEmpty(x.toastText)) x.toastText = "Done!"; });
             if (!a.toast || toasts.Count == 0) return;
             EditorGUI.BeginChangeCheck();
             int index = Mathf.Max(0, toasts.IndexOf(a.toast));
-            int picked = toasts.Count > 1 ? EditorGUILayout.Popup("Popup", index, toasts.Select(t => t.name).ToArray()) : index;
-            string text = EditorGUILayout.TextField("Message", a.toastText);
+            int picked = toasts.Count > 1 ? EditorGUILayout.Popup(Loc.T("Popup"), index, toasts.Select(t => t.name).ToArray()) : index;
+            string text = EditorGUILayout.TextField(Loc.T("Message"), a.toastText);
             G.Api("NekoUiAction.toast → NekoToast.Show(toastText)");
             if (EditorGUI.EndChangeCheck()) UiActions.Edit(a, "Message", x => { x.toast = toasts[picked]; x.toastText = text; });
         }
@@ -211,7 +255,7 @@ namespace NekoSune.WorldUiAssistant
             G.Group("When it's moved", true);
             var a = UiActions.GetSlider(slider);
             var choice = UiActions.SliderChoiceOf(a);
-            var picked = (SliderChoice)EditorGUILayout.Popup(new GUIContent("Do this"), (int)choice, UiActions.SliderLabels);
+            var picked = (SliderChoice)EditorGUILayout.Popup(Loc.C("Do this"), (int)choice, UiActions.SliderLabels.Select(Loc.T).ToArray());
             G.Api("NekoUiSlider.action · Slider.onValueChanged → UdonBehaviour.SendCustomEvent(\"Changed\")");
             if (picked != choice)
             {
@@ -230,9 +274,9 @@ namespace NekoSune.WorldUiAssistant
                     for (int i = 0; i < sounds.Count; i++)
                         using (new EditorGUILayout.HorizontalScope())
                         {
-                            var s = (AudioSource)EditorGUILayout.ObjectField(i == 0 ? new GUIContent("Sound") : new GUIContent(" "), sounds[i], typeof(AudioSource), true);
+                            var s = (AudioSource)EditorGUILayout.ObjectField(i == 0 ? Loc.C("Sound") : Loc.C(" "), sounds[i], typeof(AudioSource), true);
                             if (s != sounds[i]) { sounds[i] = s; changed = true; }
-                            if (GUILayout.Button("✕", EditorStyles.miniButton, GUILayout.Width(22))) remove = i;
+                            if (GUILayout.Button(Loc.T("✕"), EditorStyles.miniButton, GUILayout.Width(22))) remove = i;
                         }
                     if (remove >= 0) { sounds.RemoveAt(remove); changed = true; }
                     using (new EditorGUILayout.HorizontalScope())
@@ -247,31 +291,31 @@ namespace NekoSune.WorldUiAssistant
                 case SliderChoice.AnimatorFloat:
                 {
                     EditorGUI.BeginChangeCheck();
-                    var anim = (Animator)EditorGUILayout.ObjectField("Animator", a.animator, typeof(Animator), true);
-                    string param = EditorGUILayout.TextField(new GUIContent("Parameter", "A Float parameter in the Animator Controller."), a.parameter);
+                    var anim = (Animator)EditorGUILayout.ObjectField(Loc.T("Animator"), a.animator, typeof(Animator), true);
+                    string param = EditorGUILayout.TextField(Loc.C("Parameter", "A Float parameter in the Animator Controller."), a.parameter);
                     if (EditorGUI.EndChangeCheck()) UiActions.EditSlider(a, "Animator", x => { x.animator = anim; x.parameter = param; });
                     break;
                 }
                 case SliderChoice.SendToUdon:
                 {
                     EditorGUI.BeginChangeCheck();
-                    var target = (VRC.Udon.UdonBehaviour)EditorGUILayout.ObjectField("Udon script", a.eventTarget, typeof(VRC.Udon.UdonBehaviour), true);
-                    string variable = EditorGUILayout.TextField(new GUIContent("Float variable", "A public float field in that script."), a.valueVariable);
-                    string evt = EditorGUILayout.TextField(new GUIContent("Then send event", "Optional public method to run after the value is set."), a.eventName);
+                    var target = (VRC.Udon.UdonBehaviour)EditorGUILayout.ObjectField(Loc.T("Udon script"), a.eventTarget, typeof(VRC.Udon.UdonBehaviour), true);
+                    string variable = EditorGUILayout.TextField(Loc.C("Float variable", "A public float field in that script."), a.valueVariable);
+                    string evt = EditorGUILayout.TextField(Loc.C("Then send event", "Optional public method to run after the value is set."), a.eventName);
                     if (EditorGUI.EndChangeCheck()) UiActions.EditSlider(a, "Udon", x => { x.eventTarget = target; x.valueVariable = variable; x.eventName = evt; });
                     break;
                 }
             }
 
             EditorGUI.BeginChangeCheck();
-            bool synced = EditorGUILayout.ToggleLeft(new GUIContent(" Everyone sees it (synced)"), a.synced);
-            var valueText = (TMPro.TextMeshProUGUI)EditorGUILayout.ObjectField(new GUIContent("Show value in", "Optional text that shows the value, e.g. 75%."), a.valueText, typeof(TMPro.TextMeshProUGUI), true);
+            bool synced = EditorGUILayout.ToggleLeft(Loc.C(" Everyone sees it (synced)"), a.synced);
+            var valueText = (TMPro.TextMeshProUGUI)EditorGUILayout.ObjectField(Loc.C("Show value in", "Optional text that shows the value, e.g. 75%."), a.valueText, typeof(TMPro.TextMeshProUGUI), true);
             if (EditorGUI.EndChangeCheck()) UiActions.EditSlider(a, "Slider", x => { x.synced = synced; x.valueText = valueText; });
             if (!UiActions.IsSliderWired(slider, a))
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     G.Report("Not connected to the slider yet.", false);
-                    if (GUILayout.Button("Connect", GUILayout.Width(70))) UiActions.WireSlider(slider, a);
+                    if (GUILayout.Button(Loc.T("Connect"), GUILayout.Width(70))) UiActions.WireSlider(slider, a);
                 }
         }
 
@@ -285,7 +329,7 @@ namespace NekoSune.WorldUiAssistant
                 G.Chip(shown ? "Showing now" : "Hidden", shown ? S.Success : S.Muted);
                 GUILayout.FlexibleSpace();
                 using (new EditorGUI.DisabledScope(shown))
-                    if (GUILayout.Button(new GUIContent("Show this page", "Shows this page and hides the others, so you can work on it."), GUILayout.Width(120)))
+                    if (GUILayout.Button(Loc.C("Show this page", "Shows this page and hides the others, so you can work on it."), GUILayout.Width(120)))
                         UiActions.ShowPage(page);
             }
             var pages = UiWidgets.PagesOf(page.parent);
@@ -293,7 +337,7 @@ namespace NekoSune.WorldUiAssistant
                 G.Hint("This is the first page. Before uploading, show it here so players see it first.");
             var v = page.GetComponent<VerticalLayoutGroup>();
             EditorGUI.BeginChangeCheck();
-            float spacing = EditorGUILayout.Slider("Gap between items", v.spacing, 0, 80);
+            float spacing = EditorGUILayout.Slider(Loc.T("Gap between items"), v.spacing, 0, 80);
             if (EditorGUI.EndChangeCheck()) { Undo.RecordObject(v, "Edit page"); v.spacing = spacing; }
 
             int links = panel.GetComponentsInChildren<NekoUiAction>(true).Count(x => x.action == NekoUiAction.OpenPage && x.page == page.gameObject);
@@ -323,8 +367,8 @@ namespace NekoSune.WorldUiAssistant
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     G.Report(p.text, false);
-                    if (p.where && GUILayout.Button("Show", GUILayout.Width(48))) SelectFromOutline(p.where);
-                    if (p.fix != null && GUILayout.Button("Fix", GUILayout.Width(40))) p.fix();
+                    if (p.where && GUILayout.Button(Loc.T("Show"), GUILayout.Width(48))) SelectFromOutline(p.where);
+                    if (p.fix != null && GUILayout.Button(Loc.T("Fix"), GUILayout.Width(40))) p.fix();
                 }
             }
         }

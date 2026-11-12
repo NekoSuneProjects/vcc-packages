@@ -43,17 +43,18 @@ namespace NekoSune.WorldUiAssistant
         public static void Open()
         {
             var w = GetWindow<AssistantWindow>();
-            w.titleContent = new GUIContent("UI Assistant", EditorGUIUtility.IconContent(HeaderIcon).image);
+            w.titleContent = new GUIContent(Loc.T("UI Assistant"), EditorGUIUtility.IconContent(HeaderIcon).image);
             w.minSize = new Vector2(400f, 520f);
             w.Show();
         }
 
         private void OnEnable()
         {
-            titleContent = new GUIContent("UI Assistant", EditorGUIUtility.IconContent(HeaderIcon).image);
+            titleContent = new GUIContent(Loc.T("UI Assistant"), EditorGUIUtility.IconContent(HeaderIcon).image);
             newTheme = (UiThemeId)EditorPrefs.GetInt(LastThemePref, (int)newTheme);
             UpdateChecker.Changed += Repaint;
             Undo.undoRedoPerformed += OnUndoRedo;
+            Loc.Changed += Repaint;
             Selection.selectionChanged += SelectionChanged;
             EditorApplication.playModeStateChanged += OnPlayModeChanged;
             panelsDirty = true;
@@ -63,6 +64,7 @@ namespace NekoSune.WorldUiAssistant
         {
             UpdateChecker.Changed -= Repaint;
             Undo.undoRedoPerformed -= OnUndoRedo;
+            Loc.Changed -= Repaint;
             Selection.selectionChanged -= SelectionChanged;
             EditorApplication.playModeStateChanged -= OnPlayModeChanged;
         }
@@ -192,7 +194,7 @@ namespace NekoSune.WorldUiAssistant
             var icon = EditorGUIUtility.IconContent(HeaderIcon).image;
             if (icon != null) GUI.DrawTexture(new Rect(rect.x + 14, rect.y + 13, 30, 30), icon, ScaleMode.ScaleToFit);
             GUI.Label(new Rect(rect.x + 54, rect.y + 9, rect.width - 160, 24), "World UI Assistant", S.Title);
-            GUI.Label(new Rect(rect.x + 55, rect.y + 32, rect.width - 70, 16), "Build VRChat world UI step by step — and learn how it works", S.Subtitle);
+            GUI.Label(new Rect(rect.x + 55, rect.y + 32, rect.width - 70, 16), Loc.T("Build VRChat world UI step by step — and learn how it works"), S.Subtitle);
             DrawVersionChip(new Rect(rect.x, rect.y + 11, rect.width - 12, 18));
         }
 
@@ -229,17 +231,17 @@ namespace NekoSune.WorldUiAssistant
         {
             if (!UpdateChecker.ShowBanner) return;
             G.BeginCard("console.infoicon", "World UI Assistant v" + UpdateChecker.LatestVersion + " is available");
-            EditorGUILayout.LabelField("You have v" + UpdateChecker.CurrentVersion + ". Update it in the VRChat Creator Companion.", EditorStyles.wordWrappedLabel);
+            EditorGUILayout.LabelField(Loc.T("You have v") + UpdateChecker.CurrentVersion + ". Update it in the VRChat Creator Companion.", EditorStyles.wordWrappedLabel);
             if (!string.IsNullOrEmpty(UpdateChecker.Notes)) EditorGUILayout.LabelField(UpdateChecker.Notes, S.PathLabel);
             EditorGUILayout.Space(4);
             using (new EditorGUILayout.HorizontalScope())
             {
                 var old = GUI.backgroundColor;
                 GUI.backgroundColor = S.Warning;
-                if (GUILayout.Button("Download update", GUILayout.Height(24))) UpdateChecker.OpenDownload();
+                if (GUILayout.Button(Loc.T("Download update"), GUILayout.Height(24))) UpdateChecker.OpenDownload();
                 GUI.backgroundColor = old;
-                if (GUILayout.Button("Later", GUILayout.Height(24), GUILayout.ExpandWidth(false))) UpdateChecker.RemindLater();
-                if (GUILayout.Button("Skip this version", GUILayout.Height(24), GUILayout.ExpandWidth(false))) UpdateChecker.SkipThisVersion();
+                if (GUILayout.Button(Loc.T("Later"), GUILayout.Height(24), GUILayout.ExpandWidth(false))) UpdateChecker.RemindLater();
+                if (GUILayout.Button(Loc.T("Skip this version"), GUILayout.Height(24), GUILayout.ExpandWidth(false))) UpdateChecker.SkipThisVersion();
             }
             G.EndCard();
         }
@@ -250,6 +252,12 @@ namespace NekoSune.WorldUiAssistant
             bool unityOk = Application.unityVersion.StartsWith("2022.3");
             bool sdkOk = UiFactory.UiShapeType != null;
             bool fontOk = UiFactory.HasTmpFont;
+            if (UiFactory.CvrWrapperType != null && Help.ShowHints)
+            {
+                G.BeginCard("console.infoicon.sml", "ChilloutVR CCK found");
+                G.Hint("New panels also get a CVR Canvas Wrapper, and the Doctor checks for it. Layout, text and pages work the same in ChilloutVR; actions and ready-made systems use Udon, which only runs in VRChat.");
+                G.EndCard();
+            }
             if (unityOk && sdkOk && fontOk) return;
 
             G.BeginCard("console.warnicon", "Check your project");
@@ -260,7 +268,7 @@ namespace NekoSune.WorldUiAssistant
             if (!fontOk)
             {
                 G.Report("TextMeshPro's default font isn't imported yet. Text needs it.", false);
-                if (GUILayout.Button(S.Icon("Import", " Import TMP Essentials"), GUILayout.Height(24)))
+                if (GUILayout.Button(S.Icon("Import", Loc.T(" Import TMP Essentials")), GUILayout.Height(24)))
                     TMPro.TMP_PackageResourceImporterWindow.ShowPackageImporterWindow();
             }
             G.EndCard();
@@ -289,7 +297,7 @@ namespace NekoSune.WorldUiAssistant
                         selected = null;
                     }
                     using (new EditorGUI.DisabledScope(showWizard))
-                        if (GUILayout.Button(S.Icon("Toolbar Plus", " New panel"), GUILayout.Width(100)))
+                        if (GUILayout.Button(S.Icon("Toolbar Plus", Loc.T(" New panel")), GUILayout.Width(100)))
                             showWizard = true;
                 }
                 if (!panel && !showWizard) G.Hint("Pick a panel to edit, or make a new one.");
@@ -303,7 +311,7 @@ namespace NekoSune.WorldUiAssistant
         {
             G.BeginCard("Toolbar Plus", "New panel", "A panel is a flat board in your world that players point at with the VRChat laser.");
 
-            newName = EditorGUILayout.TextField(new GUIContent("Name", "What it's called in the Hierarchy."), newName);
+            newName = EditorGUILayout.TextField(Loc.C("Name", "What it's called in the Hierarchy."), newName);
 
             G.Group("Size");
             for (int i = 0; i < SizePresets.Length; i++)
@@ -313,19 +321,19 @@ namespace NekoSune.WorldUiAssistant
             newTheme = DrawThemePicker(newTheme);
 
             G.Group("Where");
-            newPlacement = (PanelPlacement)EditorGUILayout.Popup(new GUIContent("Place it"), (int)newPlacement, new[]
+            newPlacement = (PanelPlacement)EditorGUILayout.Popup(Loc.C("Place it"), (int)newPlacement, new[]
             {
-                new GUIContent("In front of the Scene view camera"),
-                new GUIContent("At the world origin (1.5 m up)"),
-                new GUIContent("Inside the selected object"),
+                Loc.C("In front of the Scene view camera"),
+                Loc.C("At the world origin (1.5 m up)"),
+                Loc.C("Inside the selected object"),
             });
-            newWithTitle = EditorGUILayout.ToggleLeft(new GUIContent(" Start with a title and some text"), newWithTitle);
+            newWithTitle = EditorGUILayout.ToggleLeft(Loc.C(" Start with a title and some text"), newWithTitle);
 
             EditorGUILayout.Space(8);
             using (new EditorGUILayout.HorizontalScope())
             {
                 if (G.Action("Toolbar Plus", "Create Panel", UiFactory.HasTmpFont || !newWithTitle, true)) CreatePanel();
-                if (panel && GUILayout.Button("Cancel", S.BigButton, GUILayout.Width(80))) showWizard = false;
+                if (panel && GUILayout.Button(Loc.T("Cancel"), S.BigButton, GUILayout.Width(80))) showWizard = false;
             }
             EditorGUILayout.Space(2);
             G.Hint("1 UI unit = 1 mm in the world, so a 800 × 1000 menu is 80 cm wide and 1 m tall.");
@@ -406,9 +414,9 @@ namespace NekoSune.WorldUiAssistant
             {
                 panelOpen = EditorGUILayout.Foldout(panelOpen, new GUIContent(" " + panel.name, EditorGUIUtility.IconContent("Canvas Icon").image), true, G.FoldoutTitle);
                 GUILayout.FlexibleSpace();
-                if (GUILayout.Button(new GUIContent(" Frame", EditorGUIUtility.IconContent("ViewToolZoom").image, "Show the panel in the Scene view."), EditorStyles.miniButtonLeft, GUILayout.Width(66)))
+                if (GUILayout.Button(new GUIContent(Loc.T(" Frame"), EditorGUIUtility.IconContent("ViewToolZoom").image, Loc.T("Show the panel in the Scene view.")), EditorStyles.miniButtonLeft, GUILayout.Width(66)))
                     UiFactory.Frame(rt);
-                if (GUILayout.Button(new GUIContent("Select", "Select the panel itself (in the Hierarchy and here)."), EditorStyles.miniButtonRight, GUILayout.Width(52)))
+                if (GUILayout.Button(Loc.C("Select", "Select the panel itself (in the Hierarchy and here)."), EditorStyles.miniButtonRight, GUILayout.Width(52)))
                 {
                     Select(panel.transform);
                     selected = null;
@@ -423,13 +431,13 @@ namespace NekoSune.WorldUiAssistant
                 S.Line();
                 EditorGUILayout.Space(6);
                 EditorGUI.BeginChangeCheck();
-                string name = EditorGUILayout.TextField("Name", panel.name);
+                string name = EditorGUILayout.TextField(Loc.T("Name"), panel.name);
                 var size = rt.sizeDelta;
                 using (new EditorGUILayout.HorizontalScope())
                 {
-                    EditorGUILayout.PrefixLabel(new GUIContent("Size (mm)", "Width × height. 1 UI unit = 1 mm in the world."));
+                    EditorGUILayout.PrefixLabel(Loc.C("Size (mm)", "Width × height. 1 UI unit = 1 mm in the world."));
                     size.x = Mathf.Max(100, EditorGUILayout.FloatField(size.x));
-                    GUILayout.Label("×", GUILayout.Width(12));
+                    GUILayout.Label(Loc.T("×"), GUILayout.Width(12));
                     size.y = Mathf.Max(100, EditorGUILayout.FloatField(size.y));
                     if (GUILayout.Button(GUIContent.none, EditorStyles.popup, GUILayout.Width(20)))
                     {
@@ -447,11 +455,14 @@ namespace NekoSune.WorldUiAssistant
                     }
                 }
                 var bg = panel.GetComponent<Image>();
-                Color bgColor = bg ? EditorGUILayout.ColorField("Background", bg.color) : default;
+                Color bgColor = bg ? EditorGUILayout.ColorField(Loc.T("Background"), bg.color) : default;
                 G.Api("Image.color on the Canvas object");
                 var layout = panel.GetComponent<VerticalLayoutGroup>();
-                float padding = layout ? EditorGUILayout.Slider(new GUIContent("Edge padding", "Space between the panel's edge and its content."), layout.padding.left, 0, 120) : 0;
-                float spacing = layout ? EditorGUILayout.Slider(new GUIContent("Gap between items"), layout.spacing, 0, 80) : 0;
+                float padding = layout ? EditorGUILayout.Slider(Loc.C("Edge padding", "Space between the panel's edge and its content."), layout.padding.left, 0, 120) : 0;
+                var fitter = panel.GetComponent<ContentSizeFitter>();
+                bool grow = EditorGUILayout.Toggle(Loc.C("Grow with content", "The panel's height follows what's on it (ContentSizeFitter), instead of a fixed size."), fitter && fitter.verticalFit == ContentSizeFitter.FitMode.PreferredSize);
+                G.Api("ContentSizeFitter.verticalFit = PreferredSize");
+                float spacing = layout ? EditorGUILayout.Slider(Loc.C("Gap between items"), layout.spacing, 0, 80) : 0;
                 G.Api("VerticalLayoutGroup.padding / spacing");
                 if (EditorGUI.EndChangeCheck())
                 {
@@ -460,6 +471,14 @@ namespace NekoSune.WorldUiAssistant
                     Undo.RecordObject(rt, "Panel size");
                     rt.sizeDelta = size;
                     if (bg) { Undo.RecordObject(bg, "Panel colour"); bg.color = bgColor; }
+                    bool hasGrow = fitter && fitter.verticalFit == ContentSizeFitter.FitMode.PreferredSize;
+                    if (grow && !hasGrow)
+                    {
+                        if (!fitter) fitter = Undo.AddComponent<ContentSizeFitter>(panel.gameObject);
+                        Undo.RecordObject(fitter, "Grow with content");
+                        fitter.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+                    }
+                    else if (!grow && hasGrow) Undo.DestroyObjectImmediate(fitter);
                     if (layout)
                     {
                         Undo.RecordObject(layout, "Panel layout");
@@ -513,7 +532,7 @@ namespace NekoSune.WorldUiAssistant
                 using (new EditorGUILayout.HorizontalScope())
                 {
                     G.Report(p.text, false);
-                    if (GUILayout.Button("Fix", GUILayout.Width(44))) p.fix();
+                    if (GUILayout.Button(Loc.T("Fix"), GUILayout.Width(44))) p.fix();
                 }
             }
         }

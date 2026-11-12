@@ -1,0 +1,1075 @@
+{
+ "code": "ru",
+ "name": "Russian",
+ "nativeName": "Русский",
+ "entries": [
+  {
+   "k": "+ Link",
+   "v": "+ Ссылка"
+  },
+  {
+   "k": "✓ VRChat-ready canvas",
+   "v": "✓ Canvas готов для VRChat"
+  },
+  {
+   "k": "A box you can scroll when it has more than fits.",
+   "v": "Область с прокруткой, когда содержимое не помещается."
+  },
+  {
+   "k": "A Float parameter in the Animator Controller.",
+   "v": "Параметр Float в Animator Controller."
+  },
+  {
+   "k": "A paragraph of text.",
+   "v": "Абзац текста."
+  },
+  {
+   "k": "A picture. Pick a Sprite after adding it.",
+   "v": "Картинка. После добавления выберите Sprite."
+  },
+  {
+   "k": "A public float field in that script.",
+   "v": "Публичное поле float в этом скрипте."
+  },
+  {
+   "k": "A public method name in that script, e.g. ResetGame.",
+   "v": "Имя публичного метода скрипта, напр. ResetGame."
+  },
+  {
+   "k": "A texture imported with Texture Type = Sprite (2D and UI).",
+   "v": "Текстура с Texture Type = Sprite (2D and UI)."
+  },
+  {
+   "k": "A thin line between sections.",
+   "v": "Тонкая линия между разделами."
+  },
+  {
+   "k": "Achievements / progress",
+   "v": "Достижения / прогресс"
+  },
+  {
+   "k": "Add",
+   "v": "Добавить"
+  },
+  {
+   "k": "Add to panel",
+   "v": "Добавить на панель"
+  },
+  {
+   "k": "Adds the QR picture to the current panel (after the selected item).",
+   "v": "Добавляет QR-картинку на панель (после выбранного элемента)."
+  },
+  {
+   "k": "Admin panel",
+   "v": "Панель администратора"
+  },
+  {
+   "k": "An Audio Source in the scene.",
+   "v": "Audio Source в сцене."
+  },
+  {
+   "k": "An empty object; its blue arrow (forward) is where the player faces.",
+   "v": "Пустой объект; синяя стрелка (вперёд) — куда смотрит игрок."
+  },
+  {
+   "k": "An on/off checkbox with a label.",
+   "v": "Флажок вкл/выкл с подписью."
+  },
+  {
+   "k": "Animator",
+   "v": "Animator"
+  },
+  {
+   "k": "At the world origin (1.5 m up)",
+   "v": "В начале координат мира (1,5 м вверх)"
+  },
+  {
+   "k": "Avatar board",
+   "v": "Доска аватаров"
+  },
+  {
+   "k": "Back",
+   "v": "Назад"
+  },
+  {
+   "k": "Background",
+   "v": "Фон"
+  },
+  {
+   "k": "Badges",
+   "v": "Значки"
+  },
+  {
+   "k": "Big bold heading text.",
+   "v": "Крупный жирный заголовок."
+  },
+  {
+   "k": "Blueprint copied",
+   "v": "Схема скопирована"
+  },
+  {
+   "k": "Blueprints (JSON)",
+   "v": "Схемы (JSON)"
+  },
+  {
+   "k": "Boards",
+   "v": "Доски"
+  },
+  {
+   "k": "Bold",
+   "v": "Жирный"
+  },
+  {
+   "k": "Box colour",
+   "v": "Цвет флажка"
+  },
+  {
+   "k": "Build",
+   "v": "Создание"
+  },
+  {
+   "k": "Build a new panel from a .json blueprint.",
+   "v": "Создать новую панель из схемы .json."
+  },
+  {
+   "k": "Build a new panel from a blueprint on the clipboard.",
+   "v": "Создать панель из схемы в буфере обмена."
+  },
+  {
+   "k": "Build VRChat world UI step by step — and learn how it works",
+   "v": "Создавайте UI мира VRChat шаг за шагом — и узнайте, как он работает"
+  },
+  {
+   "k": "Button",
+   "v": "Кнопка"
+  },
+  {
+   "k": "Button colour",
+   "v": "Цвет кнопки"
+  },
+  {
+   "k": "Cancel",
+   "v": "Отмена"
+  },
+  {
+   "k": "Cell height",
+   "v": "Высота ячейки"
+  },
+  {
+   "k": "Cell width",
+   "v": "Ширина ячейки"
+  },
+  {
+   "k": "Centre",
+   "v": "По центру"
+  },
+  {
+   "k": "Change sound volume",
+   "v": "Изменить громкость"
+  },
+  {
+   "k": "Check my work",
+   "v": "Проверить"
+  },
+  {
+   "k": "Check now",
+   "v": "Проверить сейчас"
+  },
+  {
+   "k": "Check your project",
+   "v": "Проверьте проект"
+  },
+  {
+   "k": "ChilloutVR CCK found",
+   "v": "Найден ChilloutVR CCK"
+  },
+  {
+   "k": "Clock & countdown",
+   "v": "Часы и обратный отсчёт"
+  },
+  {
+   "k": "Colour",
+   "v": "Цвет"
+  },
+  {
+   "k": "Column",
+   "v": "Столбец"
+  },
+  {
+   "k": "Columns",
+   "v": "Столбцы"
+  },
+  {
+   "k": "Connect",
+   "v": "Подключить"
+  },
+  {
+   "k": "Continue",
+   "v": "Продолжить"
+  },
+  {
+   "k": "Copy JSON",
+   "v": "Копировать JSON"
+  },
+  {
+   "k": "Copy the blueprint to the clipboard.",
+   "v": "Скопировать схему в буфер обмена."
+  },
+  {
+   "k": "Couldn't draw the settings here:",
+   "v": "Не удалось показать настройки здесь:"
+  },
+  {
+   "k": "Create",
+   "v": "Создать"
+  },
+  {
+   "k": "Create Panel",
+   "v": "Создать панель"
+  },
+  {
+   "k": "Credits board",
+   "v": "Доска титров"
+  },
+  {
+   "k": "Delete",
+   "v": "Удалить"
+  },
+  {
+   "k": "Dialogue box",
+   "v": "Окно диалога"
+  },
+  {
+   "k": "Divider",
+   "v": "Разделитель"
+  },
+  {
+   "k": "Do this",
+   "v": "Действие"
+  },
+  {
+   "k": "Doctor",
+   "v": "Доктор"
+  },
+  {
+   "k": "Don't stretch the picture (Image.preserveAspect).",
+   "v": "Не растягивать картинку (Image.preserveAspect)."
+  },
+  {
+   "k": "Download update",
+   "v": "Скачать обновление"
+  },
+  {
+   "k": "Drag an object from the Hierarchy.",
+   "v": "Перетащите объект из Hierarchy."
+  },
+  {
+   "k": "Drag to pick a value, e.g. volume.",
+   "v": "Перетащите, чтобы выбрать значение, напр. громкость."
+  },
+  {
+   "k": "Duplicate",
+   "v": "Дублировать"
+  },
+  {
+   "k": "e.g. 1, 2, 3 instead of 1.37",
+   "v": "напр. 1, 2, 3 вместо 1,37"
+  },
+  {
+   "k": "Each click switches between shown and hidden.",
+   "v": "Каждый щелчок переключает «показано/скрыто»."
+  },
+  {
+   "k": "Edge padding",
+   "v": "Отступ от края"
+  },
+  {
+   "k": "Edit",
+   "v": "Изменить"
+  },
+  {
+   "k": "Empty space.",
+   "v": "Пустое место."
+  },
+  {
+   "k": "Empty. Add something from the Add card.",
+   "v": "Пусто. Добавьте что-нибудь в карточке «Добавить»."
+  },
+  {
+   "k": "Equal cells, e.g. a grid of buttons.",
+   "v": "Одинаковые ячейки, напр. сетка кнопок."
+  },
+  {
+   "k": "Event name",
+   "v": "Имя события"
+  },
+  {
+   "k": "Event schedule",
+   "v": "Расписание событий"
+  },
+  {
+   "k": "Every word the Assistant uses, in plain English.",
+   "v": "Все слова Ассистента простым языком."
+  },
+  {
+   "k": "Everyone sees it (synced)",
+   "v": "Видят все (синхронизация)"
+  },
+  {
+   "k": "Expert",
+   "v": "Эксперт"
+  },
+  {
+   "k": "Explain mode",
+   "v": "Режим пояснений"
+  },
+  {
+   "k": "Export…",
+   "v": "Экспорт…"
+  },
+  {
+   "k": "Fill colour",
+   "v": "Цвет заливки"
+  },
+  {
+   "k": "Finish",
+   "v": "Завершить"
+  },
+  {
+   "k": "Fix",
+   "v": "Исправить"
+  },
+  {
+   "k": "Float variable",
+   "v": "Переменная float"
+  },
+  {
+   "k": "Font size in UI units (mm). 26 reads well at about 2 m.",
+   "v": "Размер в единицах UI (мм). 26 хорошо читается с ~2 м."
+  },
+  {
+   "k": "Frame",
+   "v": "Показать"
+  },
+  {
+   "k": "From / to",
+   "v": "От / до"
+  },
+  {
+   "k": "Full help",
+   "v": "Полная помощь"
+  },
+  {
+   "k": "Gallery / slideshow",
+   "v": "Галерея / слайд-шоу"
+  },
+  {
+   "k": "Game HUD",
+   "v": "Игровой HUD"
+  },
+  {
+   "k": "Games",
+   "v": "Игры"
+  },
+  {
+   "k": "Gap",
+   "v": "Промежуток"
+  },
+  {
+   "k": "Gap between items",
+   "v": "Промежуток между элементами"
+  },
+  {
+   "k": "Glossary",
+   "v": "Глоссарий"
+  },
+  {
+   "k": "Grid",
+   "v": "Сетка"
+  },
+  {
+   "k": "Handle colour",
+   "v": "Цвет ползунка"
+  },
+  {
+   "k": "Help",
+   "v": "Помощь"
+  },
+  {
+   "k": "Hide something",
+   "v": "Скрыть что-то"
+  },
+  {
+   "k": "Hotkeys",
+   "v": "Горячие клавиши"
+  },
+  {
+   "k": "How it works in Unity:",
+   "v": "Как это устроено в Unity:"
+  },
+  {
+   "k": "How much the Assistant explains.",
+   "v": "Насколько подробно объясняет Ассистент."
+  },
+  {
+   "k": "Image",
+   "v": "Картинка"
+  },
+  {
+   "k": "Import TMP Essentials",
+   "v": "Импортировать TMP Essentials"
+  },
+  {
+   "k": "Import…",
+   "v": "Импорт…"
+  },
+  {
+   "k": "In front of the Scene view camera",
+   "v": "Перед камерой окна Scene"
+  },
+  {
+   "k": "Inside the selected object",
+   "v": "Внутри выбранного объекта"
+  },
+  {
+   "k": "Keep shape",
+   "v": "Сохранять форму"
+  },
+  {
+   "k": "Keypad / code door",
+   "v": "Кодовая панель / дверь"
+  },
+  {
+   "k": "Label",
+   "v": "Подпись"
+  },
+  {
+   "k": "Label colour",
+   "v": "Цвет подписи"
+  },
+  {
+   "k": "Label size",
+   "v": "Размер подписи"
+  },
+  {
+   "k": "Later",
+   "v": "Позже"
+  },
+  {
+   "k": "Learn",
+   "v": "Обучение"
+  },
+  {
+   "k": "Left",
+   "v": "Слева"
+  },
+  {
+   "k": "Line up",
+   "v": "Выравнивание"
+  },
+  {
+   "k": "Line up items",
+   "v": "Выравнивание элементов"
+  },
+  {
+   "k": "Link or text",
+   "v": "Ссылка или текст"
+  },
+  {
+   "k": "Links / QR board",
+   "v": "Доска ссылок / QR"
+  },
+  {
+   "k": "Look",
+   "v": "Внешний вид"
+  },
+  {
+   "k": "Make a teleport point at the centre of the Scene view.",
+   "v": "Создать точку телепорта в центре окна Scene."
+  },
+  {
+   "k": "Map – you are here",
+   "v": "Карта — вы здесь"
+  },
+  {
+   "k": "Media",
+   "v": "Медиа"
+  },
+  {
+   "k": "Menus",
+   "v": "Меню"
+  },
+  {
+   "k": "Message",
+   "v": "Сообщение"
+  },
+  {
+   "k": "Message popup",
+   "v": "Всплывающее сообщение"
+  },
+  {
+   "k": "Mirror",
+   "v": "Зеркало"
+  },
+  {
+   "k": "Multiplies the picture's colours. White = unchanged.",
+   "v": "Умножает цвета картинки. Белый = без изменений."
+  },
+  {
+   "k": "Music player",
+   "v": "Музыкальный плеер"
+  },
+  {
+   "k": "Name",
+   "v": "Имя"
+  },
+  {
+   "k": "New",
+   "v": "Новый"
+  },
+  {
+   "k": "New panel",
+   "v": "Новая панель"
+  },
+  {
+   "k": "Next",
+   "v": "Далее"
+  },
+  {
+   "k": "No world UI panels in the open scene yet. Make your first one below.",
+   "v": "В сцене ещё нет панелей UI. Создайте первую ниже."
+  },
+  {
+   "k": "Not connected to the slider yet.",
+   "v": "Ещё не подключено к ползунку."
+  },
+  {
+   "k": "Nothing yet",
+   "v": "Пока ничего"
+  },
+  {
+   "k": "Object",
+   "v": "Объект"
+  },
+  {
+   "k": "Off hides it (GameObject.SetActive). Hidden items take no space.",
+   "v": "Выкл. скрывает (GameObject.SetActive). Скрытое не занимает места."
+  },
+  {
+   "k": "Open a page",
+   "v": "Открыть страницу"
+  },
+  {
+   "k": "Optional public method to run after the value is set.",
+   "v": "Необязательный публичный метод после установки значения."
+  },
+  {
+   "k": "Optional text that shows the value, e.g. 75%.",
+   "v": "Необязательный текст со значением, напр. 75%."
+  },
+  {
+   "k": "Outline",
+   "v": "Структура"
+  },
+  {
+   "k": "Page",
+   "v": "Страница"
+  },
+  {
+   "k": "Panel",
+   "v": "Панель"
+  },
+  {
+   "k": "Parameter",
+   "v": "Параметр"
+  },
+  {
+   "k": "Paste",
+   "v": "Вставить"
+  },
+  {
+   "k": "Photo spot helper",
+   "v": "Помощник фотозоны"
+  },
+  {
+   "k": "Pick a panel to edit, or make a new one.",
+   "v": "Выберите панель или создайте новую."
+  },
+  {
+   "k": "Pick what moving this slider does, e.g. music volume.",
+   "v": "Выберите, что делает ползунок, напр. громкость музыки."
+  },
+  {
+   "k": "Picture",
+   "v": "Картинка"
+  },
+  {
+   "k": "Pieces",
+   "v": "Детали"
+  },
+  {
+   "k": "Place it",
+   "v": "Разместить"
+  },
+  {
+   "k": "Play a sound",
+   "v": "Воспроизвести звук"
+  },
+  {
+   "k": "Player list & instance info",
+   "v": "Список игроков и сведения об инстансе"
+  },
+  {
+   "k": "Poll / voting",
+   "v": "Опрос / голосование"
+  },
+  {
+   "k": "Pops up a short message with the scene's Message popup (NekoToast).",
+   "v": "Показывает короткое сообщение во всплывающем окне сцены (NekoToast)."
+  },
+  {
+   "k": "Popup",
+   "v": "Окно"
+  },
+  {
+   "k": "Portable menu",
+   "v": "Переносное меню"
+  },
+  {
+   "k": "Put the point on the floor; the player lands standing on it.",
+   "v": "Поставьте точку на пол — игрок окажется стоя на ней."
+  },
+  {
+   "k": "Puts the items inside it side by side.",
+   "v": "Располагает элементы рядом друг с другом."
+  },
+  {
+   "k": "QR code maker",
+   "v": "Генератор QR-кодов"
+  },
+  {
+   "k": "Remote news board",
+   "v": "Онлайн-доска новостей"
+  },
+  {
+   "k": "Remove",
+   "v": "Убрать"
+  },
+  {
+   "k": "Right",
+   "v": "Справа"
+  },
+  {
+   "k": "Row",
+   "v": "Ряд"
+  },
+  {
+   "k": "Rules board",
+   "v": "Доска правил"
+  },
+  {
+   "k": "Save the current panel as a .json blueprint.",
+   "v": "Сохранить панель как схему .json."
+  },
+  {
+   "k": "Scoreboard / leaderboard",
+   "v": "Табло / рейтинг"
+  },
+  {
+   "k": "Scroll list",
+   "v": "Прокручиваемый список"
+  },
+  {
+   "k": "Select",
+   "v": "Выбрать"
+  },
+  {
+   "k": "Select every object with this component.",
+   "v": "Выбрать все объекты с этим компонентом."
+  },
+  {
+   "k": "Select it and open Unity's Inspector to see every component.",
+   "v": "Выберите и откройте Inspector Unity, чтобы увидеть все компоненты."
+  },
+  {
+   "k": "Select the objects this is about.",
+   "v": "Выбрать объекты, о которых речь."
+  },
+  {
+   "k": "Select the panel itself (in the Hierarchy and here).",
+   "v": "Выбрать саму панель (в Hierarchy и здесь)."
+  },
+  {
+   "k": "Send an Udon event",
+   "v": "Отправить событие Udon"
+  },
+  {
+   "k": "Send the value to Udon",
+   "v": "Отправить значение в Udon"
+  },
+  {
+   "k": "Set an Animator value",
+   "v": "Задать значение Animator"
+  },
+  {
+   "k": "Set the slider's range to 0 – 1 for volume.",
+   "v": "Для громкости задайте диапазон 0 – 1."
+  },
+  {
+   "k": "Sets size and boldness from the theme. Title is centred.",
+   "v": "Задаёт размер и жирность по теме. Заголовок по центру."
+  },
+  {
+   "k": "Settings menu",
+   "v": "Меню настроек"
+  },
+  {
+   "k": "Shop",
+   "v": "Магазин"
+  },
+  {
+   "k": "Show",
+   "v": "Показать"
+  },
+  {
+   "k": "Show / hide",
+   "v": "Показать / скрыть"
+  },
+  {
+   "k": "Show / hide something",
+   "v": "Показать / скрыть что-то"
+  },
+  {
+   "k": "Show in Inspector",
+   "v": "Показать в Inspector"
+  },
+  {
+   "k": "Show me",
+   "v": "Покажи"
+  },
+  {
+   "k": "Show one of a group",
+   "v": "Показать один из группы"
+  },
+  {
+   "k": "Show something",
+   "v": "Показать что-то"
+  },
+  {
+   "k": "Show the panel in the Scene view.",
+   "v": "Показать панель в окне Scene."
+  },
+  {
+   "k": "Show this page",
+   "v": "Показать эту страницу"
+  },
+  {
+   "k": "Show value in",
+   "v": "Показывать значение в"
+  },
+  {
+   "k": "Show which Unity component and property each setting changes.",
+   "v": "Показывает, какой компонент и свойство Unity меняет каждая настройка."
+  },
+  {
+   "k": "Shows this page and hides the others, so you can work on it.",
+   "v": "Показывает эту страницу и скрывает остальные для работы."
+  },
+  {
+   "k": "Size",
+   "v": "Размер"
+  },
+  {
+   "k": "Size (mm)",
+   "v": "Размер (мм)"
+  },
+  {
+   "k": "Skip this version",
+   "v": "Пропустить эту версию"
+  },
+  {
+   "k": "Slider",
+   "v": "Ползунок"
+  },
+  {
+   "k": "Slider.minValue and maxValue.",
+   "v": "Slider.minValue и maxValue."
+  },
+  {
+   "k": "Social",
+   "v": "Общение"
+  },
+  {
+   "k": "Some help",
+   "v": "Немного помощи"
+  },
+  {
+   "k": "Something to click. Give it an action in its Edit card.",
+   "v": "Что-то, на что можно нажать. Задайте действие в карточке «Изменить»."
+  },
+  {
+   "k": "Sound",
+   "v": "Звук"
+  },
+  {
+   "k": "Space between the panel's edge and its content.",
+   "v": "Расстояние между краем панели и содержимым."
+  },
+  {
+   "k": "Spacer",
+   "v": "Отступ"
+  },
+  {
+   "k": "Start",
+   "v": "Начать"
+  },
+  {
+   "k": "Start with a title and some text",
+   "v": "Начать с заголовка и текста"
+  },
+  {
+   "k": "Starts at",
+   "v": "Начальное значение"
+  },
+  {
+   "k": "Starts on",
+   "v": "Включено сначала"
+  },
+  {
+   "k": "Stop a sound",
+   "v": "Остановить звук"
+  },
+  {
+   "k": "Stop the lesson (your place is kept).",
+   "v": "Остановить урок (прогресс сохранится)."
+  },
+  {
+   "k": "Store / market",
+   "v": "Магазин / рынок"
+  },
+  {
+   "k": "Style",
+   "v": "Стиль"
+  },
+  {
+   "k": "System settings",
+   "v": "Настройки системы"
+  },
+  {
+   "k": "Tabbed menu",
+   "v": "Меню с вкладками"
+  },
+  {
+   "k": "Teleport menu",
+   "v": "Меню телепорта"
+  },
+  {
+   "k": "Teleport the player",
+   "v": "Телепортировать игрока"
+  },
+  {
+   "k": "Teleport to",
+   "v": "Телепорт в"
+  },
+  {
+   "k": "Templates",
+   "v": "Шаблоны"
+  },
+  {
+   "k": "Text",
+   "v": "Текст"
+  },
+  {
+   "k": "Text under 18 is hard to read in VR from a normal distance.",
+   "v": "Текст меньше 18 трудно читать в VR с обычного расстояния."
+  },
+  {
+   "k": "TextMeshPro's default font isn't imported yet. Text needs it.",
+   "v": "Шрифт TextMeshPro по умолчанию ещё не импортирован. Он нужен для текста."
+  },
+  {
+   "k": "The Image colour. Pointing at it brightens it; clicking darkens it.",
+   "v": "Цвет картинки. При наведении светлее, при нажатии темнее."
+  },
+  {
+   "k": "The object's name in the Hierarchy and the outline.",
+   "v": "Имя объекта в Hierarchy и структуре."
+  },
+  {
+   "k": "The one object to show; the rest of the group is hidden.",
+   "v": "Единственный показанный объект; остальные скрыты."
+  },
+  {
+   "k": "The UdonBehaviour to send the event to.",
+   "v": "UdonBehaviour, которому отправить событие."
+  },
+  {
+   "k": "Theme — click to re-colour everything",
+   "v": "Тема — нажмите, чтобы перекрасить всё"
+  },
+  {
+   "k": "Then send event",
+   "v": "Затем отправить событие"
+  },
+  {
+   "k": "Then show a message",
+   "v": "Затем показать сообщение"
+  },
+  {
+   "k": "This panel has no pages yet. Click Page in the Add card to make one.",
+   "v": "У панели ещё нет страниц. Нажмите «Страница» в карточке «Добавить»."
+  },
+  {
+   "k": "Tick colour",
+   "v": "Цвет галочки"
+  },
+  {
+   "k": "Tint",
+   "v": "Оттенок"
+  },
+  {
+   "k": "Title",
+   "v": "Заголовок"
+  },
+  {
+   "k": "Toggle",
+   "v": "Переключатель"
+  },
+  {
+   "k": "Toggle on = playing, off = stopped.",
+   "v": "Вкл. = играет, выкл. = остановлено."
+  },
+  {
+   "k": "Toggle.isOn when the world loads.",
+   "v": "Toggle.isOn при загрузке мира."
+  },
+  {
+   "k": "Track colour",
+   "v": "Цвет дорожки"
+  },
+  {
+   "k": "Turn a mirror on / off",
+   "v": "Включить / выключить зеркало"
+  },
+  {
+   "k": "Udon script",
+   "v": "Скрипт Udon"
+  },
+  {
+   "k": "UI Doctor",
+   "v": "UI-доктор"
+  },
+  {
+   "k": "Video player controls",
+   "v": "Управление видеоплеером"
+  },
+  {
+   "k": "Video players already in your scene",
+   "v": "Видеоплееры, уже есть в сцене"
+  },
+  {
+   "k": "Visible",
+   "v": "Видимый"
+  },
+  {
+   "k": "Watch the video for this lesson",
+   "v": "Смотреть видео к уроку"
+  },
+  {
+   "k": "Welcome board",
+   "v": "Доска приветствия"
+  },
+  {
+   "k": "Welcome with \"Don't show again\"",
+   "v": "Приветствие с «Больше не показывать»"
+  },
+  {
+   "k": "What did it make?",
+   "v": "Что было создано?"
+  },
+  {
+   "k": "What it's called in the Hierarchy.",
+   "v": "Как это называется в Hierarchy."
+  },
+  {
+   "k": "When it's moved",
+   "v": "При перемещении"
+  },
+  {
+   "k": "Where",
+   "v": "Где"
+  },
+  {
+   "k": "While this is selected, new items from the Add card go inside it.",
+   "v": "Пока выбрано, новые элементы попадают внутрь."
+  },
+  {
+   "k": "Whole numbers only",
+   "v": "Только целые числа"
+  },
+  {
+   "k": "Width × height. 1 UI unit = 1 mm in the world.",
+   "v": "Ширина × высота. 1 единица UI = 1 мм в мире."
+  },
+  {
+   "k": "You finished every lesson. Amazing!",
+   "v": "Вы прошли все уроки. Потрясающе!"
+  },
+  {
+   "k": "Your panels",
+   "v": "Ваши панели"
+  },
+  {
+   "k": "Your progress",
+   "v": "Ваш прогресс"
+  },
+  {
+   "k": "Again",
+   "v": "Ещё раз"
+  },
+  {
+   "k": "Answer",
+   "v": "Ответить"
+  },
+  {
+   "k": "Change an Animator",
+   "v": "Изменить Animator"
+  },
+  {
+   "k": "Set a Bool",
+   "v": "Задать Bool"
+  },
+  {
+   "k": "Switch a Bool",
+   "v": "Переключить Bool"
+  },
+  {
+   "k": "Fire a Trigger",
+   "v": "Вызвать Trigger"
+  },
+  {
+   "k": "Set an Int",
+   "v": "Задать Int"
+  },
+  {
+   "k": "Value",
+   "v": "Значение"
+  },
+  {
+   "k": "Grow with content",
+   "v": "Расти по содержимому"
+  },
+  {
+   "k": "Toggle on = true, off = false.",
+   "v": "Вкл. = true, выкл. = false."
+  },
+  {
+   "k": "Environment",
+   "v": "Окружение"
+  },
+  {
+   "k": "e.g. a door or a light with an Animator Controller.",
+   "v": "напр. дверь или свет с Animator Controller."
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 {
-  "version": "0.4.0",
+  "version": "0.5.0",
   "url": "https://nekosuneprojects.github.io/vcc-packages/",
-  "notes": "21 ready-made systems: video controls, portable menu, hotkeys, store, keypad, scoreboard, poll, dialogue, map, achievements and more – each with a lesson."
+  "notes": "UI in 12 languages, remote news board, store pictures from the web, video playlist with thumbnails, lesson video links, Unity 6 ready."
 }

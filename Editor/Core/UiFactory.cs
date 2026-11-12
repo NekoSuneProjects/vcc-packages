@@ -163,7 +163,7 @@ namespace NekoSune.WorldUiAssistant
         /// <summary>Same as the VRChat SDK: an EventSystem lets you click the UI in Play mode in the editor.</summary>
         private static void EnsureEventSystem()
         {
-            if (UnityEngine.Object.FindObjectOfType<EventSystem>(true)) return;
+            if (UnityEngine.Object.FindFirstObjectByType<EventSystem>(FindObjectsInactive.Include)) return;
             var es = new GameObject("EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
             StageUtility.PlaceGameObjectInCurrentStage(es);
             Undo.RegisterCreatedObjectUndo(es, "Create EventSystem");
@@ -220,7 +220,11 @@ namespace NekoSune.WorldUiAssistant
             go.name = name;
             var tmp = go.GetComponent<TextMeshProUGUI>();
             tmp.text = text;
+#if UNITY_6000_0_OR_NEWER
+            tmp.textWrappingMode = TextWrappingModes.Normal;
+#else
             tmp.enableWordWrapping = true;
+#endif
             tmp.raycastTarget = false;
             StyleText(tmp, style, theme);
             return go;

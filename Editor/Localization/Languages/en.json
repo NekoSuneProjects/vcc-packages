@@ -1,0 +1,1075 @@
+{
+ "code": "en",
+ "name": "English",
+ "nativeName": "English",
+ "entries": [
+  {
+   "k": "+ Link",
+   "v": "+ Link"
+  },
+  {
+   "k": "✓ VRChat-ready canvas",
+   "v": "✓ VRChat-ready canvas"
+  },
+  {
+   "k": "A box you can scroll when it has more than fits.",
+   "v": "A box you can scroll when it has more than fits."
+  },
+  {
+   "k": "A Float parameter in the Animator Controller.",
+   "v": "A Float parameter in the Animator Controller."
+  },
+  {
+   "k": "A paragraph of text.",
+   "v": "A paragraph of text."
+  },
+  {
+   "k": "A picture. Pick a Sprite after adding it.",
+   "v": "A picture. Pick a Sprite after adding it."
+  },
+  {
+   "k": "A public float field in that script.",
+   "v": "A public float field in that script."
+  },
+  {
+   "k": "A public method name in that script, e.g. ResetGame.",
+   "v": "A public method name in that script, e.g. ResetGame."
+  },
+  {
+   "k": "A texture imported with Texture Type = Sprite (2D and UI).",
+   "v": "A texture imported with Texture Type = Sprite (2D and UI)."
+  },
+  {
+   "k": "A thin line between sections.",
+   "v": "A thin line between sections."
+  },
+  {
+   "k": "Achievements / progress",
+   "v": "Achievements / progress"
+  },
+  {
+   "k": "Add",
+   "v": "Add"
+  },
+  {
+   "k": "Add to panel",
+   "v": "Add to panel"
+  },
+  {
+   "k": "Adds the QR picture to the current panel (after the selected item).",
+   "v": "Adds the QR picture to the current panel (after the selected item)."
+  },
+  {
+   "k": "Admin panel",
+   "v": "Admin panel"
+  },
+  {
+   "k": "An Audio Source in the scene.",
+   "v": "An Audio Source in the scene."
+  },
+  {
+   "k": "An empty object; its blue arrow (forward) is where the player faces.",
+   "v": "An empty object; its blue arrow (forward) is where the player faces."
+  },
+  {
+   "k": "An on/off checkbox with a label.",
+   "v": "An on/off checkbox with a label."
+  },
+  {
+   "k": "Animator",
+   "v": "Animator"
+  },
+  {
+   "k": "At the world origin (1.5 m up)",
+   "v": "At the world origin (1.5 m up)"
+  },
+  {
+   "k": "Avatar board",
+   "v": "Avatar board"
+  },
+  {
+   "k": "Back",
+   "v": "Back"
+  },
+  {
+   "k": "Background",
+   "v": "Background"
+  },
+  {
+   "k": "Badges",
+   "v": "Badges"
+  },
+  {
+   "k": "Big bold heading text.",
+   "v": "Big bold heading text."
+  },
+  {
+   "k": "Blueprint copied",
+   "v": "Blueprint copied"
+  },
+  {
+   "k": "Blueprints (JSON)",
+   "v": "Blueprints (JSON)"
+  },
+  {
+   "k": "Boards",
+   "v": "Boards"
+  },
+  {
+   "k": "Bold",
+   "v": "Bold"
+  },
+  {
+   "k": "Box colour",
+   "v": "Box colour"
+  },
+  {
+   "k": "Build",
+   "v": "Build"
+  },
+  {
+   "k": "Build a new panel from a .json blueprint.",
+   "v": "Build a new panel from a .json blueprint."
+  },
+  {
+   "k": "Build a new panel from a blueprint on the clipboard.",
+   "v": "Build a new panel from a blueprint on the clipboard."
+  },
+  {
+   "k": "Build VRChat world UI step by step — and learn how it works",
+   "v": "Build VRChat world UI step by step — and learn how it works"
+  },
+  {
+   "k": "Button",
+   "v": "Button"
+  },
+  {
+   "k": "Button colour",
+   "v": "Button colour"
+  },
+  {
+   "k": "Cancel",
+   "v": "Cancel"
+  },
+  {
+   "k": "Cell height",
+   "v": "Cell height"
+  },
+  {
+   "k": "Cell width",
+   "v": "Cell width"
+  },
+  {
+   "k": "Centre",
+   "v": "Centre"
+  },
+  {
+   "k": "Change sound volume",
+   "v": "Change sound volume"
+  },
+  {
+   "k": "Check my work",
+   "v": "Check my work"
+  },
+  {
+   "k": "Check now",
+   "v": "Check now"
+  },
+  {
+   "k": "Check your project",
+   "v": "Check your project"
+  },
+  {
+   "k": "ChilloutVR CCK found",
+   "v": "ChilloutVR CCK found"
+  },
+  {
+   "k": "Clock & countdown",
+   "v": "Clock & countdown"
+  },
+  {
+   "k": "Colour",
+   "v": "Colour"
+  },
+  {
+   "k": "Column",
+   "v": "Column"
+  },
+  {
+   "k": "Columns",
+   "v": "Columns"
+  },
+  {
+   "k": "Connect",
+   "v": "Connect"
+  },
+  {
+   "k": "Continue",
+   "v": "Continue"
+  },
+  {
+   "k": "Copy JSON",
+   "v": "Copy JSON"
+  },
+  {
+   "k": "Copy the blueprint to the clipboard.",
+   "v": "Copy the blueprint to the clipboard."
+  },
+  {
+   "k": "Couldn't draw the settings here:",
+   "v": "Couldn't draw the settings here:"
+  },
+  {
+   "k": "Create",
+   "v": "Create"
+  },
+  {
+   "k": "Create Panel",
+   "v": "Create Panel"
+  },
+  {
+   "k": "Credits board",
+   "v": "Credits board"
+  },
+  {
+   "k": "Delete",
+   "v": "Delete"
+  },
+  {
+   "k": "Dialogue box",
+   "v": "Dialogue box"
+  },
+  {
+   "k": "Divider",
+   "v": "Divider"
+  },
+  {
+   "k": "Do this",
+   "v": "Do this"
+  },
+  {
+   "k": "Doctor",
+   "v": "Doctor"
+  },
+  {
+   "k": "Don't stretch the picture (Image.preserveAspect).",
+   "v": "Don't stretch the picture (Image.preserveAspect)."
+  },
+  {
+   "k": "Download update",
+   "v": "Download update"
+  },
+  {
+   "k": "Drag an object from the Hierarchy.",
+   "v": "Drag an object from the Hierarchy."
+  },
+  {
+   "k": "Drag to pick a value, e.g. volume.",
+   "v": "Drag to pick a value, e.g. volume."
+  },
+  {
+   "k": "Duplicate",
+   "v": "Duplicate"
+  },
+  {
+   "k": "e.g. 1, 2, 3 instead of 1.37",
+   "v": "e.g. 1, 2, 3 instead of 1.37"
+  },
+  {
+   "k": "Each click switches between shown and hidden.",
+   "v": "Each click switches between shown and hidden."
+  },
+  {
+   "k": "Edge padding",
+   "v": "Edge padding"
+  },
+  {
+   "k": "Edit",
+   "v": "Edit"
+  },
+  {
+   "k": "Empty space.",
+   "v": "Empty space."
+  },
+  {
+   "k": "Empty. Add something from the Add card.",
+   "v": "Empty. Add something from the Add card."
+  },
+  {
+   "k": "Equal cells, e.g. a grid of buttons.",
+   "v": "Equal cells, e.g. a grid of buttons."
+  },
+  {
+   "k": "Event name",
+   "v": "Event name"
+  },
+  {
+   "k": "Event schedule",
+   "v": "Event schedule"
+  },
+  {
+   "k": "Every word the Assistant uses, in plain English.",
+   "v": "Every word the Assistant uses, in plain English."
+  },
+  {
+   "k": "Everyone sees it (synced)",
+   "v": "Everyone sees it (synced)"
+  },
+  {
+   "k": "Expert",
+   "v": "Expert"
+  },
+  {
+   "k": "Explain mode",
+   "v": "Explain mode"
+  },
+  {
+   "k": "Export…",
+   "v": "Export…"
+  },
+  {
+   "k": "Fill colour",
+   "v": "Fill colour"
+  },
+  {
+   "k": "Finish",
+   "v": "Finish"
+  },
+  {
+   "k": "Fix",
+   "v": "Fix"
+  },
+  {
+   "k": "Float variable",
+   "v": "Float variable"
+  },
+  {
+   "k": "Font size in UI units (mm). 26 reads well at about 2 m.",
+   "v": "Font size in UI units (mm). 26 reads well at about 2 m."
+  },
+  {
+   "k": "Frame",
+   "v": "Frame"
+  },
+  {
+   "k": "From / to",
+   "v": "From / to"
+  },
+  {
+   "k": "Full help",
+   "v": "Full help"
+  },
+  {
+   "k": "Gallery / slideshow",
+   "v": "Gallery / slideshow"
+  },
+  {
+   "k": "Game HUD",
+   "v": "Game HUD"
+  },
+  {
+   "k": "Games",
+   "v": "Games"
+  },
+  {
+   "k": "Gap",
+   "v": "Gap"
+  },
+  {
+   "k": "Gap between items",
+   "v": "Gap between items"
+  },
+  {
+   "k": "Glossary",
+   "v": "Glossary"
+  },
+  {
+   "k": "Grid",
+   "v": "Grid"
+  },
+  {
+   "k": "Handle colour",
+   "v": "Handle colour"
+  },
+  {
+   "k": "Help",
+   "v": "Help"
+  },
+  {
+   "k": "Hide something",
+   "v": "Hide something"
+  },
+  {
+   "k": "Hotkeys",
+   "v": "Hotkeys"
+  },
+  {
+   "k": "How it works in Unity:",
+   "v": "How it works in Unity:"
+  },
+  {
+   "k": "How much the Assistant explains.",
+   "v": "How much the Assistant explains."
+  },
+  {
+   "k": "Image",
+   "v": "Image"
+  },
+  {
+   "k": "Import TMP Essentials",
+   "v": "Import TMP Essentials"
+  },
+  {
+   "k": "Import…",
+   "v": "Import…"
+  },
+  {
+   "k": "In front of the Scene view camera",
+   "v": "In front of the Scene view camera"
+  },
+  {
+   "k": "Inside the selected object",
+   "v": "Inside the selected object"
+  },
+  {
+   "k": "Keep shape",
+   "v": "Keep shape"
+  },
+  {
+   "k": "Keypad / code door",
+   "v": "Keypad / code door"
+  },
+  {
+   "k": "Label",
+   "v": "Label"
+  },
+  {
+   "k": "Label colour",
+   "v": "Label colour"
+  },
+  {
+   "k": "Label size",
+   "v": "Label size"
+  },
+  {
+   "k": "Later",
+   "v": "Later"
+  },
+  {
+   "k": "Learn",
+   "v": "Learn"
+  },
+  {
+   "k": "Left",
+   "v": "Left"
+  },
+  {
+   "k": "Line up",
+   "v": "Line up"
+  },
+  {
+   "k": "Line up items",
+   "v": "Line up items"
+  },
+  {
+   "k": "Link or text",
+   "v": "Link or text"
+  },
+  {
+   "k": "Links / QR board",
+   "v": "Links / QR board"
+  },
+  {
+   "k": "Look",
+   "v": "Look"
+  },
+  {
+   "k": "Make a teleport point at the centre of the Scene view.",
+   "v": "Make a teleport point at the centre of the Scene view."
+  },
+  {
+   "k": "Map – you are here",
+   "v": "Map – you are here"
+  },
+  {
+   "k": "Media",
+   "v": "Media"
+  },
+  {
+   "k": "Menus",
+   "v": "Menus"
+  },
+  {
+   "k": "Message",
+   "v": "Message"
+  },
+  {
+   "k": "Message popup",
+   "v": "Message popup"
+  },
+  {
+   "k": "Mirror",
+   "v": "Mirror"
+  },
+  {
+   "k": "Multiplies the picture's colours. White = unchanged.",
+   "v": "Multiplies the picture's colours. White = unchanged."
+  },
+  {
+   "k": "Music player",
+   "v": "Music player"
+  },
+  {
+   "k": "Name",
+   "v": "Name"
+  },
+  {
+   "k": "New",
+   "v": "New"
+  },
+  {
+   "k": "New panel",
+   "v": "New panel"
+  },
+  {
+   "k": "Next",
+   "v": "Next"
+  },
+  {
+   "k": "No world UI panels in the open scene yet. Make your first one below.",
+   "v": "No world UI panels in the open scene yet. Make your first one below."
+  },
+  {
+   "k": "Not connected to the slider yet.",
+   "v": "Not connected to the slider yet."
+  },
+  {
+   "k": "Nothing yet",
+   "v": "Nothing yet"
+  },
+  {
+   "k": "Object",
+   "v": "Object"
+  },
+  {
+   "k": "Off hides it (GameObject.SetActive). Hidden items take no space.",
+   "v": "Off hides it (GameObject.SetActive). Hidden items take no space."
+  },
+  {
+   "k": "Open a page",
+   "v": "Open a page"
+  },
+  {
+   "k": "Optional public method to run after the value is set.",
+   "v": "Optional public method to run after the value is set."
+  },
+  {
+   "k": "Optional text that shows the value, e.g. 75%.",
+   "v": "Optional text that shows the value, e.g. 75%."
+  },
+  {
+   "k": "Outline",
+   "v": "Outline"
+  },
+  {
+   "k": "Page",
+   "v": "Page"
+  },
+  {
+   "k": "Panel",
+   "v": "Panel"
+  },
+  {
+   "k": "Parameter",
+   "v": "Parameter"
+  },
+  {
+   "k": "Paste",
+   "v": "Paste"
+  },
+  {
+   "k": "Photo spot helper",
+   "v": "Photo spot helper"
+  },
+  {
+   "k": "Pick a panel to edit, or make a new one.",
+   "v": "Pick a panel to edit, or make a new one."
+  },
+  {
+   "k": "Pick what moving this slider does, e.g. music volume.",
+   "v": "Pick what moving this slider does, e.g. music volume."
+  },
+  {
+   "k": "Picture",
+   "v": "Picture"
+  },
+  {
+   "k": "Pieces",
+   "v": "Pieces"
+  },
+  {
+   "k": "Place it",
+   "v": "Place it"
+  },
+  {
+   "k": "Play a sound",
+   "v": "Play a sound"
+  },
+  {
+   "k": "Player list & instance info",
+   "v": "Player list & instance info"
+  },
+  {
+   "k": "Poll / voting",
+   "v": "Poll / voting"
+  },
+  {
+   "k": "Pops up a short message with the scene's Message popup (NekoToast).",
+   "v": "Pops up a short message with the scene's Message popup (NekoToast)."
+  },
+  {
+   "k": "Popup",
+   "v": "Popup"
+  },
+  {
+   "k": "Portable menu",
+   "v": "Portable menu"
+  },
+  {
+   "k": "Put the point on the floor; the player lands standing on it.",
+   "v": "Put the point on the floor; the player lands standing on it."
+  },
+  {
+   "k": "Puts the items inside it side by side.",
+   "v": "Puts the items inside it side by side."
+  },
+  {
+   "k": "QR code maker",
+   "v": "QR code maker"
+  },
+  {
+   "k": "Remote news board",
+   "v": "Remote news board"
+  },
+  {
+   "k": "Remove",
+   "v": "Remove"
+  },
+  {
+   "k": "Right",
+   "v": "Right"
+  },
+  {
+   "k": "Row",
+   "v": "Row"
+  },
+  {
+   "k": "Rules board",
+   "v": "Rules board"
+  },
+  {
+   "k": "Save the current panel as a .json blueprint.",
+   "v": "Save the current panel as a .json blueprint."
+  },
+  {
+   "k": "Scoreboard / leaderboard",
+   "v": "Scoreboard / leaderboard"
+  },
+  {
+   "k": "Scroll list",
+   "v": "Scroll list"
+  },
+  {
+   "k": "Select",
+   "v": "Select"
+  },
+  {
+   "k": "Select every object with this component.",
+   "v": "Select every object with this component."
+  },
+  {
+   "k": "Select it and open Unity's Inspector to see every component.",
+   "v": "Select it and open Unity's Inspector to see every component."
+  },
+  {
+   "k": "Select the objects this is about.",
+   "v": "Select the objects this is about."
+  },
+  {
+   "k": "Select the panel itself (in the Hierarchy and here).",
+   "v": "Select the panel itself (in the Hierarchy and here)."
+  },
+  {
+   "k": "Send an Udon event",
+   "v": "Send an Udon event"
+  },
+  {
+   "k": "Send the value to Udon",
+   "v": "Send the value to Udon"
+  },
+  {
+   "k": "Set an Animator value",
+   "v": "Set an Animator value"
+  },
+  {
+   "k": "Set the slider's range to 0 – 1 for volume.",
+   "v": "Set the slider's range to 0 – 1 for volume."
+  },
+  {
+   "k": "Sets size and boldness from the theme. Title is centred.",
+   "v": "Sets size and boldness from the theme. Title is centred."
+  },
+  {
+   "k": "Settings menu",
+   "v": "Settings menu"
+  },
+  {
+   "k": "Shop",
+   "v": "Shop"
+  },
+  {
+   "k": "Show",
+   "v": "Show"
+  },
+  {
+   "k": "Show / hide",
+   "v": "Show / hide"
+  },
+  {
+   "k": "Show / hide something",
+   "v": "Show / hide something"
+  },
+  {
+   "k": "Show in Inspector",
+   "v": "Show in Inspector"
+  },
+  {
+   "k": "Show me",
+   "v": "Show me"
+  },
+  {
+   "k": "Show one of a group",
+   "v": "Show one of a group"
+  },
+  {
+   "k": "Show something",
+   "v": "Show something"
+  },
+  {
+   "k": "Show the panel in the Scene view.",
+   "v": "Show the panel in the Scene view."
+  },
+  {
+   "k": "Show this page",
+   "v": "Show this page"
+  },
+  {
+   "k": "Show value in",
+   "v": "Show value in"
+  },
+  {
+   "k": "Show which Unity component and property each setting changes.",
+   "v": "Show which Unity component and property each setting changes."
+  },
+  {
+   "k": "Shows this page and hides the others, so you can work on it.",
+   "v": "Shows this page and hides the others, so you can work on it."
+  },
+  {
+   "k": "Size",
+   "v": "Size"
+  },
+  {
+   "k": "Size (mm)",
+   "v": "Size (mm)"
+  },
+  {
+   "k": "Skip this version",
+   "v": "Skip this version"
+  },
+  {
+   "k": "Slider",
+   "v": "Slider"
+  },
+  {
+   "k": "Slider.minValue and maxValue.",
+   "v": "Slider.minValue and maxValue."
+  },
+  {
+   "k": "Social",
+   "v": "Social"
+  },
+  {
+   "k": "Some help",
+   "v": "Some help"
+  },
+  {
+   "k": "Something to click. Give it an action in its Edit card.",
+   "v": "Something to click. Give it an action in its Edit card."
+  },
+  {
+   "k": "Sound",
+   "v": "Sound"
+  },
+  {
+   "k": "Space between the panel's edge and its content.",
+   "v": "Space between the panel's edge and its content."
+  },
+  {
+   "k": "Spacer",
+   "v": "Spacer"
+  },
+  {
+   "k": "Start",
+   "v": "Start"
+  },
+  {
+   "k": "Start with a title and some text",
+   "v": "Start with a title and some text"
+  },
+  {
+   "k": "Starts at",
+   "v": "Starts at"
+  },
+  {
+   "k": "Starts on",
+   "v": "Starts on"
+  },
+  {
+   "k": "Stop a sound",
+   "v": "Stop a sound"
+  },
+  {
+   "k": "Stop the lesson (your place is kept).",
+   "v": "Stop the lesson (your place is kept)."
+  },
+  {
+   "k": "Store / market",
+   "v": "Store / market"
+  },
+  {
+   "k": "Style",
+   "v": "Style"
+  },
+  {
+   "k": "System settings",
+   "v": "System settings"
+  },
+  {
+   "k": "Tabbed menu",
+   "v": "Tabbed menu"
+  },
+  {
+   "k": "Teleport menu",
+   "v": "Teleport menu"
+  },
+  {
+   "k": "Teleport the player",
+   "v": "Teleport the player"
+  },
+  {
+   "k": "Teleport to",
+   "v": "Teleport to"
+  },
+  {
+   "k": "Templates",
+   "v": "Templates"
+  },
+  {
+   "k": "Text",
+   "v": "Text"
+  },
+  {
+   "k": "Text under 18 is hard to read in VR from a normal distance.",
+   "v": "Text under 18 is hard to read in VR from a normal distance."
+  },
+  {
+   "k": "TextMeshPro's default font isn't imported yet. Text needs it.",
+   "v": "TextMeshPro's default font isn't imported yet. Text needs it."
+  },
+  {
+   "k": "The Image colour. Pointing at it brightens it; clicking darkens it.",
+   "v": "The Image colour. Pointing at it brightens it; clicking darkens it."
+  },
+  {
+   "k": "The object's name in the Hierarchy and the outline.",
+   "v": "The object's name in the Hierarchy and the outline."
+  },
+  {
+   "k": "The one object to show; the rest of the group is hidden.",
+   "v": "The one object to show; the rest of the group is hidden."
+  },
+  {
+   "k": "The UdonBehaviour to send the event to.",
+   "v": "The UdonBehaviour to send the event to."
+  },
+  {
+   "k": "Theme — click to re-colour everything",
+   "v": "Theme — click to re-colour everything"
+  },
+  {
+   "k": "Then send event",
+   "v": "Then send event"
+  },
+  {
+   "k": "Then show a message",
+   "v": "Then show a message"
+  },
+  {
+   "k": "This panel has no pages yet. Click Page in the Add card to make one.",
+   "v": "This panel has no pages yet. Click Page in the Add card to make one."
+  },
+  {
+   "k": "Tick colour",
+   "v": "Tick colour"
+  },
+  {
+   "k": "Tint",
+   "v": "Tint"
+  },
+  {
+   "k": "Title",
+   "v": "Title"
+  },
+  {
+   "k": "Toggle",
+   "v": "Toggle"
+  },
+  {
+   "k": "Toggle on = playing, off = stopped.",
+   "v": "Toggle on = playing, off = stopped."
+  },
+  {
+   "k": "Toggle.isOn when the world loads.",
+   "v": "Toggle.isOn when the world loads."
+  },
+  {
+   "k": "Track colour",
+   "v": "Track colour"
+  },
+  {
+   "k": "Turn a mirror on / off",
+   "v": "Turn a mirror on / off"
+  },
+  {
+   "k": "Udon script",
+   "v": "Udon script"
+  },
+  {
+   "k": "UI Doctor",
+   "v": "UI Doctor"
+  },
+  {
+   "k": "Video player controls",
+   "v": "Video player controls"
+  },
+  {
+   "k": "Video players already in your scene",
+   "v": "Video players already in your scene"
+  },
+  {
+   "k": "Visible",
+   "v": "Visible"
+  },
+  {
+   "k": "Watch the video for this lesson",
+   "v": "Watch the video for this lesson"
+  },
+  {
+   "k": "Welcome board",
+   "v": "Welcome board"
+  },
+  {
+   "k": "Welcome with \"Don't show again\"",
+   "v": "Welcome with \"Don't show again\""
+  },
+  {
+   "k": "What did it make?",
+   "v": "What did it make?"
+  },
+  {
+   "k": "What it's called in the Hierarchy.",
+   "v": "What it's called in the Hierarchy."
+  },
+  {
+   "k": "When it's moved",
+   "v": "When it's moved"
+  },
+  {
+   "k": "Where",
+   "v": "Where"
+  },
+  {
+   "k": "While this is selected, new items from the Add card go inside it.",
+   "v": "While this is selected, new items from the Add card go inside it."
+  },
+  {
+   "k": "Whole numbers only",
+   "v": "Whole numbers only"
+  },
+  {
+   "k": "Width × height. 1 UI unit = 1 mm in the world.",
+   "v": "Width × height. 1 UI unit = 1 mm in the world."
+  },
+  {
+   "k": "You finished every lesson. Amazing!",
+   "v": "You finished every lesson. Amazing!"
+  },
+  {
+   "k": "Your panels",
+   "v": "Your panels"
+  },
+  {
+   "k": "Your progress",
+   "v": "Your progress"
+  },
+  {
+   "k": "Again",
+   "v": "Again"
+  },
+  {
+   "k": "Answer",
+   "v": "Answer"
+  },
+  {
+   "k": "Change an Animator",
+   "v": "Change an Animator"
+  },
+  {
+   "k": "Set a Bool",
+   "v": "Set a Bool"
+  },
+  {
+   "k": "Switch a Bool",
+   "v": "Switch a Bool"
+  },
+  {
+   "k": "Fire a Trigger",
+   "v": "Fire a Trigger"
+  },
+  {
+   "k": "Set an Int",
+   "v": "Set an Int"
+  },
+  {
+   "k": "Value",
+   "v": "Value"
+  },
+  {
+   "k": "Grow with content",
+   "v": "Grow with content"
+  },
+  {
+   "k": "Toggle on = true, off = false.",
+   "v": "Toggle on = true, off = false."
+  },
+  {
+   "k": "Environment",
+   "v": "Environment"
+  },
+  {
+   "k": "e.g. a door or a light with an Animator Controller.",
+   "v": "e.g. a door or a light with an Animator Controller."
+  }
+ ]
+}

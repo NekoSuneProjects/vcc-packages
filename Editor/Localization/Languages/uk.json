@@ -1,0 +1,1075 @@
+{
+ "code": "uk",
+ "name": "Ukrainian",
+ "nativeName": "Українська",
+ "entries": [
+  {
+   "k": "+ Link",
+   "v": "+ Посилання"
+  },
+  {
+   "k": "✓ VRChat-ready canvas",
+   "v": "✓ Canvas готовий для VRChat"
+  },
+  {
+   "k": "A box you can scroll when it has more than fits.",
+   "v": "Область із прокручуванням, коли вміст не вміщається."
+  },
+  {
+   "k": "A Float parameter in the Animator Controller.",
+   "v": "Параметр Float в Animator Controller."
+  },
+  {
+   "k": "A paragraph of text.",
+   "v": "Абзац тексту."
+  },
+  {
+   "k": "A picture. Pick a Sprite after adding it.",
+   "v": "Зображення. Після додавання виберіть Sprite."
+  },
+  {
+   "k": "A public float field in that script.",
+   "v": "Публічне поле float у цьому скрипті."
+  },
+  {
+   "k": "A public method name in that script, e.g. ResetGame.",
+   "v": "Назва публічного методу скрипта, напр. ResetGame."
+  },
+  {
+   "k": "A texture imported with Texture Type = Sprite (2D and UI).",
+   "v": "Текстура з Texture Type = Sprite (2D and UI)."
+  },
+  {
+   "k": "A thin line between sections.",
+   "v": "Тонка лінія між розділами."
+  },
+  {
+   "k": "Achievements / progress",
+   "v": "Досягнення / прогрес"
+  },
+  {
+   "k": "Add",
+   "v": "Додати"
+  },
+  {
+   "k": "Add to panel",
+   "v": "Додати на панель"
+  },
+  {
+   "k": "Adds the QR picture to the current panel (after the selected item).",
+   "v": "Додає QR-зображення на панель (після вибраного елемента)."
+  },
+  {
+   "k": "Admin panel",
+   "v": "Панель адміністратора"
+  },
+  {
+   "k": "An Audio Source in the scene.",
+   "v": "Audio Source у сцені."
+  },
+  {
+   "k": "An empty object; its blue arrow (forward) is where the player faces.",
+   "v": "Порожній об'єкт; синя стрілка (вперед) — куди дивиться гравець."
+  },
+  {
+   "k": "An on/off checkbox with a label.",
+   "v": "Прапорець увімк/вимк із підписом."
+  },
+  {
+   "k": "Animator",
+   "v": "Animator"
+  },
+  {
+   "k": "At the world origin (1.5 m up)",
+   "v": "У початку координат світу (1,5 м угору)"
+  },
+  {
+   "k": "Avatar board",
+   "v": "Дошка аватарів"
+  },
+  {
+   "k": "Back",
+   "v": "Назад"
+  },
+  {
+   "k": "Background",
+   "v": "Тло"
+  },
+  {
+   "k": "Badges",
+   "v": "Значки"
+  },
+  {
+   "k": "Big bold heading text.",
+   "v": "Великий жирний заголовок."
+  },
+  {
+   "k": "Blueprint copied",
+   "v": "Схему скопійовано"
+  },
+  {
+   "k": "Blueprints (JSON)",
+   "v": "Схеми (JSON)"
+  },
+  {
+   "k": "Boards",
+   "v": "Дошки"
+  },
+  {
+   "k": "Bold",
+   "v": "Жирний"
+  },
+  {
+   "k": "Box colour",
+   "v": "Колір прапорця"
+  },
+  {
+   "k": "Build",
+   "v": "Створення"
+  },
+  {
+   "k": "Build a new panel from a .json blueprint.",
+   "v": "Створити нову панель зі схеми .json."
+  },
+  {
+   "k": "Build a new panel from a blueprint on the clipboard.",
+   "v": "Створити панель зі схеми в буфері обміну."
+  },
+  {
+   "k": "Build VRChat world UI step by step — and learn how it works",
+   "v": "Створюйте UI світу VRChat крок за кроком — і дізнайтеся, як він працює"
+  },
+  {
+   "k": "Button",
+   "v": "Кнопка"
+  },
+  {
+   "k": "Button colour",
+   "v": "Колір кнопки"
+  },
+  {
+   "k": "Cancel",
+   "v": "Скасувати"
+  },
+  {
+   "k": "Cell height",
+   "v": "Висота клітинки"
+  },
+  {
+   "k": "Cell width",
+   "v": "Ширина клітинки"
+  },
+  {
+   "k": "Centre",
+   "v": "По центру"
+  },
+  {
+   "k": "Change sound volume",
+   "v": "Змінити гучність"
+  },
+  {
+   "k": "Check my work",
+   "v": "Перевірити"
+  },
+  {
+   "k": "Check now",
+   "v": "Перевірити зараз"
+  },
+  {
+   "k": "Check your project",
+   "v": "Перевірте проєкт"
+  },
+  {
+   "k": "ChilloutVR CCK found",
+   "v": "Знайдено ChilloutVR CCK"
+  },
+  {
+   "k": "Clock & countdown",
+   "v": "Годинник і зворотний відлік"
+  },
+  {
+   "k": "Colour",
+   "v": "Колір"
+  },
+  {
+   "k": "Column",
+   "v": "Стовпець"
+  },
+  {
+   "k": "Columns",
+   "v": "Стовпці"
+  },
+  {
+   "k": "Connect",
+   "v": "Під'єднати"
+  },
+  {
+   "k": "Continue",
+   "v": "Продовжити"
+  },
+  {
+   "k": "Copy JSON",
+   "v": "Копіювати JSON"
+  },
+  {
+   "k": "Copy the blueprint to the clipboard.",
+   "v": "Скопіювати схему в буфер обміну."
+  },
+  {
+   "k": "Couldn't draw the settings here:",
+   "v": "Не вдалося показати налаштування тут:"
+  },
+  {
+   "k": "Create",
+   "v": "Створити"
+  },
+  {
+   "k": "Create Panel",
+   "v": "Створити панель"
+  },
+  {
+   "k": "Credits board",
+   "v": "Дошка подяк"
+  },
+  {
+   "k": "Delete",
+   "v": "Видалити"
+  },
+  {
+   "k": "Dialogue box",
+   "v": "Вікно діалогу"
+  },
+  {
+   "k": "Divider",
+   "v": "Роздільник"
+  },
+  {
+   "k": "Do this",
+   "v": "Дія"
+  },
+  {
+   "k": "Doctor",
+   "v": "Лікар"
+  },
+  {
+   "k": "Don't stretch the picture (Image.preserveAspect).",
+   "v": "Не розтягувати зображення (Image.preserveAspect)."
+  },
+  {
+   "k": "Download update",
+   "v": "Завантажити оновлення"
+  },
+  {
+   "k": "Drag an object from the Hierarchy.",
+   "v": "Перетягніть об'єкт із Hierarchy."
+  },
+  {
+   "k": "Drag to pick a value, e.g. volume.",
+   "v": "Перетягніть, щоб вибрати значення, напр. гучність."
+  },
+  {
+   "k": "Duplicate",
+   "v": "Дублювати"
+  },
+  {
+   "k": "e.g. 1, 2, 3 instead of 1.37",
+   "v": "напр. 1, 2, 3 замість 1,37"
+  },
+  {
+   "k": "Each click switches between shown and hidden.",
+   "v": "Кожне натискання перемикає «показано/приховано»."
+  },
+  {
+   "k": "Edge padding",
+   "v": "Відступ від краю"
+  },
+  {
+   "k": "Edit",
+   "v": "Змінити"
+  },
+  {
+   "k": "Empty space.",
+   "v": "Порожнє місце."
+  },
+  {
+   "k": "Empty. Add something from the Add card.",
+   "v": "Порожньо. Додайте щось у картці «Додати»."
+  },
+  {
+   "k": "Equal cells, e.g. a grid of buttons.",
+   "v": "Однакові клітинки, напр. сітка кнопок."
+  },
+  {
+   "k": "Event name",
+   "v": "Назва події"
+  },
+  {
+   "k": "Event schedule",
+   "v": "Розклад подій"
+  },
+  {
+   "k": "Every word the Assistant uses, in plain English.",
+   "v": "Усі слова Асистента простою мовою."
+  },
+  {
+   "k": "Everyone sees it (synced)",
+   "v": "Бачать усі (синхронізація)"
+  },
+  {
+   "k": "Expert",
+   "v": "Експерт"
+  },
+  {
+   "k": "Explain mode",
+   "v": "Режим пояснень"
+  },
+  {
+   "k": "Export…",
+   "v": "Експорт…"
+  },
+  {
+   "k": "Fill colour",
+   "v": "Колір заливки"
+  },
+  {
+   "k": "Finish",
+   "v": "Завершити"
+  },
+  {
+   "k": "Fix",
+   "v": "Виправити"
+  },
+  {
+   "k": "Float variable",
+   "v": "Змінна float"
+  },
+  {
+   "k": "Font size in UI units (mm). 26 reads well at about 2 m.",
+   "v": "Розмір в одиницях UI (мм). 26 добре читається з ~2 м."
+  },
+  {
+   "k": "Frame",
+   "v": "Показати"
+  },
+  {
+   "k": "From / to",
+   "v": "Від / до"
+  },
+  {
+   "k": "Full help",
+   "v": "Повна допомога"
+  },
+  {
+   "k": "Gallery / slideshow",
+   "v": "Галерея / слайд-шоу"
+  },
+  {
+   "k": "Game HUD",
+   "v": "Ігровий HUD"
+  },
+  {
+   "k": "Games",
+   "v": "Ігри"
+  },
+  {
+   "k": "Gap",
+   "v": "Проміжок"
+  },
+  {
+   "k": "Gap between items",
+   "v": "Проміжок між елементами"
+  },
+  {
+   "k": "Glossary",
+   "v": "Глосарій"
+  },
+  {
+   "k": "Grid",
+   "v": "Сітка"
+  },
+  {
+   "k": "Handle colour",
+   "v": "Колір повзунка"
+  },
+  {
+   "k": "Help",
+   "v": "Допомога"
+  },
+  {
+   "k": "Hide something",
+   "v": "Приховати щось"
+  },
+  {
+   "k": "Hotkeys",
+   "v": "Гарячі клавіші"
+  },
+  {
+   "k": "How it works in Unity:",
+   "v": "Як це влаштовано в Unity:"
+  },
+  {
+   "k": "How much the Assistant explains.",
+   "v": "Наскільки докладно пояснює Асистент."
+  },
+  {
+   "k": "Image",
+   "v": "Зображення"
+  },
+  {
+   "k": "Import TMP Essentials",
+   "v": "Імпортувати TMP Essentials"
+  },
+  {
+   "k": "Import…",
+   "v": "Імпорт…"
+  },
+  {
+   "k": "In front of the Scene view camera",
+   "v": "Перед камерою вікна Scene"
+  },
+  {
+   "k": "Inside the selected object",
+   "v": "Усередині вибраного об'єкта"
+  },
+  {
+   "k": "Keep shape",
+   "v": "Зберігати форму"
+  },
+  {
+   "k": "Keypad / code door",
+   "v": "Кодова панель / двері"
+  },
+  {
+   "k": "Label",
+   "v": "Підпис"
+  },
+  {
+   "k": "Label colour",
+   "v": "Колір підпису"
+  },
+  {
+   "k": "Label size",
+   "v": "Розмір підпису"
+  },
+  {
+   "k": "Later",
+   "v": "Пізніше"
+  },
+  {
+   "k": "Learn",
+   "v": "Навчання"
+  },
+  {
+   "k": "Left",
+   "v": "Ліворуч"
+  },
+  {
+   "k": "Line up",
+   "v": "Вирівнювання"
+  },
+  {
+   "k": "Line up items",
+   "v": "Вирівнювання елементів"
+  },
+  {
+   "k": "Link or text",
+   "v": "Посилання або текст"
+  },
+  {
+   "k": "Links / QR board",
+   "v": "Дошка посилань / QR"
+  },
+  {
+   "k": "Look",
+   "v": "Вигляд"
+  },
+  {
+   "k": "Make a teleport point at the centre of the Scene view.",
+   "v": "Створити точку телепорту в центрі вікна Scene."
+  },
+  {
+   "k": "Map – you are here",
+   "v": "Мапа — ви тут"
+  },
+  {
+   "k": "Media",
+   "v": "Медіа"
+  },
+  {
+   "k": "Menus",
+   "v": "Меню"
+  },
+  {
+   "k": "Message",
+   "v": "Повідомлення"
+  },
+  {
+   "k": "Message popup",
+   "v": "Спливне повідомлення"
+  },
+  {
+   "k": "Mirror",
+   "v": "Дзеркало"
+  },
+  {
+   "k": "Multiplies the picture's colours. White = unchanged.",
+   "v": "Множить кольори зображення. Білий = без змін."
+  },
+  {
+   "k": "Music player",
+   "v": "Музичний плеєр"
+  },
+  {
+   "k": "Name",
+   "v": "Назва"
+  },
+  {
+   "k": "New",
+   "v": "Новий"
+  },
+  {
+   "k": "New panel",
+   "v": "Нова панель"
+  },
+  {
+   "k": "Next",
+   "v": "Далі"
+  },
+  {
+   "k": "No world UI panels in the open scene yet. Make your first one below.",
+   "v": "У сцені ще немає панелей UI. Створіть першу нижче."
+  },
+  {
+   "k": "Not connected to the slider yet.",
+   "v": "Ще не під'єднано до повзунка."
+  },
+  {
+   "k": "Nothing yet",
+   "v": "Поки нічого"
+  },
+  {
+   "k": "Object",
+   "v": "Об'єкт"
+  },
+  {
+   "k": "Off hides it (GameObject.SetActive). Hidden items take no space.",
+   "v": "Вимк. приховує (GameObject.SetActive). Приховане не займає місця."
+  },
+  {
+   "k": "Open a page",
+   "v": "Відкрити сторінку"
+  },
+  {
+   "k": "Optional public method to run after the value is set.",
+   "v": "Необов'язковий публічний метод після встановлення значення."
+  },
+  {
+   "k": "Optional text that shows the value, e.g. 75%.",
+   "v": "Необов'язковий текст зі значенням, напр. 75%."
+  },
+  {
+   "k": "Outline",
+   "v": "Структура"
+  },
+  {
+   "k": "Page",
+   "v": "Сторінка"
+  },
+  {
+   "k": "Panel",
+   "v": "Панель"
+  },
+  {
+   "k": "Parameter",
+   "v": "Параметр"
+  },
+  {
+   "k": "Paste",
+   "v": "Вставити"
+  },
+  {
+   "k": "Photo spot helper",
+   "v": "Помічник фотозони"
+  },
+  {
+   "k": "Pick a panel to edit, or make a new one.",
+   "v": "Виберіть панель або створіть нову."
+  },
+  {
+   "k": "Pick what moving this slider does, e.g. music volume.",
+   "v": "Виберіть, що робить повзунок, напр. гучність музики."
+  },
+  {
+   "k": "Picture",
+   "v": "Зображення"
+  },
+  {
+   "k": "Pieces",
+   "v": "Деталі"
+  },
+  {
+   "k": "Place it",
+   "v": "Розмістити"
+  },
+  {
+   "k": "Play a sound",
+   "v": "Відтворити звук"
+  },
+  {
+   "k": "Player list & instance info",
+   "v": "Список гравців і відомості про інстанс"
+  },
+  {
+   "k": "Poll / voting",
+   "v": "Опитування / голосування"
+  },
+  {
+   "k": "Pops up a short message with the scene's Message popup (NekoToast).",
+   "v": "Показує коротке повідомлення у спливному вікні сцени (NekoToast)."
+  },
+  {
+   "k": "Popup",
+   "v": "Вікно"
+  },
+  {
+   "k": "Portable menu",
+   "v": "Переносне меню"
+  },
+  {
+   "k": "Put the point on the floor; the player lands standing on it.",
+   "v": "Поставте точку на підлогу — гравець опиниться стоячи на ній."
+  },
+  {
+   "k": "Puts the items inside it side by side.",
+   "v": "Розташовує елементи поруч."
+  },
+  {
+   "k": "QR code maker",
+   "v": "Генератор QR-кодів"
+  },
+  {
+   "k": "Remote news board",
+   "v": "Онлайн-дошка новин"
+  },
+  {
+   "k": "Remove",
+   "v": "Прибрати"
+  },
+  {
+   "k": "Right",
+   "v": "Праворуч"
+  },
+  {
+   "k": "Row",
+   "v": "Ряд"
+  },
+  {
+   "k": "Rules board",
+   "v": "Дошка правил"
+  },
+  {
+   "k": "Save the current panel as a .json blueprint.",
+   "v": "Зберегти панель як схему .json."
+  },
+  {
+   "k": "Scoreboard / leaderboard",
+   "v": "Табло / рейтинг"
+  },
+  {
+   "k": "Scroll list",
+   "v": "Прокручуваний список"
+  },
+  {
+   "k": "Select",
+   "v": "Вибрати"
+  },
+  {
+   "k": "Select every object with this component.",
+   "v": "Вибрати всі об'єкти з цим компонентом."
+  },
+  {
+   "k": "Select it and open Unity's Inspector to see every component.",
+   "v": "Виберіть і відкрийте Inspector Unity, щоб побачити всі компоненти."
+  },
+  {
+   "k": "Select the objects this is about.",
+   "v": "Вибрати об'єкти, про які йдеться."
+  },
+  {
+   "k": "Select the panel itself (in the Hierarchy and here).",
+   "v": "Вибрати саму панель (у Hierarchy і тут)."
+  },
+  {
+   "k": "Send an Udon event",
+   "v": "Надіслати подію Udon"
+  },
+  {
+   "k": "Send the value to Udon",
+   "v": "Надіслати значення в Udon"
+  },
+  {
+   "k": "Set an Animator value",
+   "v": "Задати значення Animator"
+  },
+  {
+   "k": "Set the slider's range to 0 – 1 for volume.",
+   "v": "Для гучності задайте діапазон 0 – 1."
+  },
+  {
+   "k": "Sets size and boldness from the theme. Title is centred.",
+   "v": "Задає розмір і жирність за темою. Заголовок по центру."
+  },
+  {
+   "k": "Settings menu",
+   "v": "Меню налаштувань"
+  },
+  {
+   "k": "Shop",
+   "v": "Магазин"
+  },
+  {
+   "k": "Show",
+   "v": "Показати"
+  },
+  {
+   "k": "Show / hide",
+   "v": "Показати / приховати"
+  },
+  {
+   "k": "Show / hide something",
+   "v": "Показати / приховати щось"
+  },
+  {
+   "k": "Show in Inspector",
+   "v": "Показати в Inspector"
+  },
+  {
+   "k": "Show me",
+   "v": "Покажи"
+  },
+  {
+   "k": "Show one of a group",
+   "v": "Показати один із групи"
+  },
+  {
+   "k": "Show something",
+   "v": "Показати щось"
+  },
+  {
+   "k": "Show the panel in the Scene view.",
+   "v": "Показати панель у вікні Scene."
+  },
+  {
+   "k": "Show this page",
+   "v": "Показати цю сторінку"
+  },
+  {
+   "k": "Show value in",
+   "v": "Показувати значення в"
+  },
+  {
+   "k": "Show which Unity component and property each setting changes.",
+   "v": "Показує, який компонент і властивість Unity змінює кожне налаштування."
+  },
+  {
+   "k": "Shows this page and hides the others, so you can work on it.",
+   "v": "Показує цю сторінку й приховує інші для роботи."
+  },
+  {
+   "k": "Size",
+   "v": "Розмір"
+  },
+  {
+   "k": "Size (mm)",
+   "v": "Розмір (мм)"
+  },
+  {
+   "k": "Skip this version",
+   "v": "Пропустити цю версію"
+  },
+  {
+   "k": "Slider",
+   "v": "Повзунок"
+  },
+  {
+   "k": "Slider.minValue and maxValue.",
+   "v": "Slider.minValue і maxValue."
+  },
+  {
+   "k": "Social",
+   "v": "Спілкування"
+  },
+  {
+   "k": "Some help",
+   "v": "Трохи допомоги"
+  },
+  {
+   "k": "Something to click. Give it an action in its Edit card.",
+   "v": "Щось, на що можна натиснути. Задайте дію в картці «Змінити»."
+  },
+  {
+   "k": "Sound",
+   "v": "Звук"
+  },
+  {
+   "k": "Space between the panel's edge and its content.",
+   "v": "Відстань між краєм панелі та вмістом."
+  },
+  {
+   "k": "Spacer",
+   "v": "Відступ"
+  },
+  {
+   "k": "Start",
+   "v": "Почати"
+  },
+  {
+   "k": "Start with a title and some text",
+   "v": "Почати із заголовка й тексту"
+  },
+  {
+   "k": "Starts at",
+   "v": "Початкове значення"
+  },
+  {
+   "k": "Starts on",
+   "v": "Увімкнено спочатку"
+  },
+  {
+   "k": "Stop a sound",
+   "v": "Зупинити звук"
+  },
+  {
+   "k": "Stop the lesson (your place is kept).",
+   "v": "Зупинити урок (прогрес збережеться)."
+  },
+  {
+   "k": "Store / market",
+   "v": "Магазин / ринок"
+  },
+  {
+   "k": "Style",
+   "v": "Стиль"
+  },
+  {
+   "k": "System settings",
+   "v": "Налаштування системи"
+  },
+  {
+   "k": "Tabbed menu",
+   "v": "Меню з вкладками"
+  },
+  {
+   "k": "Teleport menu",
+   "v": "Меню телепорту"
+  },
+  {
+   "k": "Teleport the player",
+   "v": "Телепортувати гравця"
+  },
+  {
+   "k": "Teleport to",
+   "v": "Телепорт у"
+  },
+  {
+   "k": "Templates",
+   "v": "Шаблони"
+  },
+  {
+   "k": "Text",
+   "v": "Текст"
+  },
+  {
+   "k": "Text under 18 is hard to read in VR from a normal distance.",
+   "v": "Текст менший за 18 важко читати у VR зі звичайної відстані."
+  },
+  {
+   "k": "TextMeshPro's default font isn't imported yet. Text needs it.",
+   "v": "Типовий шрифт TextMeshPro ще не імпортовано. Він потрібен для тексту."
+  },
+  {
+   "k": "The Image colour. Pointing at it brightens it; clicking darkens it.",
+   "v": "Колір зображення. При наведенні світліше, при натисканні темніше."
+  },
+  {
+   "k": "The object's name in the Hierarchy and the outline.",
+   "v": "Назва об'єкта в Hierarchy і структурі."
+  },
+  {
+   "k": "The one object to show; the rest of the group is hidden.",
+   "v": "Єдиний показаний об'єкт; решта приховані."
+  },
+  {
+   "k": "The UdonBehaviour to send the event to.",
+   "v": "UdonBehaviour, якому надіслати подію."
+  },
+  {
+   "k": "Theme — click to re-colour everything",
+   "v": "Тема — натисніть, щоб перефарбувати все"
+  },
+  {
+   "k": "Then send event",
+   "v": "Потім надіслати подію"
+  },
+  {
+   "k": "Then show a message",
+   "v": "Потім показати повідомлення"
+  },
+  {
+   "k": "This panel has no pages yet. Click Page in the Add card to make one.",
+   "v": "У панелі ще немає сторінок. Натисніть «Сторінка» в картці «Додати»."
+  },
+  {
+   "k": "Tick colour",
+   "v": "Колір позначки"
+  },
+  {
+   "k": "Tint",
+   "v": "Відтінок"
+  },
+  {
+   "k": "Title",
+   "v": "Заголовок"
+  },
+  {
+   "k": "Toggle",
+   "v": "Перемикач"
+  },
+  {
+   "k": "Toggle on = playing, off = stopped.",
+   "v": "Увімк. = грає, вимк. = зупинено."
+  },
+  {
+   "k": "Toggle.isOn when the world loads.",
+   "v": "Toggle.isOn під час завантаження світу."
+  },
+  {
+   "k": "Track colour",
+   "v": "Колір доріжки"
+  },
+  {
+   "k": "Turn a mirror on / off",
+   "v": "Увімкнути / вимкнути дзеркало"
+  },
+  {
+   "k": "Udon script",
+   "v": "Скрипт Udon"
+  },
+  {
+   "k": "UI Doctor",
+   "v": "UI-лікар"
+  },
+  {
+   "k": "Video player controls",
+   "v": "Керування відеоплеєром"
+  },
+  {
+   "k": "Video players already in your scene",
+   "v": "Відеоплеєри, що вже є у сцені"
+  },
+  {
+   "k": "Visible",
+   "v": "Видимий"
+  },
+  {
+   "k": "Watch the video for this lesson",
+   "v": "Дивитися відео до уроку"
+  },
+  {
+   "k": "Welcome board",
+   "v": "Дошка привітання"
+  },
+  {
+   "k": "Welcome with \"Don't show again\"",
+   "v": "Привітання з «Більше не показувати»"
+  },
+  {
+   "k": "What did it make?",
+   "v": "Що було створено?"
+  },
+  {
+   "k": "What it's called in the Hierarchy.",
+   "v": "Як це називається в Hierarchy."
+  },
+  {
+   "k": "When it's moved",
+   "v": "Під час переміщення"
+  },
+  {
+   "k": "Where",
+   "v": "Де"
+  },
+  {
+   "k": "While this is selected, new items from the Add card go inside it.",
+   "v": "Поки вибрано, нові елементи потрапляють усередину."
+  },
+  {
+   "k": "Whole numbers only",
+   "v": "Лише цілі числа"
+  },
+  {
+   "k": "Width × height. 1 UI unit = 1 mm in the world.",
+   "v": "Ширина × висота. 1 одиниця UI = 1 мм у світі."
+  },
+  {
+   "k": "You finished every lesson. Amazing!",
+   "v": "Ви пройшли всі уроки. Чудово!"
+  },
+  {
+   "k": "Your panels",
+   "v": "Ваші панелі"
+  },
+  {
+   "k": "Your progress",
+   "v": "Ваш прогрес"
+  },
+  {
+   "k": "Again",
+   "v": "Ще раз"
+  },
+  {
+   "k": "Answer",
+   "v": "Відповісти"
+  },
+  {
+   "k": "Change an Animator",
+   "v": "Змінити Animator"
+  },
+  {
+   "k": "Set a Bool",
+   "v": "Задати Bool"
+  },
+  {
+   "k": "Switch a Bool",
+   "v": "Перемкнути Bool"
+  },
+  {
+   "k": "Fire a Trigger",
+   "v": "Викликати Trigger"
+  },
+  {
+   "k": "Set an Int",
+   "v": "Задати Int"
+  },
+  {
+   "k": "Value",
+   "v": "Значення"
+  },
+  {
+   "k": "Grow with content",
+   "v": "Рости за вмістом"
+  },
+  {
+   "k": "Toggle on = true, off = false.",
+   "v": "Увімк. = true, вимк. = false."
+  },
+  {
+   "k": "Environment",
+   "v": "Середовище"
+  },
+  {
+   "k": "e.g. a door or a light with an Animator Controller.",
+   "v": "напр. двері або світло з Animator Controller."
+  }
+ ]
+}

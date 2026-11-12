@@ -16,7 +16,7 @@ namespace NekoSune.WorldUiAssistant
     [InitializeOnLoad]
     internal static class UpdateChecker
     {
-        public const string CurrentVersion = "0.4.0";
+        public const string CurrentVersion = "0.5.0";
 
         /// <summary>Raw URL of version.json, e.g. a file on GitHub (raw.githubusercontent.com).</summary>
         public const string VersionUrl = "https://raw.githubusercontent.com/NekoSuneProjects/vcc-packages/world-ui-assistant/version.json";

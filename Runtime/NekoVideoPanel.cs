@@ -31,6 +31,12 @@ namespace NekoSune.WorldUiAssistant
         [Tooltip("Playlist: videos must be typed in here in the editor (VRCUrl).")]
         public VRCUrl[] playlist;
         public string[] titles;
+        [Tooltip("Optional thumbnail per playlist entry.")]
+        public Sprite[] thumbnails;
+        [Tooltip("Playlist buttons (Play0 … Play7); unused ones are hidden.")]
+        public GameObject[] playlistButtons;
+        public TextMeshProUGUI[] playlistLabels;
+        public Image[] playlistThumbs;
 
         [Tooltip("Everyone watches the same video at the same time.")]
         public bool synced = true;
@@ -52,6 +58,21 @@ namespace NekoSune.WorldUiAssistant
         {
             if (volumeBar != null) VolumeChanged();
             SetStatus("Ready");
+            if (playlistButtons == null) return;
+            for (int i = 0; i < playlistButtons.Length; i++)
+            {
+                bool used = i < Count() && playlist[i] != null && !string.IsNullOrEmpty(playlist[i].Get());
+                if (playlistButtons[i] != null) playlistButtons[i].SetActive(used);
+                if (!used) continue;
+                if (playlistLabels != null && i < playlistLabels.Length && playlistLabels[i] != null)
+                    playlistLabels[i].text = titles != null && i < titles.Length && !string.IsNullOrEmpty(titles[i]) ? titles[i] : "Video " + (i + 1);
+                bool thumb = thumbnails != null && i < thumbnails.Length && thumbnails[i] != null;
+                if (playlistThumbs != null && i < playlistThumbs.Length && playlistThumbs[i] != null)
+                {
+                    playlistThumbs[i].gameObject.SetActive(thumb);
+                    if (thumb) playlistThumbs[i].sprite = thumbnails[i];
+                }
+            }
         }
 
         // ------------------------------------------------------------------ buttons

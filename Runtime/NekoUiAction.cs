@@ -27,6 +27,13 @@ namespace NekoSune.WorldUiAssistant
         public const int OpenPage = 6;
         public const int CustomEvent = 7;
         public const int ShowOneOfGroup = 8;
+        public const int SetAnimator = 9;
+
+        // Animator parameter kinds for SetAnimator.
+        public const int ParamBoolSet = 0;
+        public const int ParamBoolSwitch = 1;
+        public const int ParamTrigger = 2;
+        public const int ParamInt = 3;
 
         [Tooltip("Which action runs (see the constants above).")]
         public int action;
@@ -53,6 +60,13 @@ namespace NekoSune.WorldUiAssistant
 
         [Tooltip("Set when a UI Toggle drives this: its on/off state is used instead of switching.")]
         public Toggle uiToggle;
+
+        [Tooltip("Animator to change (doors, lights…), its parameter name, and what to do with it.")]
+        public Animator animator;
+        public string parameter;
+        public int parameterKind;
+        public bool boolValue = true;
+        public int intValue;
 
         [Tooltip("Optional message popup to show after the action, e.g. \"Mirror on\".")]
         public NekoToast toast;
@@ -98,6 +112,18 @@ namespace NekoSune.WorldUiAssistant
                 if (synced) eventTarget.SendCustomNetworkEvent(NetworkEventTarget.All, eventName);
                 else eventTarget.SendCustomEvent(eventName);
             }
+            else if (action == SetAnimator)
+            {
+                if (animator == null || string.IsNullOrEmpty(parameter)) return;
+                if (parameterKind == ParamTrigger) { if (synced) SendCustomNetworkEvent(NetworkEventTarget.All, nameof(FireTrigger)); else FireTrigger(); }
+                else if (parameterKind == ParamInt) { animator.SetInteger(parameter, intValue); }
+                else
+                {
+                    bool v = uiToggle != null ? uiToggle.isOn : parameterKind == ParamBoolSwitch ? !animator.GetBool(parameter) : boolValue;
+                    if (synced) ShareState(v);
+                    animator.SetBool(parameter, v);
+                }
+            }
             else if (action == ShowOneOfGroup)
             {
                 // Shows "page" and hides the rest of "targets" (e.g. mirror HQ / LQ / off). No page = all hidden.
@@ -112,6 +138,11 @@ namespace NekoSune.WorldUiAssistant
             }
 
             if (toast != null && !string.IsNullOrEmpty(toastText)) toast.Show(toastText);
+        }
+
+        public void FireTrigger()
+        {
+            if (animator != null && !string.IsNullOrEmpty(parameter)) animator.SetTrigger(parameter);
         }
 
         private int IndexOf(GameObject go)
@@ -149,6 +180,7 @@ namespace NekoSune.WorldUiAssistant
         public override void OnDeserialization()
         {
             if (action == ShowOneOfGroup) { ShowOnly(syncedIndex); return; }
+            if (action == SetAnimator) { if (animator != null && !string.IsNullOrEmpty(parameter)) animator.SetBool(parameter, syncedOn); return; }
             if (action == PlaySound || action == StopSound) SetSound(syncedOn);
             else SetObjects(syncedOn);
 

@@ -15,7 +15,7 @@ namespace NekoSune.WorldUiAssistant
         {
             (WidgetKind.Panel, "Title", "Big bold heading text.", true),
             (WidgetKind.Text, "Text", "A paragraph of text.", true),
-            (WidgetKind.Button, "Button", "Something to click. (Actions come in a later version.)", true),
+            (WidgetKind.Button, "Button", "Something to click. Give it an action in its Edit card.", true),
             (WidgetKind.Toggle, "Toggle", "An on/off checkbox with a label.", true),
             (WidgetKind.Slider, "Slider", "Drag to pick a value, e.g. volume.", false),
             (WidgetKind.Image, "Image", "A picture. Pick a Sprite after adding it.", false),
@@ -66,7 +66,7 @@ namespace NekoSune.WorldUiAssistant
                         string icon = p.kind == WidgetKind.Panel ? "Text Icon" : UiWidgets.Icon(p.kind);
                         using (new EditorGUI.DisabledScope(p.needsText && !fontOk))
                         {
-                            if (GUILayout.Button(new GUIContent(" " + p.label, EditorGUIUtility.IconContent(icon).image, p.tip), GUILayout.Height(26), GUILayout.MinWidth(10)))
+                            if (GUILayout.Button(new GUIContent(" " + Loc.T(p.label), EditorGUIUtility.IconContent(icon).image, Loc.T(p.tip)), GUILayout.Height(26), GUILayout.MinWidth(10)))
                                 Add(p.kind, target);
                         }
                     }
@@ -188,7 +188,7 @@ namespace NekoSune.WorldUiAssistant
             if (iconTex && e.type == EventType.Repaint) GUI.DrawTexture(new Rect(x, row.y + 3, 16, 16), iconTex, ScaleMode.ScaleToFit);
             x += 20;
 
-            var kindLabel = new GUIContent(UiWidgets.Label(kind));
+            var kindLabel = new GUIContent(Loc.T(UiWidgets.Label(kind)));
             float kindW = S.Chip.CalcSize(kindLabel).x;
             var nameStyle = t.gameObject.activeSelf ? EditorStyles.label : S.PathLabel;
             var nameRect = new Rect(x, row.y + 2, Mathf.Max(20, eye.x - x - kindW - 8), 18);
@@ -196,7 +196,7 @@ namespace NekoSune.WorldUiAssistant
             if (e.type == EventType.Repaint)
                 S.Chip.Draw(new Rect(eye.x - kindW - 4, row.y + 3, kindW, 16), kindLabel, false, false, false, false);
 
-            if (GUI.Button(eye, new GUIContent(EditorGUIUtility.IconContent(t.gameObject.activeSelf ? "d_scenevis_visible_hover" : "d_scenevis_hidden_hover").image, "Show / hide"), GUIStyle.none))
+            if (GUI.Button(eye, new GUIContent(EditorGUIUtility.IconContent(t.gameObject.activeSelf ? "d_scenevis_visible_hover" : "d_scenevis_hidden_hover").image, Loc.T("Show / hide")), GUIStyle.none))
             {
                 if (kind == WidgetKind.Page) UiActions.ShowPage(t);
                 else
@@ -205,7 +205,7 @@ namespace NekoSune.WorldUiAssistant
                     t.gameObject.SetActive(!t.gameObject.activeSelf);
                 }
             }
-            if (GUI.Button(dup, new GUIContent(EditorGUIUtility.IconContent("d_TreeEditor.Duplicate").image, "Duplicate"), GUIStyle.none))
+            if (GUI.Button(dup, new GUIContent(EditorGUIUtility.IconContent("d_TreeEditor.Duplicate").image, Loc.T("Duplicate")), GUIStyle.none))
             {
                 var copy = Object.Instantiate(t.gameObject, t.parent);
                 copy.name = t.name;
@@ -214,7 +214,7 @@ namespace NekoSune.WorldUiAssistant
                 Select(copy.transform);
                 GUIUtility.ExitGUI();
             }
-            if (GUI.Button(del, new GUIContent(EditorGUIUtility.IconContent("d_TreeEditor.Trash").image, "Delete"), GUIStyle.none))
+            if (GUI.Button(del, new GUIContent(EditorGUIUtility.IconContent("d_TreeEditor.Trash").image, Loc.T("Delete")), GUIStyle.none))
             {
                 if (selected == t || (selected && selected.IsChildOf(t))) selected = null;
                 Undo.DestroyObjectImmediate(t.gameObject);

@@ -22,10 +22,10 @@ namespace NekoSune.WorldUiAssistant
             using (new EditorGUILayout.HorizontalScope())
             {
                 if (!string.IsNullOrEmpty(icon)) GUILayout.Label(EditorGUIUtility.IconContent(icon), GUILayout.Width(18), GUILayout.Height(18));
-                GUILayout.Label(title, S.CardTitle);
+                GUILayout.Label(Loc.T(title), S.CardTitle);
                 GUILayout.FlexibleSpace();
             }
-            if (!string.IsNullOrEmpty(subtitle) && Help.ShowHints) GUILayout.Label(subtitle, S.Hint);
+            if (!string.IsNullOrEmpty(subtitle) && Help.ShowHints) GUILayout.Label(Loc.T(subtitle), S.Hint);
             S.Line();
             EditorGUILayout.Space(6);
         }
@@ -71,7 +71,7 @@ namespace NekoSune.WorldUiAssistant
             foldoutTitle ?? (foldoutTitle = new GUIStyle(EditorStyles.foldout) { fontStyle = FontStyle.Bold, fontSize = 12, fixedHeight = 20 });
 
         public static void Chip(string text, string tooltip = null) =>
-            GUILayout.Label(new GUIContent(text, tooltip), S.Chip, GUILayout.ExpandWidth(false));
+            GUILayout.Label(Loc.C(text, tooltip), S.Chip, GUILayout.ExpandWidth(false));
 
         public static void Chip(string text, Color textColor, string tooltip = null)
         {
@@ -84,12 +84,12 @@ namespace NekoSune.WorldUiAssistant
         public static void Group(string text, bool first = false)
         {
             if (!first) EditorGUILayout.Space(6);
-            GUILayout.Label(text.ToUpperInvariant(), S.GroupLabel);
+            GUILayout.Label(Loc.T(text).ToUpperInvariant(), S.GroupLabel);
         }
 
         public static void Hint(string text)
         {
-            if (Help.ShowHints) GUILayout.Label(text, S.Hint);
+            if (Help.ShowHints) GUILayout.Label(Loc.T(text), S.Hint);
         }
 
         /// <summary>Full-width action button; accent-tinted when <paramref name="primary"/>.</summary>
@@ -99,7 +99,7 @@ namespace NekoSune.WorldUiAssistant
             {
                 var old = GUI.backgroundColor;
                 if (primary && enabled) GUI.backgroundColor = S.Accent;
-                var content = string.IsNullOrEmpty(icon) ? new GUIContent(text, tooltip) : S.Icon(icon, "  " + text, tooltip);
+                var content = string.IsNullOrEmpty(icon) ? Loc.C(text, tooltip) : S.Icon(icon, "  " + Loc.T(text), Loc.T(tooltip));
                 bool clicked = GUILayout.Button(content, S.BigButton);
                 GUI.backgroundColor = old;
                 return clicked;
@@ -115,7 +115,7 @@ namespace NekoSune.WorldUiAssistant
                 var bar = GUILayoutUtility.GetRect(3, 20, GUILayout.Width(3), GUILayout.ExpandHeight(true));
                 EditorGUI.DrawRect(bar, ok ? S.Success : S.Error);
                 GUILayout.Label(EditorGUIUtility.IconContent(ok ? "TestPassed" : "console.warnicon.sml"), GUILayout.Width(18), GUILayout.Height(18));
-                GUILayout.Label(message, EditorStyles.wordWrappedLabel);
+                GUILayout.Label(Loc.T(message), EditorStyles.wordWrappedLabel);
             }
         }
     }
