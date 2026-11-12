@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.0
+
+- New **Frames** tab (Frame Calculator): pick a clip and your recording FPS (24 / 30 / 60 / 120 presets or any value) to get the recorder start frame, end frame and frame count, with copy buttons, timecode and clip details.
+- Also opens from **Tools → NekoSuneVR → Unity Essentials → Frame Calculator**.
+- Installing removes the old loose script `Assets/[NekoAnimationSetup]/[scripts]/AnimationFrameCalculator.cs` (old menu: Tools → Animation Frame Calculator).
+- Shorter tab names (Organizer, Toolkit, Studio, Frames) so all four fit.
+
 ## 1.0.0
 
 - First release as a VCC/VPM package (`com.nekosune.unity-essentials`).

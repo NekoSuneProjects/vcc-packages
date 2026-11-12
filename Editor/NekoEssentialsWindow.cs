@@ -11,7 +11,7 @@ namespace NekoUnityEssentials
     /// </summary>
     public class NekoEssentialsWindow : EditorWindow
     {
-        internal enum Tab { Organizer, Toolkit, Studio }
+        internal enum Tab { Organizer, Toolkit, Studio, Frames }
 
         private const string MenuRoot = "Tools/NekoSuneVR/Unity Essentials/";
         private const string TabPref = "NekoSune.UnityEssentials.Tab";
@@ -21,13 +21,15 @@ namespace NekoUnityEssentials
         [SerializeField] private NekoOrganizerPanel organizer = new NekoOrganizerPanel();
         [SerializeField] private NekoAnimationToolkit toolkit = new NekoAnimationToolkit();
         [SerializeField] private NekoAnimationStudio studio = new NekoAnimationStudio();
+        [SerializeField] private AnimationFrameCalculator frames = new AnimationFrameCalculator();
         private Vector2 scroll;
 
         private static readonly (Tab tab, string icon, string label, string tip)[] Tabs =
         {
-            (Tab.Organizer, "Folder Icon", "Organizer", "Hierarchy and Project window colours, badges and icons"),
-            (Tab.Toolkit, "AnimationClip Icon", "Animation Toolkit", "New clips, start → end transform keys, path repair"),
-            (Tab.Studio, "AnimatorController Icon", "Animation Studio", "Reverse, loop, simplify, toggles, blendshapes, controllers"),
+            (Tab.Organizer, "Folder Icon", "Organizer", "Organizer: Hierarchy and Project window colours, badges and icons"),
+            (Tab.Toolkit, "AnimationClip Icon", "Toolkit", "Animation Toolkit: new clips, start → end transform keys, path repair"),
+            (Tab.Studio, "AnimatorController Icon", "Studio", "Animation Studio: reverse, loop, simplify, toggles, blendshapes, controllers"),
+            (Tab.Frames, "d_UnityEditor.AnimationWindow", "Frames", "Frame Calculator: recorder start/end frames for a clip at your recording FPS"),
         };
 
         [MenuItem(MenuRoot + "Organizer", false, 0)]
@@ -38,6 +40,9 @@ namespace NekoUnityEssentials
 
         [MenuItem(MenuRoot + "Animation Studio", false, 2)]
         public static void ShowStudio() => Open(Tab.Studio);
+
+        [MenuItem(MenuRoot + "Frame Calculator", false, 3)]
+        public static void ShowFrames() => Open(Tab.Frames);
 
         [MenuItem(MenuRoot + "Create Settings Asset", false, 20)]
         public static void CreateSettings()
@@ -54,6 +59,7 @@ namespace NekoUnityEssentials
             w.titleContent = new GUIContent("Unity Essentials", EditorGUIUtility.IconContent(HeaderIcon).image);
             w.minSize = new Vector2(420f, 480f);
             w.tab = which;
+            if (which == Tab.Frames) w.frames.OnEnable();
             w.Show();
             w.Focus();
         }
@@ -66,7 +72,9 @@ namespace NekoUnityEssentials
             if (organizer == null) organizer = new NekoOrganizerPanel();
             if (toolkit == null) toolkit = new NekoAnimationToolkit();
             if (studio == null) studio = new NekoAnimationStudio();
+            if (frames == null) frames = new AnimationFrameCalculator();
             studio.OnEnable();
+            frames.OnEnable();
         }
 
         private void OnDisable() => UpdateChecker.Changed -= Repaint;
@@ -89,6 +97,7 @@ namespace NekoUnityEssentials
                 case Tab.Organizer: organizer.OnGUI(this); break;
                 case Tab.Toolkit: toolkit.OnGUI(this); break;
                 case Tab.Studio: studio.OnGUI(this); break;
+                case Tab.Frames: frames.OnGUI(this); break;
             }
             EditorGUILayout.Space(4);
             EditorGUILayout.EndScrollView();
@@ -118,14 +127,14 @@ namespace NekoUnityEssentials
             EditorGUI.DrawRect(new Rect(bar.x, bar.yMax - 1, bar.width, 1), S.CardBorder);
 
             // Labels drop to icons only when the window is too narrow for them.
-            bool labels = bar.width >= 430f;
+            bool labels = bar.width >= 380f;
             float w = (bar.width - 16f) / Tabs.Length;
             for (int i = 0; i < Tabs.Length; i++)
             {
                 var t = Tabs[i];
                 var r = new Rect(bar.x + 8 + w * i, bar.y, w, bar.height - 1);
                 bool active = tab == t.tab;
-                var content = new GUIContent(labels ? " " + t.label : "", EditorGUIUtility.IconContent(t.icon).image, t.label + "\n" + t.tip);
+                var content = new GUIContent(labels ? " " + t.label : "", EditorGUIUtility.IconContent(t.icon).image, t.tip);
                 if (GUI.Button(r, content, active ? S.TabActive : S.Tab) && !active)
                 {
                     tab = t.tab;

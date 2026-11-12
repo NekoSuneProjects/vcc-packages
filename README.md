@@ -10,15 +10,16 @@ Add the NekoSune VCC repository to the VRChat Creator Companion, then add **Neko
 https://nekosuneprojects.github.io/vcc-packages/index.json
 ```
 
-If you had the tool in `Assets/NekoUnityEssentials` or `Assets/[NekoAnimationSetup]/[scripts]/NekoUnityEssentials`, installing the package removes that old copy. Your rules (`Assets/Editor/NekoUnityEssentialsSettings.asset`) are kept.
+If you had the tool in `Assets/NekoUnityEssentials` or `Assets/[NekoAnimationSetup]/[scripts]/NekoUnityEssentials`, installing the package removes that old copy, and the old loose `Assets/[NekoAnimationSetup]/[scripts]/AnimationFrameCalculator.cs` script. Your rules (`Assets/Editor/NekoUnityEssentialsSettings.asset`) are kept.
 
 ## Use it
 
-Open **Tools → NekoSuneVR → Unity Essentials**. The window has three tabs:
+Open **Tools → NekoSuneVR → Unity Essentials**. The window has four tabs:
 
 - **Organizer** – click **Create Default Settings** once, then add Hierarchy and folder rules: name to match (contains / starts with / exact), row colour, badge, icon, priority and "colour children too". Each rule shows a live preview. Quick actions group the selected objects or create standard folders.
-- **Animation Toolkit** – create a clip, write start → end position / rotation / scale keys for a bone or object, or duplicate a clip with renamed binding paths.
-- **Animation Studio** – duplicate, reverse, loop / ping-pong and simplify clips; create on/off toggle and blendshape clips; swap Left/Right paths; find missing paths; build an Animator Controller from selected clips.
+- **Toolkit** (Animation Toolkit) – create a clip, write start → end position / rotation / scale keys for a bone or object, or duplicate a clip with renamed binding paths.
+- **Studio** (Animation Studio) – duplicate, reverse, loop / ping-pong and simplify clips; create on/off toggle and blendshape clips; swap Left/Right paths; find missing paths; build an Animator Controller from selected clips.
+- **Frames** – Frame Calculator: pick a clip and your recording FPS to get the recorder start frame, end frame and frame count (with copy buttons), plus the clip's duration, timecode and frame rate.
 
 Right-click menus: **GameObject → Neko Essentials → Group Selected Objects** and **Assets → Neko Essentials → Create Standard Folders**.
 
