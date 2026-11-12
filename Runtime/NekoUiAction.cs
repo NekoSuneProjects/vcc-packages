@@ -26,6 +26,7 @@ namespace NekoSune.WorldUiAssistant
         public const int TeleportPlayer = 5;
         public const int OpenPage = 6;
         public const int CustomEvent = 7;
+        public const int ShowOneOfGroup = 8;
 
         [Tooltip("Which action runs (see the constants above).")]
         public int action;
@@ -53,8 +54,13 @@ namespace NekoSune.WorldUiAssistant
         [Tooltip("Set when a UI Toggle drives this: its on/off state is used instead of switching.")]
         public Toggle uiToggle;
 
-        // The shared on/off state when synced. Late joiners receive it too.
+        [Tooltip("Optional message popup to show after the action, e.g. \"Mirror on\".")]
+        public NekoToast toast;
+        public string toastText;
+
+        // The shared state when synced. Late joiners receive it too.
         [UdonSynced] private bool syncedOn;
+        [UdonSynced] private int syncedIndex = -1;
         private bool applying;
 
         /// <summary>Called by the button or toggle.</summary>
@@ -92,6 +98,34 @@ namespace NekoSune.WorldUiAssistant
                 if (synced) eventTarget.SendCustomNetworkEvent(NetworkEventTarget.All, eventName);
                 else eventTarget.SendCustomEvent(eventName);
             }
+            else if (action == ShowOneOfGroup)
+            {
+                // Shows "page" and hides the rest of "targets" (e.g. mirror HQ / LQ / off). No page = all hidden.
+                int index = IndexOf(page);
+                if (synced)
+                {
+                    Networking.SetOwner(Networking.LocalPlayer, gameObject);
+                    syncedIndex = index;
+                    RequestSerialization();
+                }
+                ShowOnly(index);
+            }
+
+            if (toast != null && !string.IsNullOrEmpty(toastText)) toast.Show(toastText);
+        }
+
+        private int IndexOf(GameObject go)
+        {
+            if (targets == null || go == null) return -1;
+            for (int i = 0; i < targets.Length; i++) if (targets[i] == go) return i;
+            return -1;
+        }
+
+        private void ShowOnly(int index)
+        {
+            if (targets == null) return;
+            for (int i = 0; i < targets.Length; i++)
+                if (targets[i] != null) targets[i].SetActive(i == index);
         }
 
         private bool NewObjectState()
@@ -114,6 +148,7 @@ namespace NekoSune.WorldUiAssistant
         /// <summary>Runs on everyone else when the owner shares a new state.</summary>
         public override void OnDeserialization()
         {
+            if (action == ShowOneOfGroup) { ShowOnly(syncedIndex); return; }
             if (action == PlaySound || action == StopSound) SetSound(syncedOn);
             else SetObjects(syncedOn);
 

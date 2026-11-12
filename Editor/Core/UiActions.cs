@@ -12,7 +12,10 @@ using VRC.Udon;
 namespace NekoSune.WorldUiAssistant
 {
     /// <summary>What a button or toggle can do, in the order shown in the action picker.</summary>
-    internal enum ActionChoice { Nothing, Show, Hide, ShowHide, Mirror, PlaySound, StopSound, Teleport, OpenPage, CustomEvent }
+    internal enum ActionChoice { Nothing, Show, Hide, ShowHide, Mirror, PlaySound, StopSound, Teleport, OpenPage, CustomEvent, ShowOne }
+
+    /// <summary>What a slider can drive.</summary>
+    internal enum SliderChoice { Nothing, SoundVolume, AnimatorFloat, SendToUdon }
 
     /// <summary>
     /// Adds, edits and removes the NekoUiAction Udon script behind a button or toggle, and wires the
@@ -25,7 +28,7 @@ namespace NekoSune.WorldUiAssistant
         public static readonly string[] ChoiceLabels =
         {
             "Nothing yet", "Show something", "Hide something", "Show / hide something", "Turn a mirror on / off",
-            "Play a sound", "Stop a sound", "Teleport the player", "Open a page", "Send an Udon event",
+            "Play a sound", "Stop a sound", "Teleport the player", "Open a page", "Send an Udon event", "Show one of a group",
         };
 
         public static NekoUiAction Get(Selectable s) => s ? s.GetComponent<NekoUiAction>() : null;
@@ -43,6 +46,7 @@ namespace NekoSune.WorldUiAssistant
                 case NekoUiAction.TeleportPlayer: return ActionChoice.Teleport;
                 case NekoUiAction.OpenPage: return ActionChoice.OpenPage;
                 case NekoUiAction.CustomEvent: return ActionChoice.CustomEvent;
+                case NekoUiAction.ShowOneOfGroup: return ActionChoice.ShowOne;
                 default: return ActionChoice.Nothing;
             }
         }
@@ -58,6 +62,7 @@ namespace NekoSune.WorldUiAssistant
                 case ActionChoice.Teleport: return NekoUiAction.TeleportPlayer;
                 case ActionChoice.OpenPage: return NekoUiAction.OpenPage;
                 case ActionChoice.CustomEvent: return NekoUiAction.CustomEvent;
+                case ActionChoice.ShowOne: return NekoUiAction.ShowOneOfGroup;
                 default: return NekoUiAction.ToggleObjects; // ShowHide, Mirror
             }
         }
@@ -150,6 +155,72 @@ namespace NekoSune.WorldUiAssistant
                 if (evt.GetPersistentTarget(i) == udon) UnityEventTools.RemovePersistentListener(evt, i);
             EditorUtility.SetDirty(s);
         }
+
+        // ------------------------------------------------------------------ sliders
+
+        public static readonly string[] SliderLabels = { "Nothing yet", "Change sound volume", "Set an Animator value", "Send the value to Udon" };
+
+        public static NekoUiSlider GetSlider(Slider s) => s ? s.GetComponent<NekoUiSlider>() : null;
+
+        public static SliderChoice SliderChoiceOf(NekoUiSlider a) => a ? (SliderChoice)(a.action + 1) : SliderChoice.Nothing;
+
+        public static NekoUiSlider SetSliderChoice(Slider s, SliderChoice choice)
+        {
+            Undo.IncrementCurrentGroup();
+            int group = Undo.GetCurrentGroup();
+            var a = GetSlider(s);
+            var evt = s.onValueChanged;
+            if (choice == SliderChoice.Nothing)
+            {
+                if (a)
+                {
+                    var udon = UdonSharpEditorUtility.GetBackingUdonBehaviour(a);
+                    Undo.RecordObject(s, "Remove action");
+                    for (int i = evt.GetPersistentEventCount() - 1; i >= 0; i--)
+                        if (evt.GetPersistentTarget(i) == udon) UnityEventTools.RemovePersistentListener(evt, i);
+                    UdonSharpUndo.DestroyImmediate(a);
+                }
+                Undo.CollapseUndoOperations(group);
+                return null;
+            }
+            if (!a) a = UdonSharpUndo.AddComponent<NekoUiSlider>(s.gameObject);
+            Undo.RecordObject(a, "Slider action");
+            a.action = (int)choice - 1;
+            a.slider = s;
+            UdonSharpEditorUtility.CopyProxyToUdon(a);
+            WireSlider(s, a);
+            Undo.CollapseUndoOperations(group);
+            return a;
+        }
+
+        public static bool IsSliderWired(Slider s, NekoUiSlider a)
+        {
+            var udon = a ? UdonSharpEditorUtility.GetBackingUdonBehaviour(a) : null;
+            if (!udon) return false;
+            for (int i = 0; i < s.onValueChanged.GetPersistentEventCount(); i++)
+                if (s.onValueChanged.GetPersistentTarget(i) == udon) return true;
+            return false;
+        }
+
+        public static void WireSlider(Slider s, NekoUiSlider a)
+        {
+            if (IsSliderWired(s, a)) return;
+            var udon = UdonSharpEditorUtility.GetBackingUdonBehaviour(a);
+            Undo.RecordObject(s, "Wire slider");
+            UnityEventTools.AddStringPersistentListener(s.onValueChanged, udon.SendCustomEvent, "Changed");
+            EditorUtility.SetDirty(s);
+        }
+
+        public static void EditSlider(NekoUiSlider a, string undoName, System.Action<NekoUiSlider> change)
+        {
+            Undo.RecordObject(a, undoName);
+            change(a);
+            UdonSharpEditorUtility.CopyProxyToUdon(a);
+            EditorUtility.SetDirty(a);
+        }
+
+        public static List<NekoToast> FindToasts() =>
+            Resources.FindObjectsOfTypeAll<NekoToast>().Where(t => t && !EditorUtility.IsPersistent(t) && t.gameObject.scene.IsValid()).ToList();
 
         // ------------------------------------------------------------------ helpers
 
@@ -311,6 +382,10 @@ namespace NekoSune.WorldUiAssistant
                         if (!a.page) list.Add(new Problem { text = "\"" + a.name + "\" has no page picked.", where = where });
                         else if (a.pages == null || !a.pages.Contains(a.page) || a.pages.Length != UiWidgets.PagesOf(a.page.transform.parent).Count)
                             list.Add(new Problem { text = "\"" + a.name + "\" has an out-of-date page list.", where = where, fix = () => Edit(a, "Update pages", RefreshPages) });
+                        break;
+                    case ActionChoice.ShowOne:
+                        if (a.targets == null || a.targets.Length == 0 || a.targets.Any(t => !t))
+                            list.Add(new Problem { text = "\"" + a.name + "\" has an empty group (or an empty slot).", where = where });
                         break;
                     case ActionChoice.CustomEvent:
                         if (!a.eventTarget || string.IsNullOrEmpty(a.eventName))

@@ -63,6 +63,23 @@ namespace NekoSune.WorldUiAssistant
             }
         }
 
+        private static Type cvrWrapperType;
+        private static bool cvrSearched;
+
+        /// <summary>ChilloutVR's CVRCanvasWrapper when the CVR CCK is installed (found by name, never a hard reference).</summary>
+        public static Type CvrWrapperType
+        {
+            get
+            {
+                if (!cvrSearched)
+                {
+                    cvrSearched = true;
+                    cvrWrapperType = TypeCache.GetTypesDerivedFrom<Component>().FirstOrDefault(t => t.Name == "CVRCanvasWrapper");
+                }
+                return cvrWrapperType;
+            }
+        }
+
         public static bool HasTmpFont => TMP_Settings.instance != null && TMP_Settings.defaultFontAsset != null;
 
         public static int UiLayer => LayerMask.NameToLayer("UI") >= 0 ? LayerMask.NameToLayer("UI") : 5;
@@ -87,6 +104,7 @@ namespace NekoSune.WorldUiAssistant
             scaler.dynamicPixelsPerUnit = 1f;
             go.AddComponent<GraphicRaycaster>();
             if (UiShapeType != null) go.AddComponent(UiShapeType);
+            if (CvrWrapperType != null) go.AddComponent(CvrWrapperType);
 
             var rt = (RectTransform)go.transform;
             rt.sizeDelta = size;
@@ -108,6 +126,8 @@ namespace NekoSune.WorldUiAssistant
                 }
             }
 
+            if (!parent) MoveAwayFromOtherPanels(rt);
+
             var bg = go.AddComponent<Image>();
             bg.sprite = resources.background;
             bg.type = Image.Type.Sliced;
@@ -127,6 +147,17 @@ namespace NekoSune.WorldUiAssistant
             EnsureEventSystem();
             Undo.CollapseUndoOperations(group);
             return canvas;
+        }
+
+        /// <summary>Slides a new panel sideways until it doesn't overlap another world panel.</summary>
+        private static void MoveAwayFromOtherPanels(RectTransform rt)
+        {
+            var others = Resources.FindObjectsOfTypeAll<Canvas>()
+                .Where(c => c && c.transform != rt && !EditorUtility.IsPersistent(c) && c.gameObject.scene.IsValid() && c.isRootCanvas && c.renderMode == RenderMode.WorldSpace)
+                .Select(c => WorldBounds((RectTransform)c.transform)).ToList();
+            float step = rt.sizeDelta.x * rt.localScale.x + 0.3f;
+            for (int i = 0; i < 30 && others.Any(o => o.Intersects(WorldBounds(rt))); i++)
+                rt.position += rt.right * step;
         }
 
         /// <summary>Same as the VRChat SDK: an EventSystem lets you click the UI in Play mode in the editor.</summary>

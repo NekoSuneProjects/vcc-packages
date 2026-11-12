@@ -4,7 +4,7 @@ A from-scratch Unity editor tool that helps beginners **build** VRChat world UI 
 
 Package: `com.nekosune.world-ui-assistant` · Branch: `world-ui-assistant` · Menu: `NekoSune → World → UI Assistant`
 
-Status: **Phases 1–2 done – 0.2.0 preview.** Phase 3 (teaching mode) is next.
+Status: **Phases 1–4 done – 0.3.0 preview.** Phase 4b (ready-made systems) is next.
 
 ---
 
@@ -63,9 +63,9 @@ Avoid:
 
 ## Phase 3 – Teaching mode (long-term learning)
 
-- [ ] **Explain mode toggle:** hovering a field shows *what Unity component this changes* (e.g. "this is `RectTransform.sizeDelta`").
-- [ ] **"What did it make?" panel:** lists every generated component with a short explanation and a Select button.
-- [ ] **Lessons** (5–10 min each, use the user's own panel, step-by-step with highlights and a "check my work" button):
+- [x] **Explain mode toggle:** each setting shows *what Unity component/property it changes* in a line under it (e.g. `LayoutElement.preferredHeight`).
+- [x] **"What did it make?" panel:** lists every generated component with a short explanation and a Select button.
+- [x] **Lessons** (5–10 min each, use the user's own panel, step-by-step with highlights and a "check my work" button):
   1. What a Canvas is and why worlds use World Space
   2. RectTransform: anchors, pivot, size
   3. Layout groups and content size fitters
@@ -74,16 +74,17 @@ Avoid:
   6. Syncing: local vs networked UI
   7. Performance: overdraw, canvas count, texture sizes, Quest limits
   8. Building a UI by hand without the Assistant (graduation)
-- [ ] **Progress tracking** per machine (EditorPrefs): lessons done, badges, "next suggested lesson".
-- [ ] **Hint level setting:** Full help → Some help → Expert (hides explanations as the user improves).
-- [ ] Glossary page with every term used in the tool.
+- [x] **Progress tracking** per machine (EditorPrefs): lessons done, badges, "next suggested lesson".
+- [x] **Hint level setting:** Full help → Some help → Expert (hides explanations as the user improves).
+- [x] Glossary page with every term used in the tool.
 
 ## Phase 4 – Doctor and polish
 
-- [ ] UI Doctor with one-click fixes (from the old builder, extended): missing raycaster, wrong canvas mode, missing VRCUiShape, Navigation on, tiny buttons, unreadable text, overlapping panels, Quest-heavy textures.
-- [ ] Templates: Welcome board, Rules, Settings (mirror/audio/post-processing), Teleport menu, Credits, Event schedule, Links/QR.
-- [ ] JSON blueprint export/import and share.
-- [ ] Undo coverage for every action; no lost work on script reload.
+- [x] UI Doctor with one-click fixes (from the old builder, extended): missing raycaster, wrong canvas mode, missing VRCUiShape, Navigation on, tiny buttons, unreadable text, overlapping panels, Quest-heavy textures.
+- [x] Templates: Welcome board, Rules, Settings (mirror/audio/post-processing), Teleport menu, Credits, Event schedule, Links/QR – each with a lesson that ends in a hand-built version.
+- [x] QR code encoder (byte mode, level M, versions 1–10), verified by decoding with OpenCV.
+- [x] JSON blueprint export/import and share.
+- [x] Undo coverage for every action; no lost work on script reload.
 
 ## Phase 4b – Ready-made UI systems
 

@@ -21,6 +21,7 @@ namespace NekoSune.WorldUiAssistant
             var a = UiActions.Get(control);
             var choice = UiActions.ChoiceOf(a);
             var picked = (ActionChoice)EditorGUILayout.Popup(new GUIContent("Do this"), (int)choice, UiActions.ChoiceLabels);
+            G.Api("NekoUiAction.action · Button.onClick → UdonBehaviour.SendCustomEvent(\"Run\")");
             if (picked != choice)
             {
                 a = UiActions.SetChoice(control, picked);
@@ -46,12 +47,16 @@ namespace NekoSune.WorldUiAssistant
                 case ActionChoice.Teleport: DrawTeleport(a); break;
                 case ActionChoice.OpenPage: DrawPagePick(a); break;
                 case ActionChoice.CustomEvent: DrawCustomEvent(a); break;
+                case ActionChoice.ShowOne: DrawShowOne(a); break;
             }
+
+            DrawToastOption(a);
 
             if (UiActions.CanSync(choice))
             {
                 EditorGUI.BeginChangeCheck();
                 bool synced = EditorGUILayout.ToggleLeft(new GUIContent(" Everyone sees it (synced)", "UdonSynced: the change is sent to every player, and people who join later get it too."), a.synced);
+                G.Api("NekoUiAction.synced → [UdonSynced] + RequestSerialization");
                 if (EditorGUI.EndChangeCheck()) UiActions.Edit(a, "Synced", x => x.synced = synced);
                 G.Hint(a.synced
                     ? "Synced: when one player clicks, it changes for everyone in the instance, including people who join later."
@@ -167,6 +172,107 @@ namespace NekoSune.WorldUiAssistant
             string evt = EditorGUILayout.TextField(new GUIContent("Event name", "A public method name in that script, e.g. ResetGame."), a.eventName);
             if (EditorGUI.EndChangeCheck()) UiActions.Edit(a, "Custom event", x => { x.eventTarget = target; x.eventName = evt; });
             G.Hint("For your own UdonSharp scripts: drag the object that has the script, and type the name of a public method.");
+        }
+
+        private void DrawShowOne(NekoUiAction a)
+        {
+            DrawTargets(a, ActionChoice.ShowOne, false);
+            var group = (a.targets ?? new GameObject[0]).Where(t => t).ToList();
+            var names = new[] { "(none – hide them all)" }.Concat(group.Select(g => g.name)).ToArray();
+            int index = a.page ? group.IndexOf(a.page) + 1 : 0;
+            int picked = EditorGUILayout.Popup(new GUIContent("Show", "The one object to show; the rest of the group is hidden."), index, names);
+            G.Api("NekoUiAction.page (shown) · targets (the group)");
+            if (picked != index) UiActions.Edit(a, "Pick shown object", x => x.page = picked == 0 ? null : group[picked - 1]);
+            G.Hint("Example: a mirror group (HQ, LQ) with one button each for HQ, LQ and Off.");
+        }
+
+        private void DrawToastOption(NekoUiAction a)
+        {
+            var toasts = UiActions.FindToasts();
+            if (toasts.Count == 0 && !a.toast) return;
+            EditorGUI.BeginChangeCheck();
+            bool on = EditorGUILayout.ToggleLeft(new GUIContent(" Then show a message", "Pops up a short message with the scene's Message popup (NekoToast)."), a.toast);
+            if (EditorGUI.EndChangeCheck())
+                UiActions.Edit(a, "Message", x => { x.toast = on ? toasts.FirstOrDefault() : null; if (on && string.IsNullOrEmpty(x.toastText)) x.toastText = "Done!"; });
+            if (!a.toast || toasts.Count == 0) return;
+            EditorGUI.BeginChangeCheck();
+            int index = Mathf.Max(0, toasts.IndexOf(a.toast));
+            int picked = toasts.Count > 1 ? EditorGUILayout.Popup("Popup", index, toasts.Select(t => t.name).ToArray()) : index;
+            string text = EditorGUILayout.TextField("Message", a.toastText);
+            G.Api("NekoUiAction.toast → NekoToast.Show(toastText)");
+            if (EditorGUI.EndChangeCheck()) UiActions.Edit(a, "Message", x => { x.toast = toasts[picked]; x.toastText = text; });
+        }
+
+        // ------------------------------------------------------------------ slider actions
+
+        private void DrawSliderActions(Slider slider)
+        {
+            EditorGUILayout.Space(6);
+            G.Group("When it's moved", true);
+            var a = UiActions.GetSlider(slider);
+            var choice = UiActions.SliderChoiceOf(a);
+            var picked = (SliderChoice)EditorGUILayout.Popup(new GUIContent("Do this"), (int)choice, UiActions.SliderLabels);
+            G.Api("NekoUiSlider.action · Slider.onValueChanged → UdonBehaviour.SendCustomEvent(\"Changed\")");
+            if (picked != choice)
+            {
+                UiActions.SetSliderChoice(slider, picked);
+                GUIUtility.ExitGUI();
+            }
+            if (!a) { G.Hint("Pick what moving this slider does, e.g. music volume."); return; }
+
+            switch (picked)
+            {
+                case SliderChoice.SoundVolume:
+                {
+                    var sounds = (a.sounds ?? new AudioSource[0]).ToList();
+                    bool changed = false;
+                    int remove = -1;
+                    for (int i = 0; i < sounds.Count; i++)
+                        using (new EditorGUILayout.HorizontalScope())
+                        {
+                            var s = (AudioSource)EditorGUILayout.ObjectField(i == 0 ? new GUIContent("Sound") : new GUIContent(" "), sounds[i], typeof(AudioSource), true);
+                            if (s != sounds[i]) { sounds[i] = s; changed = true; }
+                            if (GUILayout.Button("✕", EditorStyles.miniButton, GUILayout.Width(22))) remove = i;
+                        }
+                    if (remove >= 0) { sounds.RemoveAt(remove); changed = true; }
+                    using (new EditorGUILayout.HorizontalScope())
+                    {
+                        GUILayout.Space(EditorGUIUtility.labelWidth + 2);
+                        if (GUILayout.Button(sounds.Count == 0 ? "+ Pick a sound" : "+ Another sound", EditorStyles.miniButton)) { sounds.Add(null); changed = true; }
+                    }
+                    if (changed) UiActions.EditSlider(a, "Sounds", x => x.sounds = sounds.ToArray());
+                    G.Hint("Set the slider's range to 0 – 1 for volume.");
+                    break;
+                }
+                case SliderChoice.AnimatorFloat:
+                {
+                    EditorGUI.BeginChangeCheck();
+                    var anim = (Animator)EditorGUILayout.ObjectField("Animator", a.animator, typeof(Animator), true);
+                    string param = EditorGUILayout.TextField(new GUIContent("Parameter", "A Float parameter in the Animator Controller."), a.parameter);
+                    if (EditorGUI.EndChangeCheck()) UiActions.EditSlider(a, "Animator", x => { x.animator = anim; x.parameter = param; });
+                    break;
+                }
+                case SliderChoice.SendToUdon:
+                {
+                    EditorGUI.BeginChangeCheck();
+                    var target = (VRC.Udon.UdonBehaviour)EditorGUILayout.ObjectField("Udon script", a.eventTarget, typeof(VRC.Udon.UdonBehaviour), true);
+                    string variable = EditorGUILayout.TextField(new GUIContent("Float variable", "A public float field in that script."), a.valueVariable);
+                    string evt = EditorGUILayout.TextField(new GUIContent("Then send event", "Optional public method to run after the value is set."), a.eventName);
+                    if (EditorGUI.EndChangeCheck()) UiActions.EditSlider(a, "Udon", x => { x.eventTarget = target; x.valueVariable = variable; x.eventName = evt; });
+                    break;
+                }
+            }
+
+            EditorGUI.BeginChangeCheck();
+            bool synced = EditorGUILayout.ToggleLeft(new GUIContent(" Everyone sees it (synced)"), a.synced);
+            var valueText = (TMPro.TextMeshProUGUI)EditorGUILayout.ObjectField(new GUIContent("Show value in", "Optional text that shows the value, e.g. 75%."), a.valueText, typeof(TMPro.TextMeshProUGUI), true);
+            if (EditorGUI.EndChangeCheck()) UiActions.EditSlider(a, "Slider", x => { x.synced = synced; x.valueText = valueText; });
+            if (!UiActions.IsSliderWired(slider, a))
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    G.Report("Not connected to the slider yet.", false);
+                    if (GUILayout.Button("Connect", GUILayout.Width(70))) UiActions.WireSlider(slider, a);
+                }
         }
 
         // ------------------------------------------------------------------ page card

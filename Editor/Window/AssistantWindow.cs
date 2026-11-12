@@ -16,7 +16,7 @@ namespace NekoSune.WorldUiAssistant
     internal partial class AssistantWindow : EditorWindow
     {
         private const string HeaderIcon = "Canvas Icon";
-        private const string ThemePrefPrefix = "NekoSune.WorldUiAssistant.Theme.";
+        internal const string ThemePrefPrefix = "NekoSune.WorldUiAssistant.Theme.";
         private const string LastThemePref = "NekoSune.WorldUiAssistant.LastTheme";
 
         private static readonly (string label, Vector2 size)[] SizePresets =
@@ -147,22 +147,34 @@ namespace NekoSune.WorldUiAssistant
             if (selected && (!panel || !selected.IsChildOf(panel.transform))) selected = null;
 
             DrawHeader();
+            DrawMainTabs();
             scroll = EditorGUILayout.BeginScrollView(scroll);
             EditorGUILayout.Space(4);
             DrawUpdateBanner();
             DrawEnvironment();
-            DrawPanelPicker();
 
-            if (showWizard || !panel)
+            switch (mainTab)
             {
-                DrawWizard();
-            }
-            else
-            {
-                DrawPanelCard();
-                DrawPalette();
-                DrawOutline();
-                DrawItemCard();
+                case MainTab.Build:
+                    DrawLessonBar();
+                    DrawPanelPicker();
+                    if (showWizard || !panel)
+                    {
+                        DrawWizard();
+                    }
+                    else
+                    {
+                        DrawPanelCard();
+                        DrawPalette();
+                        DrawOutline();
+                        DrawItemCard();
+                        DrawMadeCard();
+                    }
+                    break;
+                case MainTab.Learn: G.Highlight = null; DrawLearn(); break;
+                case MainTab.Doctor: G.Highlight = null; DrawDoctor(); break;
+                case MainTab.Templates: G.Highlight = null; DrawTemplates(); break;
+                case MainTab.Glossary: G.Highlight = null; DrawGlossary(); break;
             }
 
             EditorGUILayout.Space(4);
@@ -388,7 +400,7 @@ namespace NekoSune.WorldUiAssistant
         private void DrawPanelCard()
         {
             var rt = (RectTransform)panel.transform;
-            G.BeginCard(null, null);
+            G.BeginCard(null, null, key: "Panel");
             using (new EditorGUILayout.HorizontalScope())
             {
                 panelOpen = EditorGUILayout.Foldout(panelOpen, new GUIContent(" " + panel.name, EditorGUIUtility.IconContent("Canvas Icon").image), true, G.FoldoutTitle);
@@ -435,9 +447,11 @@ namespace NekoSune.WorldUiAssistant
                 }
                 var bg = panel.GetComponent<Image>();
                 Color bgColor = bg ? EditorGUILayout.ColorField("Background", bg.color) : default;
+                G.Api("Image.color on the Canvas object");
                 var layout = panel.GetComponent<VerticalLayoutGroup>();
                 float padding = layout ? EditorGUILayout.Slider(new GUIContent("Edge padding", "Space between the panel's edge and its content."), layout.padding.left, 0, 120) : 0;
                 float spacing = layout ? EditorGUILayout.Slider(new GUIContent("Gap between items"), layout.spacing, 0, 80) : 0;
+                G.Api("VerticalLayoutGroup.padding / spacing");
                 if (EditorGUI.EndChangeCheck())
                 {
                     Undo.RecordObject(panel.gameObject, "Rename panel");

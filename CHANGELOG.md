@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.3.0 – teaching mode, Doctor and templates (Phases 3 and 4 of TODO.md)
+
+- **Tabs:** Build, Learn, Doctor, Templates and Glossary.
+- **Lessons:** 8 core lessons (Canvas, RectTransform, layout, events and SendCustomEvent, reading the Udon script, syncing, performance, graduation) plus one per template. Steps use your own panel, highlight the card to look at, have "Show me" helpers, "Check my work" checks and quiz questions. Each template lesson ends with you rebuilding a simpler version by hand.
+- **Progress** per computer: lessons done, badges and the next suggested lesson.
+- **Help level:** Full help → Some help → Expert, with a suggestion to lower it as you finish lessons.
+- **Explain mode:** shows which Unity component and property each setting changes.
+- **What did it make?** card listing every component in the panel with a short explanation and Select buttons.
+- **Glossary** with search (45 terms).
+- **UI Doctor:** World Space, Graphic Raycaster, VRCUiShape, UI layer, Navigation, small click targets, small or invisible text, decorations that catch laser hits, Quest-heavy textures (Android size limit fix), overlapping panels, visible pages, action problems. One-click fixes and Fix all, all undoable.
+- **Templates:** Welcome board (with Rules/Credits pages), Rules, Settings (mirror HQ/LQ/Off, music volume, post-processing, pens, chairs, colliders, status message), Teleport menu (points created for you), Credits, Event schedule, Links/QR.
+- **QR code maker:** turns links into scannable sprites (Udon can't open web pages).
+- **Blueprints:** export/import a panel as JSON (file or clipboard), including actions.
+- New actions: **Show one of a group** (e.g. mirror HQ/LQ/Off) and an optional **message popup** after any action (`NekoToast`).
+- **Slider actions** ("When it's moved"): sound volume, Animator float, or send the value to Udon (`NekoUiSlider`), local or synced.
+- New panels move aside instead of overlapping existing ones.
+- ChilloutVR: the CVR Canvas Wrapper is added when the CCK is installed (found by name).
+
 ## 0.2.0 – actions and pages (Phase 2 of TODO.md)
 
 - **Actions** on buttons and toggles ("When it's clicked" in the Edit card): show something, hide something, show/hide, turn a mirror on/off, play or stop a sound, teleport the player, open a page, or send an event to your own Udon script.

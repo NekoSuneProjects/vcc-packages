@@ -1,7 +1,13 @@
 {
   "name": "NekoSune.WorldUiAssistant.Runtime",
   "rootNamespace": "NekoSune.WorldUiAssistant",
-  "references": ["UdonSharp.Runtime", "VRC.Udon", "VRC.SDKBase", "UnityEngine.UI"],
+  "references": [
+    "UdonSharp.Runtime",
+    "VRC.Udon",
+    "VRC.SDKBase",
+    "UnityEngine.UI",
+    "Unity.TextMeshPro"
+  ],
   "includePlatforms": [],
   "excludePlatforms": [],
   "allowUnsafeCode": false,

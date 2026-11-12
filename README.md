@@ -2,7 +2,7 @@
 
 Build VRChat world UI without knowing Unity UI, and learn how it works while you do. Everything the Assistant makes is ordinary Unity UI you can open and edit by hand.
 
-> **Preview (0.2.0).** Phases 1–2 of [TODO.md](TODO.md): building panels, actions and pages. Lessons, the UI Doctor and ready-made systems come next.
+> **Preview (0.3.0).** Phases 1–4 of [TODO.md](TODO.md): panels, actions, pages, lessons, the UI Doctor and templates. Ready-made systems (video player, portable menu, store…) come next.
 
 ## Install
 
@@ -31,6 +31,16 @@ Before you upload, the panel card checks that every action has what it needs and
 ### How actions work
 
 Each button or toggle with an action gets the `NekoUiAction` UdonSharp script (`Runtime/NekoUiAction.cs`, short and commented). Its On Click calls `UdonBehaviour.SendCustomEvent("Run")`, because VRChat UI can only call Udon that way. Synced actions use `[UdonSynced]` state, so players who join later see the same thing.
+
+### The tabs
+
+- **Build** – make and edit panels (everything above).
+- **Learn** – lessons that use your own panel, with progress and badges. Start with *1. What a Canvas is*.
+- **Doctor** – checks all panels for common problems and fixes them in one click.
+- **Templates** – welcome, rules, settings, teleport, credits, schedule and links/QR boards; the QR code maker; JSON blueprints.
+- **Glossary** – every term in plain English.
+
+The toolbar under the tabs sets the **Help** level (Full help, Some help, Expert) and **Explain mode**, which shows the Unity component behind each setting.
 
 Every change is one Undo step. Selecting something in the Hierarchy or Scene view selects it in the Assistant too.
 

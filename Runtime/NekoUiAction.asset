@@ -11,10 +11,10 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: NekoUiAction
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   serializedUdonProgramAsset: {fileID: 0}
-  udonAssembly: 
-  assemblyError: 
+  udonAssembly:
+  assemblyError:
   sourceCsScript: {fileID: 11500000, guid: cbfc297249ecb50448fcac9df4ff55e0, type: 3}
   scriptVersion: 0
   compiledVersion: 0
@@ -23,13 +23,13 @@ MonoBehaviour:
   scriptID: 0
   serializationData:
     SerializedFormat: 2
-    SerializedBytes: 
+    SerializedBytes:
     ReferencedUnityObjects: []
-    SerializedBytesString: 
+    SerializedBytesString:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
     - Name: fieldDefinitions
       Entry: 6
-      Data: 
+      Data:

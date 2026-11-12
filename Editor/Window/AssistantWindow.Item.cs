@@ -26,7 +26,9 @@ namespace NekoSune.WorldUiAssistant
 
             EditorGUI.BeginChangeCheck();
             string name = EditorGUILayout.TextField(new GUIContent("Name", "The object's name in the Hierarchy and the outline."), selected.name);
+            G.Api("GameObject.name");
             bool visible = EditorGUILayout.Toggle(new GUIContent("Visible", "Off hides it (GameObject.SetActive). Hidden items take no space."), selected.gameObject.activeSelf);
+            G.Api("GameObject.SetActive()");
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(selected.gameObject, "Edit " + selected.name);
@@ -41,7 +43,7 @@ namespace NekoSune.WorldUiAssistant
                 case WidgetKind.Button: DrawButtonFields(selected.GetComponent<Button>()); DrawActionFields(selected.GetComponent<Button>()); break;
                 case WidgetKind.Toggle: DrawToggleFields(selected.GetComponent<Toggle>()); DrawActionFields(selected.GetComponent<Toggle>()); break;
                 case WidgetKind.Page: DrawPageFields(selected); break;
-                case WidgetKind.Slider: DrawSliderFields(selected.GetComponent<Slider>()); break;
+                case WidgetKind.Slider: DrawSliderFields(selected.GetComponent<Slider>()); DrawSliderActions(selected.GetComponent<Slider>()); break;
                 case WidgetKind.Image: DrawImageFields(selected.GetComponent<Image>()); break;
                 case WidgetKind.Divider: DrawDividerFields(selected.GetComponent<Image>()); break;
                 case WidgetKind.Spacer: HeightField("Height", true); break;
@@ -55,10 +57,13 @@ namespace NekoSune.WorldUiAssistant
             EditorGUILayout.Space(6);
             S.Line();
             EditorGUILayout.Space(4);
-            using (new EditorGUILayout.HorizontalScope())
+            if (Help.ShowHowItWorks)
             {
-                GUILayout.Label(EditorGUIUtility.IconContent("d_console.infoicon.sml"), GUILayout.Width(18), GUILayout.Height(18));
-                GUILayout.Label("<b>How it works in Unity:</b> " + UiWidgets.Explain(kind), RichHint);
+                using (new EditorGUILayout.HorizontalScope())
+                {
+                    GUILayout.Label(EditorGUIUtility.IconContent("d_console.infoicon.sml"), GUILayout.Width(18), GUILayout.Height(18));
+                    GUILayout.Label("<b>How it works in Unity:</b> " + UiWidgets.Explain(kind), RichHint);
+                }
             }
             using (new EditorGUILayout.HorizontalScope())
             {
@@ -85,14 +90,19 @@ namespace NekoSune.WorldUiAssistant
             EditorGUI.BeginChangeCheck();
             GUILayout.Label("Text", EditorStyles.miniBoldLabel);
             string text = EditorGUILayout.TextArea(tmp.text, Wrapped, GUILayout.MinHeight(48));
+            G.Api("TextMeshProUGUI.text");
             var style = (TextStyle)EditorGUILayout.EnumPopup(new GUIContent("Style", "Sets size and boldness from the theme. Title is centred."), UiWidgets.GuessStyle(tmp.fontSize, theme.fontSize));
             bool styleChanged = EditorGUI.EndChangeCheck() && style != UiWidgets.GuessStyle(tmp.fontSize, theme.fontSize);
             EditorGUI.BeginChangeCheck();
             float size = EditorGUILayout.Slider(new GUIContent("Size", "Font size in UI units (mm). 26 reads well at about 2 m."), tmp.fontSize, 8, 160);
+            G.Api("TextMeshProUGUI.fontSize");
             bool bold = EditorGUILayout.Toggle("Bold", (tmp.fontStyle & FontStyles.Bold) != 0);
+            G.Api("TextMeshProUGUI.fontStyle");
             var color = EditorGUILayout.ColorField("Colour", tmp.color);
+            G.Api("TextMeshProUGUI.color");
             int align = AlignIndex(tmp.alignment);
             int newAlign = EditorGUILayout.Popup("Line up", align, AlignNames);
+            G.Api("TextMeshProUGUI.alignment");
             bool changed = EditorGUI.EndChangeCheck();
 
             if (styleChanged || changed || tmp.text != text)
@@ -120,6 +130,7 @@ namespace NekoSune.WorldUiAssistant
             float size = label ? EditorGUILayout.Slider("Label size", label.fontSize, 8, 120) : 0;
             Color labelColor = label ? EditorGUILayout.ColorField("Label colour", label.color) : default;
             Color fill = image ? EditorGUILayout.ColorField(new GUIContent("Button colour", "The Image colour. Pointing at it brightens it; clicking darkens it."), image.color) : default;
+            G.Api("Image.color (the Button's Target Graphic)");
             if (EditorGUI.EndChangeCheck())
             {
                 if (label) { Undo.RecordObject(label, "Edit button"); label.text = text; label.fontSize = Mathf.Round(size); label.color = labelColor; }
@@ -135,8 +146,11 @@ namespace NekoSune.WorldUiAssistant
             EditorGUI.BeginChangeCheck();
             string text = label ? EditorGUILayout.TextField("Label", label.text) : null;
             bool on = EditorGUILayout.Toggle(new GUIContent("Starts on", "Toggle.isOn when the world loads."), toggle.isOn);
+            G.Api("Toggle.isOn");
             Color box = toggle.targetGraphic ? EditorGUILayout.ColorField("Box colour", toggle.targetGraphic.color) : default;
+            G.Api("Toggle.targetGraphic → Image.color");
             Color check = toggle.graphic ? EditorGUILayout.ColorField("Tick colour", toggle.graphic.color) : default;
+            G.Api("Toggle.graphic → Image.color");
             if (EditorGUI.EndChangeCheck())
             {
                 if (label) { Undo.RecordObject(label, "Edit toggle"); label.text = text; }
@@ -167,7 +181,9 @@ namespace NekoSune.WorldUiAssistant
                 max = EditorGUILayout.FloatField(slider.maxValue);
             }
             float value = EditorGUILayout.Slider(new GUIContent("Starts at"), slider.value, Mathf.Min(min, max), Mathf.Max(min, max));
+            G.Api("Slider.minValue / maxValue / value");
             bool whole = EditorGUILayout.Toggle(new GUIContent("Whole numbers only", "e.g. 1, 2, 3 instead of 1.37"), slider.wholeNumbers);
+            G.Api("Slider.wholeNumbers");
             Color track = bg ? EditorGUILayout.ColorField("Track colour", bg.color) : default;
             Color fillC = fill ? EditorGUILayout.ColorField("Fill colour", fill.color) : default;
             Color handleC = handle ? EditorGUILayout.ColorField("Handle colour", handle.color) : default;
@@ -189,8 +205,11 @@ namespace NekoSune.WorldUiAssistant
         {
             EditorGUI.BeginChangeCheck();
             var sprite = (Sprite)EditorGUILayout.ObjectField(new GUIContent("Picture", "A texture imported with Texture Type = Sprite (2D and UI)."), image.sprite, typeof(Sprite), false);
+            G.Api("Image.sprite");
             var color = EditorGUILayout.ColorField(new GUIContent("Tint", "Multiplies the picture's colours. White = unchanged."), image.color);
+            G.Api("Image.color");
             bool keep = EditorGUILayout.Toggle(new GUIContent("Keep shape", "Don't stretch the picture (Image.preserveAspect)."), image.preserveAspect);
+            G.Api("Image.preserveAspect");
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(image, "Edit image");
@@ -214,8 +233,10 @@ namespace NekoSune.WorldUiAssistant
         {
             EditorGUI.BeginChangeCheck();
             float spacing = EditorGUILayout.Slider("Gap between items", g.spacing, 0, 80);
+            G.Api("HorizontalOrVerticalLayoutGroup.spacing");
             bool stretch = EditorGUILayout.Toggle(new GUIContent(row ? "Share the width equally" : "Stretch to fill", "childForceExpand: items grow to fill the space."), row ? g.childForceExpandWidth : g.childForceExpandHeight);
             var align = (TextAnchor)EditorGUILayout.EnumPopup(new GUIContent("Line up items", "childAlignment"), g.childAlignment);
+            G.Api("LayoutGroup.childAlignment / childForceExpand");
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(g, "Edit layout");
@@ -230,9 +251,11 @@ namespace NekoSune.WorldUiAssistant
         {
             EditorGUI.BeginChangeCheck();
             int cols = EditorGUILayout.IntSlider(new GUIContent("Columns"), Mathf.Max(1, g.constraintCount), 1, 8);
+            G.Api("GridLayoutGroup.constraintCount");
             float w = EditorGUILayout.Slider("Cell width", g.cellSize.x, 40, 800);
             float h = EditorGUILayout.Slider("Cell height", g.cellSize.y, 30, 600);
             float gap = EditorGUILayout.Slider("Gap", g.spacing.x, 0, 80);
+            G.Api("GridLayoutGroup.cellSize / spacing");
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(g, "Edit grid");
@@ -270,6 +293,7 @@ namespace NekoSune.WorldUiAssistant
             if (current < 0) current = ((RectTransform)selected).rect.height;
             EditorGUI.BeginChangeCheck();
             float h = EditorGUILayout.Slider(new GUIContent(label, "LayoutElement " + (preferred ? "Preferred" : "Min") + " Height, in mm."), current, min, max);
+            G.Api("LayoutElement.preferredHeight / minHeight");
             if (!EditorGUI.EndChangeCheck()) return;
             if (!le) le = Undo.AddComponent<LayoutElement>(selected.gameObject);
             Undo.RecordObject(le, "Edit height");
