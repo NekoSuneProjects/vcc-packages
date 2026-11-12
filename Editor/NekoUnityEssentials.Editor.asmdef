@@ -1,0 +1,11 @@
+{
+  "name": "NekoUnityEssentials.Editor",
+  "rootNamespace": "NekoUnityEssentials",
+  "references": [],
+  "includePlatforms": ["Editor"],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true
+}

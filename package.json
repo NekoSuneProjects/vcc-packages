@@ -1,0 +1,18 @@
+{
+  "name": "com.nekosune.unity-essentials",
+  "displayName": "NekoSune Unity Essentials",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "Colour and badge Hierarchy objects and Project folders by name, plus non-destructive animation tools: transform keys, path repair, reverse, loop, simplify, toggle and blendshape clips, Left/Right path swap and an Animator Controller builder. Open via Tools → NekoSuneVR → Unity Essentials.",
+  "author": {
+    "name": "NekoSuneVR",
+    "email": "contact@nekosunevr.co.uk",
+    "url": "https://github.com/NekoSuneVR"
+  },
+  "keywords": ["hierarchy", "folders", "organization", "colors", "animation", "editor", "keyframe", "blendshape", "animator"],
+  "legacyFolders": {
+    "Assets\\NekoUnityEssentials": "",
+    "Assets\\[NekoAnimationSetup]\\[scripts]\\NekoUnityEssentials": ""
+  },
+  "hideInEditor": false
+}

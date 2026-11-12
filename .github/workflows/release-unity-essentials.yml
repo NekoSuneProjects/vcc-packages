@@ -1,0 +1,113 @@
+name: Build Unity Essentials Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - unity-essentials
+    paths:
+      - package.json
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout unity-essentials package
+        uses: actions/checkout@v6
+
+      - name: Read package metadata
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+          PACKAGE_NAME=$(jq -r '.name' package.json)
+          VERSION=$(jq -r '.version' package.json)
+          DISPLAY_NAME=$(jq -r '.displayName' package.json)
+
+          if [ -z "$PACKAGE_NAME" ] || [ "$PACKAGE_NAME" = "null" ]; then
+            echo "package.json is missing name" >&2
+            exit 1
+          fi
+          if [ -z "$VERSION" ] || [ "$VERSION" = "null" ]; then
+            echo "package.json is missing version" >&2
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "display_name=$DISPLAY_NAME" >> "$GITHUB_OUTPUT"
+          echo "zip=${PACKAGE_NAME}-${VERSION}.zip" >> "$GITHUB_OUTPUT"
+          echo "tag=unity-essentials-v${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Check version matches the in-editor update checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.package.outputs.version }}"
+          CHECKER=$(grep -oP 'CurrentVersion = "\K[^"]+' Editor/Update/UpdateChecker.cs)
+          JSON=$(jq -r '.version' version.json)
+          if [ "$CHECKER" != "$VERSION" ] || [ "$JSON" != "$VERSION" ]; then
+            echo "Version mismatch: package.json=$VERSION, UpdateChecker.CurrentVersion=$CHECKER, version.json=$JSON" >&2
+            echo "Bump all three together before releasing." >&2
+            exit 1
+          fi
+
+      - name: Stop if this version is already released
+        id: existing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.package.outputs.tag }}
+        shell: bash
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Release $TAG already exists; refusing to replace an existing VPM version."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build VPM ZIP with package.json at ZIP root
+        if: steps.existing.outputs.exists != 'true'
+        env:
+          ZIP_FILE: ${{ steps.package.outputs.zip }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          zip -r "$GITHUB_WORKSPACE/$ZIP_FILE" . \
+            -x '.git/*' \
+            -x '.github/*'
+
+          echo "ZIP contents:"
+          unzip -l "$GITHUB_WORKSPACE/$ZIP_FILE"
+
+          if ! unzip -Z1 "$GITHUB_WORKSPACE/$ZIP_FILE" | grep -qx 'package.json'; then
+            echo "package.json is not at the ZIP root; release is not VPM-compatible." >&2
+            exit 1
+          fi
+
+      - name: Publish GitHub Release
+        if: steps.existing.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.package.outputs.tag }}
+          ZIP_FILE: ${{ steps.package.outputs.zip }}
+          VERSION: ${{ steps.package.outputs.version }}
+          DISPLAY_NAME: ${{ steps.package.outputs.display_name }}
+        shell: bash
+        run: |
+          gh release create "$TAG" "$ZIP_FILE" package.json \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "$DISPLAY_NAME v$VERSION" \
+            --notes-file CHANGELOG.md
+
+      - name: Rebuild VCC listing
+        if: steps.existing.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: gh workflow run build-listing.yml --repo "$GITHUB_REPOSITORY" --ref main
