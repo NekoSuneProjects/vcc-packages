@@ -4,7 +4,7 @@ A from-scratch Unity editor tool that helps beginners **build** VRChat world UI 
 
 Package: `com.nekosune.world-ui-assistant` · Branch: `world-ui-assistant` · Menu: `NekoSune → World → UI Assistant`
 
-Status: planning only. No code yet.
+Status: **Phase 1 done – 0.1.0 preview.** Phase 2 (button actions) is next.
 
 ---
 
@@ -13,34 +13,39 @@ Status: planning only. No code yet.
 - [ ] **Beginner first.** No Unity UI knowledge assumed. Every screen says what it does and why.
 - [ ] **Teach, don't hide.** Everything the tool generates is normal Unity UI the user can open and edit. The tool explains what it made.
 - [ ] **Learn by doing.** Short lessons that use the user's own UI, not separate demo scenes.
-- [ ] **Safe.** Every change is one Undo step. Never edit the user's assets without asking.
-- [ ] **Standalone, like the other packages.** Own UI, NekoSuneVR footer, update checker, VCC package with release workflow.
+- [x] **Safe.** Every change is one Undo step. Never edit the user's assets without asking.
+- [x] **Standalone, like the other packages.** Own UI, NekoSuneVR footer, update checker, VCC package with release workflow.
 
 ## Lessons from the old World UI Builder (`dssdf/.../world-ui-builder`)
 
 Reuse:
-- [ ] Theme presets (Neko Dark, Light, Neon, Glass, Pastel, Terminal, Custom).
+- [x] Theme presets (Neko Dark, Light, Neon, Glass, Pastel, Terminal). Custom: edit colours per item for now.
 - [ ] JSON blueprint export/import.
 - [ ] UI Doctor checks (World Space canvas, GraphicRaycaster, VRCUiShape, Navigation = None, small targets, small text).
 
 Avoid:
 - [ ] Wiring buttons with a UnityEvent straight to an UdonSharp method. Use `UdonBehaviour.SendCustomEvent("Name")` instead (the likely bug in World Gallery / Avatar Search Auto-Wire).
 - [ ] Encoding actions in GameObject names (`NUI[id|action|value]`). Store them in a small marker component or ScriptableObject.
-- [ ] A static-only window that loses the user's work on script reload. Keep state in a serialized asset.
+  - Phase 1 needs no markers: widgets are recognised from their normal Unity components (Button, Toggle, layout groups…), so hand-made UI works too. VRChat only strips `IEditorOnly` components from **avatars**, so a world marker component would ship in the world. For Phase 2 actions, keep the data in the generated Udon helper or a ScriptableObject instead.
+- [x] A static-only window that loses the user's work on script reload. The scene is the saved state; the window only keeps references.
 
 ---
 
 ## Phase 1 – MVP: build a panel without knowing Unity UI
 
-- [ ] Package skeleton: `package.json`, asmdef, README, CHANGELOG, `.meta` files, release workflow with the 3-way version check, `version.json`.
-- [ ] Update checker + NekoSuneVR footer (copy from World Gallery).
-- [ ] **New panel wizard:** pick a size (small sign, menu, big board), a theme and a place in the scene (in front of the Scene view camera).
-- [ ] Generate a correct VRChat world canvas: World Space, sensible scale (1 px ≈ 1 mm), `GraphicRaycaster`, `VRCUiShape`, UI layer, Navigation = None.
-- [ ] **Widget palette:** Title, Text, Button, Toggle, Slider, Image, Divider, Spacer, Scroll list. Add with one click.
-- [ ] **Outline list:** reorder (drag), rename, duplicate, delete. Clicking selects the real object.
-- [ ] **Inspector card per widget:** text, size, colours, font size, with plain-English labels and tooltips.
-- [ ] Layout handled for them: VerticalLayoutGroup + ContentSizeFitter by default; "rows" and "grids" as simple choices.
-- [ ] Live preview: changes show immediately in the Scene view; a **Frame panel** button.
+- [x] Package skeleton: `package.json`, asmdef, README, CHANGELOG, `.meta` files, release workflow with the 3-way version check, `version.json`.
+- [x] Update checker + NekoSuneVR footer.
+- [x] **New panel wizard:** pick a size (small sign, menu, big board), a theme and a place in the scene (in front of the Scene view camera).
+- [x] Generate a correct VRChat world canvas: World Space, sensible scale (1 px ≈ 1 mm), `GraphicRaycaster`, `VRCUiShape`, UI layer, Navigation = None.
+- [x] **Widget palette:** Title, Text, Button, Toggle, Slider, Image, Divider, Spacer, Scroll list. Add with one click.
+- [x] **Outline list:** reorder (drag, or drop into a Row/Grid/Scroll list), rename, show/hide, duplicate, delete. Clicking selects the real object, and selecting in the Hierarchy selects it in the outline.
+- [x] **Inspector card per widget:** text, size, colours, font size, with plain-English labels and tooltips.
+- [x] Layout handled for them: VerticalLayoutGroup on the panel (fixed panel size), ContentSizeFitter inside Scroll lists; Rows and Grids as simple choices.
+- [ ] Optional "grow with content" panel (ContentSizeFitter on the panel) – deferred, fixed sizes are easier for beginners to place.
+- [x] Live preview: changes show immediately in the Scene view; a **Frame panel** button.
+- [x] Panel health line (World Space, GraphicRaycaster, VRCUiShape, UI layer) with one-click fixes – an early piece of the Phase 4 UI Doctor.
+- [x] Environment card: warns when Unity isn't 2022.3, the Worlds SDK is missing, or TMP Essentials aren't imported (with an import button).
+- [x] "How it works in Unity" line on every Edit card – an early piece of the Phase 3 teaching mode.
 
 ## Phase 2 – Make it do things (no code)
 
@@ -151,18 +156,19 @@ Each lesson ends with the user rebuilding a simpler version by hand, so they lea
 
 ## Unity versions and dependencies
 
-- [ ] **Primary target: Unity 2022.3.22f1**, the version VRChat currently requires. Set `"unity": "2022.3"` in `package.json`.
+- [x] **Primary target: Unity 2022.3.22f1**, the version VRChat currently requires. Set `"unity": "2022.3"` in `package.json`.
 - [ ] **Future: Unity 6 (6000.x)**, for when VRChat moves to it. Keep the code compiling there behind version checks instead of a separate branch:
   - [ ] `#if UNITY_6000_0_OR_NEWER` for changed APIs (e.g. `FindObjectsOfType` → `FindObjectsByType`, `Object.FindFirstObjectByType`).
   - [ ] Avoid editor APIs that are obsolete in Unity 6 (IMGUI is fine; check `EditorGUILayout`/`Handles` deprecations each release).
 - [ ] **ChilloutVR (Phase 5):** CCK 3 targets Unity 2021.3 and CCK 4 targets 2022.3. If CVR support is added, either lower `"unity"` to 2021.3 and guard newer APIs, or support CCK 4 only.
 - [ ] **VPM dependencies:**
   - [ ] `com.vrchat.worlds` (includes UdonSharp) – needed for the generated helper and `VRCUiShape`. Pick the lowest version that has everything used (check `SendCustomEvent`, `VRCUiShape`, persistence if used).
-  - [ ] Unity `com.unity.ugui` (`"dependencies"` in `package.json`).
-  - [ ] No hard dependency on the NekoSune World Hub or any other NekoSune package.
+    - 0.1.0 declares `>=3.5.0` (Phase 1 only uses `VRCUiShape`, found by name). Tested with 3.10.5; the lowest version is not verified yet.
+  - [x] Unity `com.unity.ugui` and `com.unity.textmeshpro` (`"dependencies"` in `package.json`).
+  - [x] No hard dependency on the NekoSune World Hub or any other NekoSune package.
 - [ ] **Optional packages detected at runtime** (reflection or asmdef `versionDefines`, never a hard reference): ChilloutVR CCK, TextMeshPro vs legacy Text, Modular Avatar/VRCFury not needed for worlds.
 - [ ] Use asmdef `versionDefines` to light up features only when a package is installed, e.g. `NEKO_HAS_UDONSHARP` when `com.vrchat.worlds` is present.
-- [ ] Show the detected Unity version, VRChat SDK version and UdonSharp state in an **Environment** card, with a warning when the Unity version isn't the one VRChat supports.
+- [x] (partly) Show the detected Unity version, VRChat SDK version and UdonSharp state in an **Environment** card, with a warning when the Unity version isn't the one VRChat supports.
 
 ## Testing checklist (every phase)
 
